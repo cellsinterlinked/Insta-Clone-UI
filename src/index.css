@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.title-head {
+  font-family: 'Rouge Script', cursive;
+  color: black;
+  font-size: 1.7rem;
+}
+
+.header-wrapper {
+  width: 100%;
+  background-color: white;
+  position: fixed;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 4.5rem;
+  border-bottom: 1px solid rgb(194, 194, 194);
+}

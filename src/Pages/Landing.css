@@ -1,0 +1,115 @@
+.landing-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: white;
+}
+
+.post-list-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 20rem;
+  max-width: 40rem;
+  padding-top: 4.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.post-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.post-header {
+  width: 100%;
+  height: 4rem;
+  border-top: 1px solid rgb(190, 190, 190);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post-header-pic-wrapper {
+  height: 3em;
+  width: 3rem;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+}
+
+.post-header-pic-wrapper img {
+  width: 100%;
+  height: auto;
+}
+
+.post-header p {
+  margin-left: 1rem;
+  font-weight: bold;
+  text-decoration: underline;
+  font-size: 0.8rem;
+}
+
+.post-image-wrapper {
+  width: 100%;
+  height: auto;
+}
+
+.post-image-wrapper img {
+  height: auto;
+  width: 100%;
+}
+
+.dots-menu-wrapper {
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 3rem;
+  margin-left: auto;
+}
+
+.menu-dots {
+  color: grey;
+  font-size: 1.5rem;
+}
+
+.post-icons-wrapper {
+  padding-left: 5px;
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post-icon {
+  font-size: 1.5rem;
+  margin-left: 6px;
+  margin-right: 6px;
+}
+
+.last-post-icon {
+  font-size: 1.8rem;
+  margin-left: auto;
+  margin-right: 6px;
+}
+
+.post-details-wrapper {
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+  /* padding-left: 0.8rem;
+  padding-right: 0.8rem; */
+}
+
+.likes {
+  margin-top: 1px;
+  margin-bottom: 1px;
+  font-size: 0.8rem;
+  margin-left: 0.8rem;
+}
+
+.post-description {
+  display: flex;
+  margin-top: 14px;
+  margin-left: 0.8rem;
+}
