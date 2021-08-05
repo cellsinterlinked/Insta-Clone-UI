@@ -1,0 +1,207 @@
+.top-account-head-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 3.2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.account-head-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18%;
+  height: 100%;
+}
+
+.account-head-icon {
+  height: 1.6rem;
+  width: 1.6rem;
+  /* margin-bottom: 6px; */
+  color: black;
+  text-decoration: none;
+}
+
+.account-basic-wrapper {
+  margin-top: 4.5rem;
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  flex-direction: row;
+  height: 20%;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.account-profile-wrapper {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.account-profile-wrapper p {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.editPicture-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.editPicture-container img {
+  min-height: 100%;
+  max-height: 140%;
+  min-width: 100%;
+  max-width: 150%;
+  /* overflow: hidden; */
+}
+
+.account-name-edit-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 77%;
+}
+
+.account-name-edit-wrapper h1 {
+  font-weight: normal;
+  font-size: 1.8rem;
+  margin-left: 1rem;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  font-weight: 300;
+}
+
+.edit-profile-button {
+  background-color: transparent;
+  border: 1px solid #dbdbdb;
+  margin-left: 1rem;
+  height: 2rem;
+  width: 85%;
+  font-weight: bold;
+}
+
+.account-follow-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 4rem;
+  top: 13.5rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.follow-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 33.3%;
+  height: 3rem;
+  text-decoration: none;
+}
+
+.follow-info-wrapper p {
+  margin: 0;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.account-buttons-wrapper2 {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  width: 100vw;
+  background-color: transparent;
+  top: 17.5rem;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid #dbdbdb;
+  height: 2.8rem;
+}
+
+.account-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+  height: 100%;
+}
+
+.account-button-icon {
+  color: #8e8e8e;
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.saved-message {
+  width: 100%;
+  height: 1rem;
+  font-size: 0.8rem;
+  color: #8e8e8e;
+  text-align: center;
+}
+
+.no-posts-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.no-posts-wrapper h1 {
+  font-weight: 300;
+  font-size: 1.7rem;
+}
+
+.no-posts-wrapper p {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0;
+}
+
+.no-posts-wrapper a {
+  text-decoration: none;
+  color: #0095f6;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.camera-circle {
+  width: 3.8rem;
+  height: 3.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 50%;
+  margin-top: 3rem;
+}
+
+.no-posts-icon {
+  height: 2rem;
+  width: 2rem;
+}

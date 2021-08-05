@@ -1,0 +1,64 @@
+.inbox-wrapper {
+  width: 100vw;
+}
+
+.inbox-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.inbox-header-wrapper p {
+  font-weight: bold;
+}
+
+.inbox-back-wrapper {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.inbox-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.new-message-wrapper {
+  right: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.new-message-icon {
+  color: black;
+  height: 1.7rem;
+  width: 1.7rem;
+}
+
+.convo-margin {
+  margin-top: 3rem;
+}

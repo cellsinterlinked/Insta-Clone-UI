@@ -1,0 +1,72 @@
+.comment-wrapper {
+  position: relative;
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+.comment-item-portrait-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 1rem;
+  margin-top: 1rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+  overflow: hidden;
+  height: 2rem;
+  width: 2rem;
+}
+
+.comment-item-portrait-wrapper img {
+  object-fit: cover;
+  max-width: 3rem;
+  max-height: 3rem;
+}
+
+.comment-details-wrapper {
+  width: 16rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-details-wrapper p {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.comment-fine-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  margin-top: 1rem;
+}
+
+.comment-fine-wrapper p {
+  color: #8e8e8e;
+  font-size: 0.7rem;
+}
+
+.comment-delete {
+  padding-left: 1rem;
+}
+
+.comment-delete:hover {
+  color: black;
+}
+
+.comment-heart-wrapper {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  height: 1rem;
+  width: 1rem;
+}
+
+.comment-empty-heart {
+  height: 0.8rem;
+  width: 0.8rem;
+}

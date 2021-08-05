@@ -1,0 +1,88 @@
+.auth-head {
+  font-family: 'Rouge Script', cursive;
+  color: black;
+  font-size: 3rem;
+  margin-top: 5rem;
+}
+
+.loginWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.loginInputWrapper {
+  height: 4rem;
+}
+
+.loginInput {
+  width: 16rem;
+  height: 2.5rem;
+  outline: none;
+  border: 1px solid rgb(216, 216, 216);
+  border-radius: 3px;
+  padding-left: 0.5rem;
+
+  background-color: rgb(245, 245, 245);
+}
+
+.authButton {
+  height: 2rem;
+  width: 17rem;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #0095f6;
+  border: none;
+  outline: none;
+}
+
+.authButton:disabled {
+  opacity: 0.6;
+}
+
+.choicesWrapper {
+  margin-top: 1rem;
+  width: 16rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.choicesWrapper h2 {
+  font-weight: bold;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  font-size: 1rem;
+  color: grey;
+}
+
+.choiceLine {
+  width: 6rem;
+  height: 1px;
+  background-color: rgb(216, 216, 216);
+}
+
+.authAlternative {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.altText {
+  color: #8e8e8e;
+}
+
+.blueButton {
+  color: #0095f6;
+  font-weight: bold;
+  margin-left: 4px;
+}

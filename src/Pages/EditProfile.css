@@ -1,0 +1,144 @@
+.edit-profile-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.edit-profile-header-wrapper p {
+  font-weight: bold;
+}
+
+.edit-back-container {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.edit-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.edit-profile-list {
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 5rem;
+}
+
+.edit-profile-photo-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.edit-profile-image {
+  margin-left: 1.3rem;
+  margin-right: 1.3rem;
+  height: 2.7rem;
+  width: 2.7rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.edit-profile-image img {
+  max-height: 130%;
+  max-width: 150%;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+.edit-profile-photo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.edit-profile-photo-text p {
+  margin: 0;
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.edit-piece-wrapper {
+  /* margin-top: 1rem; */
+  margin-left: 1.3rem;
+  margin-right: 1.3rem;
+}
+
+.edit-small-input {
+  width: 93%;
+  height: 1.6rem;
+  border: 1px solid #dbdbdb;
+  padding-left: 0.6rem;
+  font-size: 1rem;
+}
+
+.edit-piece-wrapper p {
+  color: #8e8e8e;
+  font-size: 0.8rem;
+  margin-right: 1rem;
+}
+
+.edit-piece-wrapper h2 {
+  color: #8e8e8e;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0px;
+  margin-top: 1.2rem;
+}
+
+.edit-piece-wrapper h1 {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.edit-large-input {
+  padding-left: 0.6rem;
+  font-size: 1rem;
+  width: 93%;
+  border: 1px solid #dbdbdb;
+  height: 3rem;
+}
+
+.confirm-edit-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.8rem;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+  border: none;
+  box-shadow: none;
+  outline: none;
+  background-color: #0095f6;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+}

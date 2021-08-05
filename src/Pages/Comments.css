@@ -1,0 +1,115 @@
+.comments-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  /* border-bottom: 1px solid #dbdbdb; */
+}
+
+.comments-header p {
+  font-weight: bold;
+}
+
+.comments-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.comments-back-navlink {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.comment-input-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 2.8rem;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 3.6rem;
+  background-color: #efefef;
+  border-bottom: 1px solid #dbdbdb;
+  border-top: 1px solid #dbdbdb;
+}
+
+.comment-portrait-wrapper {
+  height: 2.8rem;
+  width: 2.8rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid #dbdbdb; */
+  border-radius: 50%;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.comment-no-icon {
+  height: 2.8rem;
+  width: 2.8rem;
+  color: rgb(195, 195, 195);
+}
+
+.add-comment-input {
+  height: 2.2rem;
+  border: 1px solid #dbdbdb;
+  width: 16.8rem;
+  margin-right: 1rem;
+  border-radius: 2rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  outline: none;
+}
+
+.post-comment-button {
+  position: absolute;
+  height: 1.8rem;
+  width: 3rem;
+  top: 5px;
+  bottom: auto;
+  right: 1.5rem;
+  border-radius: 2rem;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  font-weight: bold;
+  color: #0095f6;
+}
+
+.post-comment-button:disabled {
+  opacity: 0.5;
+}
+
+.comment-input-holder {
+  position: relative;
+}
+
+.post-description-comment {
+  margin-top: 6.5rem;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.full-comment-list {
+  margin-bottom: 3.5rem;
+}

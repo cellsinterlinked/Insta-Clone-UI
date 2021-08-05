@@ -1,0 +1,52 @@
+.convo-prev-wrapper {
+  height: 5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+}
+
+.convo-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 3.5rem;
+  width: 3.5rem;
+  overflow: hidden;
+  margin-left: 0.8rem;
+  border-radius: 50%;
+  margin-right: 0.8rem;
+}
+
+.convo-image-wrapper img {
+  max-height: 140%;
+  min-height: 100%;
+  max-width: 130%;
+  min-width: 100%;
+}
+
+.convo-prev-info-wrapper p {
+  margin: 0;
+  font-size: 0.9rem;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: 15rem;
+}
+
+.convo-fade-text {
+  margin: 0;
+  color: #8e8e8e;
+}
+
+.convo-prev-date-wrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 2rem;
+  height: 100%;
+  padding-bottom: 0.9rem;
+  font-size: 0.9rem;
+  color: #8e8e8e;
+  margin-left: 5px;
+}

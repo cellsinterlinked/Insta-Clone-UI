@@ -1,0 +1,449 @@
+.direct-message-wrapper {
+  width: 100vw;
+}
+
+.direct-message-head-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.message-input-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 1rem;
+  width: 90%;
+  left: 5%;
+  right: 5%;
+  border: 1px solid #dbdbdb;
+  border-radius: 25px;
+  min-height: 2.7rem;
+  max-height: 6rem;
+}
+
+.message-input-icon1 {
+  position: relative;
+  height: 2rem;
+  width: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.3rem;
+  margin-left: 0.3rem;
+}
+
+.messageInput-Icon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: rgb(53, 53, 53);
+}
+
+.message-input-icon2 {
+  height: 1.7rem;
+  width: 1.7rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 0.3rem;
+}
+
+.direct-back-wrapper {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.direct-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.direct-info-icon-wrapper {
+  right: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.direct-info-icon {
+  color: black;
+  height: 2rem;
+  width: 2rem;
+}
+
+.direct-user-wrapper {
+  margin-left: 3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.direct-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.6rem;
+  width: 1.6rem;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.direct-image-wrapper img {
+  max-width: 140%;
+  min-width: 100%;
+  max-height: 140%;
+  min-height: 100%;
+}
+
+.message-input {
+  display: flex;
+  align-items: center;
+  padding-top: 1rem;
+  min-height: 1rem;
+  width: 14rem;
+  margin-left: 0.3rem;
+  border: none;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  font-size: 0.9rem;
+  resize: none;
+}
+
+.convo-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: fixed;
+  bottom: 5rem;
+}
+
+.reciever-message-wrapper {
+  justify-self: flex-start;
+  max-width: 55%;
+  margin-left: 3rem;
+  border: 1px solid #efefef;
+  padding: 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.reciever-image-wrapper {
+  justify-self: flex-start;
+  max-width: 60%;
+  margin-left: 3rem;
+  /* border: 1px solid #efefef; */
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  max-height: 20rem;
+  overflow: hidden;
+}
+
+.reciever-image-wrapper img {
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.sender-image-wrapper {
+  display: flex;
+  align-self: flex-end;
+  max-width: 65%;
+  margin-right: 1rem;
+  /* border: 1px solid #efefef;
+  background-color: #efefef; */
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+  max-height: 20rem;
+  overflow: hidden;
+}
+
+.sender-image-wrapper img {
+  max-height: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.sender-message-wrapper {
+  display: flex;
+  align-self: flex-end;
+  max-width: 58%;
+  margin-right: 1rem;
+  border: 1px solid #efefef;
+  background-color: #efefef;
+  padding: 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.message-component-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.message-time-stamp {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 2rem;
+  font-size: 0.7rem;
+  color: #8e8e8e;
+  margin-bottom: 10px;
+  margin-top: 0px;
+}
+
+.message-user-circle {
+  width: 1.6rem;
+  height: 1.6rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  border-radius: 50%;
+}
+
+.message-user-circle img {
+  max-width: 140%;
+  min-width: 100%;
+  max-height: 140%;
+  min-height: 100%;
+}
+
+.message-send-button {
+  margin-left: 1.5rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #0095f6;
+}
+
+.send-message-form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.message-image-input {
+  opacity: 0;
+}
+
+.message-image-input-label {
+  position: absolute;
+  left: auto;
+  right: auto;
+  top: auto;
+  bottom: auto;
+}
+
+.convo-delete-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.convo-delete-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.convo-delete-wrapper p {
+  font-weight: bold;
+}
+
+.delete-convo-back {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.members-container {
+  margin-top: 2.5rem;
+  height: 9rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.members-container p {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-left: 1.3rem;
+  margin-top: 0;
+}
+
+.members-details-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+}
+
+.members-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  height: 3.5rem;
+  width: 3.5rem;
+  margin-left: 1.3rem;
+}
+
+.members-image-wrapper img {
+  max-height: 140%;
+  min-height: 100%;
+  min-width: 100%;
+  max-width: 150%;
+}
+
+.members-names-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.members-names-wrapper p {
+  font-size: 0.9rem;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.members-options-wrapper {
+  border-bottom: 1px solid #dbdbdb;
+  height: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.members-options-wrapper p {
+  color: red;
+  font-size: 0.9rem;
+  margin-left: 1.3rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+}
+
+.delete-modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.danger-delete-modal-button {
+  width: 100%;
+  height: 2.9rem;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: red;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.delete-modal-button {
+  width: 100%;
+  height: 2.9rem;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  color: black;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.last-button-delete-modal {
+  border-bottom: none;
+}
+
+.delete-modal-text-wrapper {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.delete-modal-text-wrapper p {
+  color: #8e8e8e;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-left: 1.8rem;
+  margin-right: 1.8rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.delete-modal-text-wrapper h1 {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}

@@ -1,0 +1,117 @@
+.following-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.following-header-wrapper p {
+  font-weight: bold;
+}
+
+.back-navlink {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.following-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.following-options-wrapper {
+  position: fixed;
+  top: 2.9rem;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  background-color: white;
+
+  height: 2.6rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.following-options-button {
+  width: 50%;
+  height: 100%;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.following-options-button p {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.following-list-wrapper {
+  width: 100%;
+}
+
+.follow-suggestions-text {
+  width: 100vw;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.follow-suggestions-text p {
+  margin-left: 1rem;
+  font-weight: bold;
+}
+
+.no-followers-wrapper {
+  margin-top: 4rem;
+  width: 100vw;
+  height: 14rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.no-followers-circle {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  border: 2px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-followers-icon {
+  height: 3.3rem;
+  width: 3.3rem;
+}
+
+.no-followers-wrapper h1 {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+.no-followers-wrapper p {
+  margin-top: 6px;
+}
+
+.following-list-margin {
+  margin-top: 5.8rem;
+}

@@ -1,9 +1,3 @@
-.landing-wrapper {
-  width: 100vw;
-  min-height: 100vh;
-  background-color: white;
-}
-
 .post-list-wrapper {
   margin-left: auto;
   margin-right: auto;
@@ -19,6 +13,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  padding-bottom: 1rem;
 }
 
 .post-header {
@@ -31,23 +26,29 @@
 }
 
 .post-header-pic-wrapper {
-  height: 3em;
-  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.5em;
+  width: 2.5rem;
   overflow: hidden;
   border-radius: 50%;
   margin-left: 0.5rem;
 }
 
 .post-header-pic-wrapper img {
-  width: 100%;
-  height: auto;
+  min-height: 100%;
+  min-width: 100%;
+  max-width: 150%;
+  max-height: 130%;
 }
 
-.post-header p {
+.userLink {
   margin-left: 1rem;
   font-weight: bold;
-  text-decoration: underline;
+  text-decoration: none;
   font-size: 0.8rem;
+  color: black;
 }
 
 .post-image-wrapper {
@@ -106,10 +107,41 @@
   margin-bottom: 1px;
   font-size: 0.8rem;
   margin-left: 0.8rem;
+  font-weight: bold;
 }
 
 .post-description {
   display: flex;
   margin-top: 14px;
   margin-left: 0.8rem;
+  margin-right: 0.8rem;
+}
+
+.post-description-text {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  margin-top: 0;
+}
+
+.view-comments-title {
+  margin-left: 0.8rem;
+  color: #8e8e8e;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.view-comments-title a {
+  margin: 0;
+  color: #8e8e8e;
+  text-decoration: none;
+}
+
+.post-date-wrapper {
+  margin-top: 0.5rem;
+  margin-left: 0.8rem;
+}
+
+.post-date-wrapper p {
+  font-size: 0.7rem;
+  color: #8e8e8e;
 }

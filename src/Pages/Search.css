@@ -1,0 +1,25 @@
+.search-header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.2rem;
+  background-color: white;
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.search-input {
+  width: 90%;
+  height: 2rem;
+  outline: none;
+  border: 1px solid #dbdbdb;
+  border-radius: 10px;
+}
+
+.search-list-container {
+  padding-top: 3rem;
+  padding-bottom: 3.2rem;
+}

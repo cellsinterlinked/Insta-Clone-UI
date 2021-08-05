@@ -1,0 +1,43 @@
+.post-page-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 3.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.post-page-back {
+  position: absolute;
+  top: auto;
+  bottom: auto;
+  left: 0.7rem;
+  outline: none;
+  border: none;
+  text-decoration: none;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 2.2rem;
+  width: 2.2rem;
+}
+
+.post-page-header p {
+  font-weight: bold;
+}
+
+.post-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.post-page-margin {
+  margin-top: 3.2rem;
+}
