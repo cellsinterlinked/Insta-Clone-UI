@@ -205,6 +205,19 @@
   background-color: white;
 }
 
+.tagged-users-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  position: fixed;
+  top: 16.8rem;
+  border-bottom: 1px solid #dbdbdb;
+  background-color: white;
+}
+
 .post-add-text {
   margin-left: 1rem;
   font-weight: 400;
@@ -213,4 +226,37 @@
 .add-to-post-arrow {
   color: #8e8e8e;
   margin-right: 1rem;
+}
+
+.tag-selected-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60%;
+  background-color: #e0f1ff;
+  border-radius: 5px;
+  margin-left: 1rem;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 1rem;
+}
+
+.tag-selected-container p {
+  color: #0095f6;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin: none;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.tagged-cancel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 2rem;
+  height: 100%;
+  background: transparent;
+  border-left: 1px solid #93d4ff;
+  color: #68c3ff;
 }

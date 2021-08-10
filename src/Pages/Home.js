@@ -41,7 +41,7 @@ const Home = () => {
       setFollowed(res.data.users)
     }
     fetchFollowed()
-  }, [])
+  }, [loading])
   
   useEffect(() => {
     async function fetchPosts() {

@@ -20,6 +20,7 @@ import Inbox from './Pages/Inbox';
 import NewMessage from './Pages/NewMessage';
 import EditProfile from './Pages/EditProfile';
 import Activity from './Pages/Activity';
+import HashPage from './Pages/HashPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -37,6 +38,9 @@ function App() {
   if (isLoggedIn) {
     routes = (
       <Switch>
+        <Route path="/hashtag/:hash">
+          <HashPage />
+        </Route>
         <Route path="/post/:postId">
           <PostPage />
         </Route>

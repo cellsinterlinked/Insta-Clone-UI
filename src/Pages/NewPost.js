@@ -12,6 +12,8 @@ import Axios from 'axios';
 import { RiImageAddLine } from 'react-icons/ri';
 import { BsChevronRight} from 'react-icons/bs'
 import { useHistory } from 'react-router-dom'
+import FullModal from '../Components/Reusable/FullModal';
+import './Search.css';
 
 const NewPost = () => {
 
@@ -30,7 +32,12 @@ const NewPost = () => {
   })
   const [previewUrl, setPreviewUrl] = useState();
   const [file, setFile] = useState()
+  const [fullModal, setFullModal] = useState(false)
   const history = useHistory();
+  const [query, setQuery] = useState()
+  const [users, setUsers] = useState()
+  const [displayedUsers, setDisplayedUsers] = useState()
+  const [selectedTags, setSelectedTags] = useState([])
 
 
   useEffect(() => {
@@ -43,6 +50,22 @@ const NewPost = () => {
     }
     fileReader.readAsDataURL(file)
   }, [file])
+
+  useEffect(() => {
+    async function fetchUsers() {
+      const res = await api.get('users')
+      console.log(res)
+      setUsers(res.data.users)
+    }
+    fetchUsers()
+
+  }, [])
+
+  useEffect(() => {
+    if (users && query && query[0] !== "#") {
+      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query) || user.name.toLowerCase().includes(query)))
+    }
+  },[query, users])
       
   
 
@@ -77,7 +100,7 @@ const NewPost = () => {
       let newImageUrl = res.data.url;
       let results;
       if (newImageUrl !== undefined) {
-       results = await api.post("posts", {description: description, image: newImageUrl, user: "60f701da7c0a002afd585c03", hashTags: tags})
+       results = await api.post("posts", {description: description, image: newImageUrl, user: "60f701da7c0a002afd585c03", hashTags: tags, tags: selectedTags})
       }
       console.log(results)
     }
@@ -89,10 +112,71 @@ const NewPost = () => {
     await sendNewPost();
     history.push('/home')
   }
+
+  const cancelModal = () => {
+    setFullModal(false)
+  }
+
+  const setModal = () => {
+    setFullModal(true)
+  }
+
+  const queryHandler = (e) => {
+    setQuery(e.target.value)
+  }
+
+  const tagHandler = async(userName) => {
+    async function addTag() {
+      setSelectedTags([...selectedTags, userName])
+    }
+    await addTag()
+    cancelModal()
+  }
+
+
+  const tagRemove = (userName) => {
+    const modTags = selectedTags.filter(user => user !== userName)
+    setSelectedTags(modTags)
+  }
+
+
     
 
   return(
     <div className="create-post-wrapper">
+      <FullModal
+      show={fullModal}
+      onCancel={cancelModal}
+      children={<div>
+        <div className="search-header-wrapper">
+        <input className="search-input" placeholder="Search" onChange={queryHandler}></input>
+        </div>
+        
+        {query && query[0] !== "#" && displayedUsers &&
+      <div className="user-search-container">
+        {displayedUsers.map((user, index) => <div key={index} className="search-user-object" onClick={() => tagHandler(user.userName)}>
+          <div className="search-user-portrait">
+            <img alt="user" src={user.image} />
+
+          </div>
+          <div className="search-user-name-container">
+            <p style={{fontWeight: "bold"}}>{user.userName}</p>
+            <p style={{color: "#8e8e8e"}}>{user.name}</p>
+          </div>
+
+
+        </div>)}
+
+
+      </div>
+      
+      }
+        
+      
+
+      </div>}
+      >
+      </FullModal>
       <form onSubmit={handleSubmit(postHandler)}>
       <div className="new-post-header-wrapper">
         <NavLink to="/home" className="new-post-back-button">
@@ -131,9 +215,18 @@ const NewPost = () => {
         <BsChevronRight className="add-to-post-arrow" />
       </div>
 
-      <div className= 'tag-person-wrapper'>
+      <div className= 'tag-person-wrapper' onClick={setModal}>
         <p className="post-add-text">Tag People</p>
         <BsChevronRight className="add-to-post-arrow"/>
+      </div>
+      <div className="tagged-users-wrapper">
+        {selectedTags.map((tag, index) => <div key={index} className="tag-selected-container">
+          <p>{tag}</p>
+          <div className="tagged-cancel" onClick={() => tagRemove(tag)}>X</div>
+          </div>
+
+        )}
+
       </div>
     </div>
   )

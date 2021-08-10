@@ -5,6 +5,7 @@ import './Search.css';
 import './User.css';
 import {NavLink} from 'react-router-dom';
 import BottomNav from '../Components/Navigation/BottomNav';
+import {BsHash} from 'react-icons/bs';
 
 const Search = () => {
   const [loading, setLoading] = useState(false);
@@ -14,6 +15,19 @@ const Search = () => {
   const [query, setQuery] = useState()
   const [displayedUsers, setDisplayedUsers] = useState();
   const [displayedHashTags, setDisplayedHashTags] = useState();
+  const [hashTags, setHashTags] = useState();
+  const [fullTags, setFullTags] = useState()
+
+
+
+  useEffect(() => {
+    async function getHashTags() {
+      const res = await api.get('/posts/hashtags')
+      setHashTags(res.data.hashTags)
+      setFullTags(res.data.fullTags)
+    }
+    getHashTags()
+  },[])
 
   useEffect(() => {
     async function getUser() {
@@ -45,15 +59,17 @@ const Search = () => {
   }, [])
 
   
-  // useEffect(() => {
-  //   if(posts) {
-  //   for(let i = 0; i <= posts.length; i++) {
-  //     console.log(posts[i].hashTags.find(tag => tag.includes(query)))
-  //   } 
-  //   // setDisplayedHashTags(newArr)
-  //   // console.log(newArr)
-  //   }
-  // },[query, posts])
+  useEffect(() => {
+    if (hashTags && query && query[0] === "#") {
+      setDisplayedHashTags(hashTags.filter(tag => tag.includes(query)))
+    }
+  }, [query, hashTags])
+
+  useEffect(() => {
+    if (users && query && query[0] !== "#") {
+      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query) || user.name.toLowerCase().includes(query)))
+    }
+  },[query, users])
   
   
   
@@ -64,6 +80,10 @@ const Search = () => {
     // console.log(displayedUsers)
   }
 
+  const countHash = (array, value) => {
+    return array.reduce((h, x) => h + (x === value), 0);
+  }
+
   
 
   return (
@@ -71,18 +91,48 @@ const Search = () => {
       <div className="search-header-wrapper">
         <input className="search-input" placeholder="Search" onChange={queryHandler}></input>
       </div>
-      {/* <div className="search-list-container">
-      {posts && users && user && posts.map((post, index) => 
-      <Post  
-        post={post} 
-        key={index} 
-        myId={"60f701da7c0a002afd585c03"} 
-        user={users.find(u => u.id === post.user)} 
-        likeHandler={likeHandler} loading={loading}
-        viewer={user}
-        /> )}
-      </div> */}
-      {posts && <div className="profile-grid-wrapper search-margin-top">
+
+      {query && query[0] === "#" && displayedHashTags &&
+      <div className="hash-search-wrapper">
+      {displayedHashTags.map((tag, index) => 
+      <NavLink to={`hashtag/${tag.slice(1)}`} key={index} className="hash-search-list-wrapper">
+      <div className="hash-search-circle">
+        <BsHash className="hash-search-icon"/>
+      </div>  
+
+      <div className="hash-search-deets-wrapper">
+        <p style={{fontWeight: "600", textDecoration: "none", color: "black"}}>{tag}</p>
+        <p style={{color: "#8e8e8e", textDecoration: "none"}}>{countHash(fullTags, tag)} posts</p>
+
+      </div>
+        
+        
+      </NavLink>)}
+      </div>
+      }
+
+
+      {query && query[0] !== "#" && displayedUsers &&
+      <div className="user-search-container">
+        {displayedUsers.map((user, index) => <div key={index} className="search-user-object">
+          <div className="search-user-portrait">
+            <img alt="user" src={user.image} />
+
+          </div>
+          <div className="search-user-name-container">
+            <p style={{fontWeight: "bold"}}>{user.userName}</p>
+            <p style={{color: "#8e8e8e"}}>{user.name}</p>
+          </div>
+
+
+        </div>)}
+
+
+      </div>
+      
+      }
+     
+      {posts && !query && <div className="profile-grid-wrapper search-margin-top">
           {posts.map((post, index) => 
           <NavLink to={`post/${post.id}`} className="grid-picture-wrapper"key={index}>
             <img alt="" src={post.image} />

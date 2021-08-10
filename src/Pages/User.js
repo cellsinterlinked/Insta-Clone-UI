@@ -17,11 +17,12 @@ import { GrChannel } from 'react-icons/gr';
 import { MdSettingsInputAntenna } from 'react-icons/md';
 import Post from '../Components/Reusable/Post';
 import BottomNav from '../Components/Navigation/BottomNav';
+import { useHistory } from 'react-router-dom';
 
 
 
 const User = () => {
-
+let history = useHistory()
 const [page, setPage] = useState(1)
 const [posts, setPosts] = useState()
 const [user, setUser] = useState()
@@ -77,13 +78,17 @@ const likeHandler = (postId) => {
 
 }
 
+const messageHandler = () => {
+  
+}
+
   return(
     
     <div className="user-wrapper">
        <div className="user-header-wrapper">
-        <NavLink to='/home' className="profile-back-button">
+        <div onClick={history.goBack} className="profile-back-button">
           <BsChevronLeft className="profile-back-icon" />
-        </NavLink>
+        </div>
          <p>{params}</p>
       </div>
       <div className="wtf"></div>
