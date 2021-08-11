@@ -25,9 +25,9 @@ const ListPerson = ({user, followed, removeFollowing, addFollowing, myId}) => {
       </div>
      <div className="list-person-wrapper2">
 
-        {user.followers.includes(myId) ? <button onClick={unfollow}className="list-following-button">
+        {user.followers.includes(myId) ? <button onClick={() => removeFollowing(user)}className="list-following-button">
           Following
-        </button> : <button onClick={follow} className="list-follow-button">
+        </button> : <button onClick={() => addFollowing(user)} className="list-follow-button">
           Follow
         </button> }
 

@@ -14,50 +14,56 @@ const Following = () => {
   const [people, setPeople] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    async function fetchFollowed() {
-      const res = await api.get('users/following/60f701da7c0a002afd585c03');
-      console.log(res);
+  async function fetchFollowed() {
+    const res = await api.get('users/following/60f701da7c0a002afd585c03');
+    console.log(res);
+    setFollowed(res.data.users);
+  }
+  
+  async function fetchPopular() {
+    const res = await api.get('users/popular/60f701da7c0a002afd585c03');
+    console.log(res);
+    setPopular(res.data.users);
+  }
+  
+  async function unfollow(friend) {
+    const res = await api.patch(
+      'users/following/60f701da7c0a002afd585c03',
+      { otherUser: friend.id },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    console.log(res);
+    setLoading(!loading);
+  }
 
-      setFollowed(res.data.users);
-    }
-    async function fetchPopular() {
-      const res = await api.get('users');
-      console.log(res);
-      let newArr;
-      newArr = res.data.users.filter(
-        (user) => user.id !== myId && user.followers.includes(myId) === false
-      );
-      setPopular(newArr);
-    }
+  async function follow(friend) {
+    const res = await api.patch(
+      'users/following/60f701da7c0a002afd585c03',
+      { otherUser: friend.id },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    console.log(res);
+    setLoading(!loading);
+  }
+
+  useEffect(() => {
     fetchFollowed();
     fetchPopular();
-  }, [loading]);
+  }, []);
 
-  const removeFollowing = (friend) => {
-    async function unfollow() {
-      const res = await api.patch(
-        'users/following/60f701da7c0a002afd585c03',
-        { otherUser: friend.id },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      console.log(res);
-      setLoading(!loading);
-    }
-    unfollow();
+
+  const removeFollowing = async (friend) => {
+    await unfollow(friend);
+    await fetchFollowed()
+    await fetchPopular()
+    await fetchFollowed()
   };
 
-  const addFollowing = (friend) => {
-    async function follow() {
-      const res = await api.patch(
-        'users/following/60f701da7c0a002afd585c03',
-        { otherUser: friend.id },
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      console.log(res);
-      setLoading(!loading);
-    }
-    follow();
+  const addFollowing = async (friend) => {
+    await follow(friend);
+    await fetchFollowed()
+    await fetchPopular()
+    await fetchFollowed();
   };
 
   return (
