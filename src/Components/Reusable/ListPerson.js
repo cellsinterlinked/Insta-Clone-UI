@@ -2,15 +2,9 @@ import React from 'react'
 import './ListPerson.css';
 import {NavLink} from 'react-router-dom'
 
-const ListPerson = ({user, followed, removeFollowing, addFollowing, myId}) => {
+const ListPerson = ({user, followedArr, removeFollowing, addFollowing, myId}) => {
 
-  const unfollow = () => {
-    removeFollowing(user)
-  }
-
-  const follow = () => {
-    addFollowing(user)
-  }
+  
 
   return (
     <div className="listPerson-wrapper">
@@ -25,7 +19,7 @@ const ListPerson = ({user, followed, removeFollowing, addFollowing, myId}) => {
       </div>
      <div className="list-person-wrapper2">
 
-        {user.followers.includes(myId) ? <button onClick={() => removeFollowing(user)}className="list-following-button">
+        {followedArr.includes(user.id) ? <button onClick={() => removeFollowing(user)}className="list-following-button">
           Following
         </button> : <button onClick={() => addFollowing(user)} className="list-follow-button">
           Follow

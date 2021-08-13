@@ -24,7 +24,7 @@ import { useHistory } from 'react-router-dom';
 const User = () => {
 let history = useHistory()
 const [page, setPage] = useState(1)
-const [posts, setPosts] = useState()
+const [posts, setPosts] = useState([])
 const [user, setUser] = useState()
 const [loading, setLoading] = useState(false)
 const params = useParams().username
@@ -92,7 +92,7 @@ const messageHandler = () => {
          <p>{params}</p>
       </div>
       <div className="wtf"></div>
-      { user && posts && <div>
+      { user && <div>
 
       <div className="profile-second-box" >
         <div className="profile-portrait-info-wrapper">

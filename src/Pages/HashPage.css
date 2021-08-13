@@ -67,6 +67,7 @@
   min-height: 100%;
   min-width: 100%;
   max-width: 150%;
+  object-fit: cover;
 }
 
 .hash-page-button-wrapper p {

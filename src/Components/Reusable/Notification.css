@@ -29,7 +29,16 @@
 }
 
 .activity-follow-text {
-  width: 13rem;
+  width: 12rem;
+  margin-right: 1rem;
+}
+
+.activity-comment-text {
+  width: 15rem;
+}
+
+.activity-comment-text p {
+  font-size: 0.8rem;
 }
 
 .activity-follow-text p {
@@ -63,4 +72,36 @@
   font-size: 0.9rem;
   color: white;
   cursor: pointer;
+}
+
+.activity-post-image {
+  height: 2.8rem;
+  width: 2.8rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin-left: 0.8rem;
+}
+
+.activity-post-image img {
+  min-height: 100%;
+  min-width: 100%;
+  max-height: 140%;
+  max-width: 150%;
+  object-fit: cover;
+}
+
+.activity-time-wrapper {
+  width: 100%;
+  border-bottom: 1px solid #dbdbdb;
+  padding-bottom: 0.8rem;
+}
+
+.activity-time-header {
+  margin-left: 0.7rem;
+  color: #8e8e8e;
+  font-size: 0.9rem;
+  font-weight: 500;
 }

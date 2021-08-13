@@ -13,16 +13,22 @@ const Following = () => {
   // change to set following?
   const [people, setPeople] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [followedArr, setFollowedArr] =useState([])
+  const [me, setMe] = useState()
+
+  async function fetchMe() {
+    const res = await api.get('users/60f701da7c0a002afd585c03');
+    setMe(res.data.user)
+    setFollowedArr(res.data.user.following)
+  }
 
   async function fetchFollowed() {
     const res = await api.get('users/following/60f701da7c0a002afd585c03');
-    console.log(res);
     setFollowed(res.data.users);
   }
   
   async function fetchPopular() {
     const res = await api.get('users/popular/60f701da7c0a002afd585c03');
-    console.log(res);
     setPopular(res.data.users);
   }
   
@@ -32,8 +38,8 @@ const Following = () => {
       { otherUser: friend.id },
       { headers: { 'Content-Type': 'application/json' } }
     );
-    console.log(res);
-    setLoading(!loading);
+    setFollowedArr(followedArr.filter(u => u !== friend.id))
+    // setLoading(!loading);
   }
 
   async function follow(friend) {
@@ -42,11 +48,12 @@ const Following = () => {
       { otherUser: friend.id },
       { headers: { 'Content-Type': 'application/json' } }
     );
-    console.log(res);
-    setLoading(!loading);
+   setFollowedArr([...followedArr, friend.id])
+    // setLoading(!loading);
   }
 
   useEffect(() => {
+    fetchMe()
     fetchFollowed();
     fetchPopular();
   }, []);
@@ -54,16 +61,16 @@ const Following = () => {
 
   const removeFollowing = async (friend) => {
     await unfollow(friend);
-    await fetchFollowed()
-    await fetchPopular()
-    await fetchFollowed()
+    // await fetchFollowed()
+    // await fetchPopular()
+    // await fetchFollowed()
   };
 
   const addFollowing = async (friend) => {
     await follow(friend);
-    await fetchFollowed()
-    await fetchPopular()
-    await fetchFollowed();
+    // await fetchFollowed()
+    // await fetchPopular()
+    // await fetchFollowed();
   };
 
   return (
@@ -108,6 +115,7 @@ const Following = () => {
                 key={index}
                 removeFollowing={removeFollowing}
                 myId={myId}
+                followedArr={followedArr}
               />
             ))}
           </div>
@@ -125,6 +133,7 @@ const Following = () => {
                 key={index}
                 addFollowing={addFollowing}
                 myId={myId}
+                followedArr={followedArr}
               />
             ))}
           </div>

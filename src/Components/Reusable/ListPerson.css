@@ -31,6 +31,7 @@
   min-height: 100%;
   min-width: 100%;
   max-width: 140%;
+  object-fit: cover;
 }
 
 .list-person-names-wrapper {
