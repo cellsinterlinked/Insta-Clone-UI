@@ -79,8 +79,8 @@ const Account = () => {
       <div className="account-basic-wrapper">
 
         <div className="account-profile-wrapper">
-          {!user.image && <button className="editPicture-container"><BsPeopleCircle className="edit-profile-icon" /></button>}
-         {user.image && <button className="editPicture-container"><img className="edit-profile-image" alt="why" src={user.image}/></button>}
+          {!user.image && <div className="editPicture-container"><BsPeopleCircle className="edit-profile-icon" /></div>}
+         {user.image && <div className="editPicture-container"><img  alt="why" src={user.image}/></div>}
           <p>{user.name}</p>
         </div>
 

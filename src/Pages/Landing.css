@@ -112,6 +112,7 @@
 }
 
 .post-description {
+  flex-direction: column;
   display: flex;
   margin-top: 14px;
   margin-left: 0.8rem;

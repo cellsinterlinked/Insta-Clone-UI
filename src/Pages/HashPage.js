@@ -7,22 +7,48 @@ import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 
 const HashPage = () => {
+  let myId = "60f701da7c0a002afd585c03"
   let history = useHistory()
   const [posts, setPosts] = useState()
   const [recent, setRecent] = useState();
   const [popular, setPopular] = useState()
+  const [user, setUser] = useState();
+  const [followedHashTags, setFollowedHashTags] = useState([])
   const params = useParams().hash;
+  const fullParams = `#${params}`
 
-useEffect(() => {
+ 
+
+  async function getUser() {
+    const res = await api.get('users/60f701da7c0a002afd585c03')
+    setUser(res.data.user);
+    setFollowedHashTags(res.data.user.followedHash)
+    console.log(res.data.user)
+
+  }
+
   async function getPosts() {
     const res = await api.get(`posts/hash/${params}`)
-    console.log(res.data.posts)
     setPosts(res.data.posts)
     setRecent(res.data.recent)
     setPopular(res.data.popular)
   }
+
+
+useEffect(() => {
   getPosts()
-}, [params])
+  getUser()
+}, [])
+
+const followHandler = async() => {
+  const res = await api.patch('users/hashtags/60f701da7c0a002afd585c03', {hashTag: fullParams})
+  console.log(res)
+  if (followedHashTags.includes(fullParams)) {
+    setFollowedHashTags(followedHashTags.filter(h => h !== fullParams))
+  } else {
+    setFollowedHashTags([...followedHashTags, fullParams])
+  }
+}
 
 
   return (
@@ -41,7 +67,7 @@ useEffect(() => {
 
         <div className="hash-page-button-wrapper">
           <p><strong>{posts.length}</strong> posts</p>
-          <button className="hash-follow-button">Follow</button>
+          {followedHashTags.includes(fullParams) ? <button onClick={followHandler} className="hash-following-button">Following</button> : <button onClick={followHandler} className="hash-follow-button">Follow</button>}
         </div>
       </div>}
 

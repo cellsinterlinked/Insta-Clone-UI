@@ -5,6 +5,7 @@ import { BsChevronLeft } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
 import ListPerson from '../Components/Reusable/ListPerson';
 import BottomNav from '../Components/Navigation/BottomNav';
+import ListHashTag from '../Components/Reusable/ListHashTag';
 
 const Following = () => {
   const myId = '60f701da7c0a002afd585c03';
@@ -15,11 +16,14 @@ const Following = () => {
   const [loading, setLoading] = useState(false);
   const [followedArr, setFollowedArr] =useState([])
   const [me, setMe] = useState()
+  const [followedHashTags, setFollowedHashTags] = useState([])
 
   async function fetchMe() {
     const res = await api.get('users/60f701da7c0a002afd585c03');
     setMe(res.data.user)
     setFollowedArr(res.data.user.following)
+    setFollowedHashTags(res.data.user.followedHash)
+    console.log(res.data.user.followedHash)
   }
 
   async function fetchFollowed() {
@@ -73,6 +77,17 @@ const Following = () => {
     // await fetchFollowed();
   };
 
+
+  const hashHandler = async(hashTag) => {
+    const res = await api.patch('users/hashtags/60f701da7c0a002afd585c03', {hashTag: hashTag})
+    console.log(res)
+    if (followedHashTags.includes(hashTag)) {
+      setFollowedHashTags(followedHashTags.filter(h => h !== hashTag))
+    } else {
+      setFollowedHashTags([...followedHashTags, hashTag])
+    }
+  }
+
   return (
     <div>
       <div className="following-header-wrapper">
@@ -106,7 +121,7 @@ const Following = () => {
           </p>
         </div>
       </div>
-      <div className="following-list-margin">
+      {people === true && <div className="following-list-margin">
         {followed && followed.length !== 0 && (
           <div className="following-list-wrapper">
             {followed.map((user, index) => (
@@ -138,7 +153,20 @@ const Following = () => {
             ))}
           </div>
         )}
-      </div>
+      </div>}
+
+      {people === false && <div className="following-list-margin">
+        {followedHashTags &&  
+        <div className="following-list-wrapper">
+          <h1>{people}</h1>
+          <h1>wtf</h1>
+          <h1>render something</h1>
+          <h1>{followedHashTags[0]}</h1>
+          {followedHashTags.map((tag, index) => (<ListHashTag hashTag={tag} key={index} hashHandler={hashHandler}/>))}
+          {/* {followedHashTags.map((tag, index) => (<ListHashTag hashTag={tag} key={index} hashHandler={hashHandler} />))} */}
+          </div>}
+
+        </div>}
 
       <BottomNav />
     </div>
