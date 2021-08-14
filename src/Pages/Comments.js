@@ -10,6 +10,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import commentContent from '../Static/leaveComment';
+import ErrorModal from '../Components/Reusable/ErrorModal';
+import { useHistory } from 'react-router';
 
 const schemaComment = yup.object().shape({
   comment: yup.string().required().min(1)
@@ -21,9 +23,11 @@ const Comments = () => {
     resolver: yupResolver(schemaComment),
     mode: "onChange"
   })
-
+ const myId = "60f701da7c0a002afd585c03"
+ const history = useHistory()
  const params = useParams().postId
-
+ const [error, setError] = useState()
+ const [errorModal, setErrorModal] = useState(false)
  const [post, setPost] = useState();
  const [user, setUser] = useState()
  const [users, setUsers] = useState();
@@ -45,6 +49,7 @@ const Comments = () => {
       const res = await api.get('users')
       console.log(res)
       setUsers(res.data.users)
+      setUser(res.data.users.find(user => user.id === myId))
     }
     fetchUsers()
   }, [])
@@ -55,6 +60,9 @@ const Comments = () => {
      const newData = {comment: data.comment, commentor: "60f701da7c0a002afd585c03"}
      const res = await api.patch(`posts/comments/${params}`, newData, {headers: {'Content-Type': 'application/json'}})
      console.log(res)
+     setError("Comment posted!")
+     setErrorModal(true)
+      setTimeout(function() {setErrorModal(false)}, 2000)
      setLoading(!loading)
    }
  
@@ -71,24 +79,37 @@ const Comments = () => {
   const deleteHandler = (commentId) => {
     setLoading(true)
     async function deleteComment() {
-      
       const res = await api.patch(`posts/comment-delete/${commentId}`, {postId: post.id}, {headers: {'Content-Type': 'application/json'}})
+      setError('Deleted comment')
+      setErrorModal(true)
+      setTimeout(function() {setErrorModal(false)}, 2000)
       console.log(res);
       setLoading(false)
     }
     deleteComment()
   }
 
+  const heartHandler = () => {
+    setError("This Feature Isnt Working Yet -__-")
+    setErrorModal(true)
+    setTimeout(function() {setErrorModal(false)}, 2000)
+   }
+  
+   
+  
+   
+
   return(
     <div>
       <div className="comments-header">
-      <NavLink to="/search" className="comments-back-navlink"><BsChevronLeft className="following-back-icon"/></NavLink>
+      <div onClick={history.goBack} className="comments-back-navlink"><BsChevronLeft className="following-back-icon"/></div>
         <p>Comments</p>
       </div>
 
       <div className="comment-input-wrapper">
         <div className="comment-portrait-wrapper">
-          {!user && <IoPersonCircle className="comment-no-icon"/>}
+          {user && !user.image && <IoPersonCircle className="comment-no-icon"/>}
+          {user && user.image && <img alt="" src={user.image} />}
         </div>
         <form className="comment-input-holder" onSubmit={handleSubmit(commentSubmitHandler)}>
         {commentContent.inputs.map((input,key) => {
@@ -104,12 +125,15 @@ const Comments = () => {
 
       </div>
       {post && users && <div className="post-description-comment">
-        <Comment comment={{comment: post.description, date: {time: post.date.time}}} user={users.find(user => user.id === post.user)} heart={false}/>
+        <Comment comment={{comment: post.description, date: {time: post.date.time}}} user={users.find(user => user.id === post.user)} heart={false} />
       </div>}
       {post && users && post.comments.length !== 0 && <div className="full-comment-list">
-          {post.comments.map((comment, index) => <Comment deleteHandler={deleteHandler} key={index} comment={comment} commentId={comment.id} user={users.find(user => user.id === comment.user)} heart={true} myId={"60f701da7c0a002afd585c03"} postUser={post.user} deletable={true} />)}
+          {post.comments.map((comment, index) => <Comment deleteHandler={deleteHandler} key={index} comment={comment} commentId={comment.id} user={users.find(user => user.id === comment.user)} heart={true} myId={"60f701da7c0a002afd585c03"} postUser={post.user} deletable={true} heartHandler={heartHandler} />)}
       </div>}
-      
+      <ErrorModal
+      show={errorModal}
+      children={<p className="errorText">{error}</p>}
+      />
     </div>
   )
 }

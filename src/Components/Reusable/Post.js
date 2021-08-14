@@ -12,10 +12,10 @@ import {NavLink} from 'react-router-dom';
 import Modal from './Modal';
 import api from '../../Static/axios';
 import { useHistory } from 'react-router-dom';
+import ErrorModal from '../Reusable/ErrorModal';
 
 
 const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => {
-  
   const [showModal, setShowModal] = useState(false)
   const [timeDisplay, setTimeDisplay] = useState()
   const [time, setTime] = useState()
@@ -60,6 +60,7 @@ const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => 
 
   return(
   <div className='post-wrapper'>
+   
     <Modal 
     show={showModal}
     onCancel={cancelModalHandler}
@@ -99,7 +100,7 @@ const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => 
             <IoPaperPlaneOutline className='post-icon'/>
 
             {viewer && viewer.saves.includes(post.id) &&
-            <MdTurnedIn  onClick={() => saveHandler(post.id)} className='last-post-icon' style={{color: "#0095f6"}}/>}
+            <MdTurnedIn  onClick={() => saveHandler(post.id)} className='last-post-icon' style={{color: "#000000"}}/>}
             
             {viewer && !viewer.saves.includes(post.id) && <MdTurnedInNot className='last-post-icon' onClick={() => saveHandler(post.id)}/>}
 

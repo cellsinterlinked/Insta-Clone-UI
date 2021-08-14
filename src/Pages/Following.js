@@ -158,12 +158,8 @@ const Following = () => {
       {people === false && <div className="following-list-margin">
         {followedHashTags &&  
         <div className="following-list-wrapper">
-          <h1>{people}</h1>
-          <h1>wtf</h1>
-          <h1>render something</h1>
-          <h1>{followedHashTags[0]}</h1>
-          {followedHashTags.map((tag, index) => (<ListHashTag hashTag={tag} key={index} hashHandler={hashHandler}/>))}
-          {/* {followedHashTags.map((tag, index) => (<ListHashTag hashTag={tag} key={index} hashHandler={hashHandler} />))} */}
+
+       {followedHashTags.map((tag, index) => (<ListHashTag hashTag={tag} shortHash={tag.slice(1)} key={index} hashHandler={hashHandler} followedArr={followedHashTags}/>))}
           </div>}
 
         </div>}

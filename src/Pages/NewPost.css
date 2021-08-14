@@ -260,3 +260,11 @@
   border-left: 1px solid #93d4ff;
   color: #68c3ff;
 }
+
+.cancel-input {
+  position: absolute;
+  right: 2rem;
+  color: #8e8e8e;
+  height: 1.2rem;
+  width: 1.2rem;
+}

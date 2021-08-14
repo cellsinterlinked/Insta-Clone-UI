@@ -14,6 +14,7 @@ import { BsChevronRight} from 'react-icons/bs'
 import { useHistory } from 'react-router-dom'
 import FullModal from '../Components/Reusable/FullModal';
 import './Search.css';
+import { MdCancel } from 'react-icons/md';
 
 const NewPost = () => {
 
@@ -139,7 +140,11 @@ const NewPost = () => {
     setSelectedTags(modTags)
   }
 
-
+ const cancelSearch = () => {
+   setQuery("")
+   document.getElementById("search").value = ""
+   setFullModal(false);
+ }
     
 
   return(
@@ -149,7 +154,9 @@ const NewPost = () => {
       onCancel={cancelModal}
       children={<div>
         <div className="search-header-wrapper">
-        <input className="search-input" placeholder="Search" onChange={queryHandler}></input>
+          {query && <MdCancel className="cancel-input" onClick={cancelSearch} />}
+        <input className="search-input" placeholder="Search" value={query} onChange={queryHandler} id="search">
+        </input>
         </div>
         
         {query && query[0] !== "#" && displayedUsers &&

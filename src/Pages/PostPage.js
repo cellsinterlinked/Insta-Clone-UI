@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 import api from '../Static/axios';
 import './PostPage.css';
 import Post from '../Components/Reusable/Post';
+import { useHistory } from 'react-router';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 const PostPage = () => {
   const myId = "60f701da7c0a002afd585c03"
@@ -13,8 +15,10 @@ const PostPage = () => {
   const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
   const [viewer, setViewer] = useState()
-
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState()
   const params = useParams().postId
+  const history = useHistory();
 
   useEffect(() => {
     async function getUser() {
@@ -49,8 +53,16 @@ const PostPage = () => {
   const likeHandler = (postId) => {
     async function likeClick() {
       const res = await api.patch(`posts/likes/${postId}`, {user: "60f701da7c0a002afd585c03"})
+      if (post.likes.includes(myId)) {
+        setError("you unliked this post")
+        setShowError(true)
+      } else {
+        setError("You liked this post")
+        setShowError(true)
+      }
       console.log(res)
       setLoading(!loading);
+      setTimeout(function() {setShowError(false)}, 2000)
     }
     likeClick()
  
@@ -59,18 +71,30 @@ const PostPage = () => {
   const saveHandler = (postId) => {
     async function saveClick() {
       const res = await api.patch(`users/saves/${myId}`, {postId: postId})
+      if (user.saves.includes(postId)) {
+        setError("Removed this post from saves")
+        setShowError(true)
+      } else {
+        setError("You saved this post")
+        setShowError(true)
+      }
       console.log(res);
       setLoading(!loading)
+      setTimeout(function() {setShowError(false)}, 2000)
     }
     saveClick()
   }
 
   return(
     <div className="post-page-wrapper">
+      <ErrorModal
+     show={showError}
+     children={<p className="errorText">{error}</p>}
+    />
       <div className="post-page-header">
-        <NavLink to={`/`} className="post-page-back" >
+        <div onClick={history.goBack} className="post-page-back" >
           <BsChevronLeft className="post-back-icon" />
-        </NavLink>
+        </div>
         <p>Post</p>
       </div>
 

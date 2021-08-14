@@ -1,0 +1,33 @@
+.error-modal {
+  position: fixed;
+  z-index: 50;
+  width: 100vw;
+  min-height: 3rem;
+  background-color: rgba(0, 0, 0, 0.76);
+
+  left: 0;
+  bottom: 3rem;
+  right: 0;
+}
+
+.error-modal-enter {
+  transform: translateY(3rem);
+  opacity: 0;
+}
+
+.error-modal-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: all 200ms;
+}
+
+.error-modal-exit {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.error-modal-exit-active {
+  transform: translateY(3rem);
+  opacity: 0;
+  transition: all 200ms;
+}

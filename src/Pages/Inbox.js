@@ -23,7 +23,8 @@ const Inbox = () => {
     async function fetchConvos() {
       const res = await api.get('convos/messages/60f701da7c0a002afd585c03')
       console.log(res)
-      setConvos(res.data.convos)
+      const orderedConvos = res.data.convos.sort(function(a, b) {return a.messages[a.messages.length - 1].date.time - b.messages[b.messages.length - 1].date.time })
+      setConvos(orderedConvos.reverse())
     }
     fetchConvos()
   }, [])

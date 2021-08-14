@@ -38,11 +38,17 @@ const Activity = () => {
       setWeekArr(res.data.user.activity.filter(activity => isThisWeek(parseJSON(activity.date.fullDate)) === true && isToday(parseJSON(activity.date.fullDate)) === false && isYesterday(parseJSON(activity.date.fullDate)) === false))
       setMonthArr(res.data.user.activity.filter(activity => isThisMonth(parseJSON(activity.date.fullDate)) === true && isThisWeek(parseJSON(activity.date.fullDate)) === false))
       setYearArr(res.data.user.activity.filter(activity => isSameYear(parseJSON(activity.date.fullDate), new Date()) === true && isThisMonth(parseJSON(activity.date.fullDate)) === false))
+
       setFollowingArr(res.data.user.following)
       console.log(res.data.user.following)
     }
     getUser()
   },[loading])
+
+
+  const holyShit = () => {
+    
+  }
 
     
 

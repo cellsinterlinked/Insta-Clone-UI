@@ -4,7 +4,7 @@ import { BsHeart } from 'react-icons/bs';
 import api from '../../Static/axios';
 
 
-const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler, commentId}) => {
+const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler, commentId, heartHandler}) => {
 
   const [timeDisplay, setTimeDisplay] = useState()
   const [time, setTime] = useState()
@@ -43,7 +43,7 @@ const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler
 
       </div>
       <div className="comment-heart-wrapper">
-        {heart === true && <BsHeart className="comment-empty-heart" />}
+        {heart === true && <BsHeart className="comment-empty-heart" onClick={heartHandler}/>}
       </div>
     </div>
   )

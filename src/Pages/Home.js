@@ -9,6 +9,7 @@ import {BsPlusCircleFill} from 'react-icons/bs'
 import api from '../Static/axios';
 import { NavLink } from 'react-router-dom';
 import BottomNav from '../Components/Navigation/BottomNav';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 
 
@@ -19,6 +20,8 @@ const Home = () => {
   const [followed, setFollowed] = useState()
   const [posts, setPosts] = useState();
   const [user, setUser] = useState();
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState()
 
   
   
@@ -55,8 +58,16 @@ const Home = () => {
   const saveHandler = (postId) => {
     async function saveClick() {
       const res = await api.patch(`users/saves/${myId}`, {postId: postId})
+      if (user.saves.includes(postId)) {
+        setError("Removed this post from saves")
+        setShowError(true)
+      } else {
+        setError("You saved this post")
+        setShowError(true)
+      }
       console.log(res);
       setLoading(!loading)
+      setTimeout(function() {setShowError(false)}, 2000)
     }
     saveClick()
   }
@@ -64,18 +75,33 @@ const Home = () => {
   const likeHandler = (postId) => {
     async function likeClick() {
       const res = await api.patch(`posts/likes/${postId}`, {user: "60f701da7c0a002afd585c03"})
+      const thisPost = posts.find(post => post.id === postId)
+      if (thisPost.likes.includes(myId)) {
+        setError("you unliked this post")
+        setShowError(true)
+      } else {
+        setError("You liked this post")
+        setShowError(true)
+      }
       console.log(res)
       setLoading(!loading);
+      setTimeout(function() {setShowError(false)}, 2000)
     }
     likeClick()
  
   }
 
+  
+
  
   return (
     <div className='landing-wrapper'>
+     <ErrorModal
+     show={showError}
+     children={<p className="errorText">{error}</p>}
+    />
       <div className="home-header-wrapper">
-        <div className="left-home-head-wrapper"><FiCamera className="home-icon"/></div>
+        <NavLink to={'/create'} className="left-home-head-wrapper"><FiCamera className="home-icon"/></NavLink>
           <h1 className="home-head-text">Nonurgentgram</h1>
       <NavLink to={`/inbox`} className="right-home-head-wrapper"><IoPaperPlaneOutline className="home-icon"/></NavLink>
       </div>

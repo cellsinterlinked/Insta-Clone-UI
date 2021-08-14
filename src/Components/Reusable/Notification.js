@@ -57,15 +57,15 @@ const Notification  = ({user, activity, viewer, followHandler, followingArr }) =
 
 
       {activity.type === "comment"  && 
-      <div className="activity-post-image">
-        <img alt="" src={activity.image} />
-      </div>
+      <NavLink to={`/comments/${activity.post}`}className="activity-post-image">
+        <img alt="" src={activity.image}  />
+      </NavLink>
       } 
 
       {activity.type === "like"  && 
-      <div className="activity-post-image">
+      <NavLink to={`/post/${activity.post}`} className="activity-post-image">
         <img alt="" src={activity.image} />
-      </div>
+      </NavLink>
       } 
 
       {activity.type === "follow" && <div>
