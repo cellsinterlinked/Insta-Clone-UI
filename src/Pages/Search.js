@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import api from '../Static/axios';
 import Post from '../Components/Reusable/Post';
 import './Search.css';
@@ -6,8 +6,12 @@ import './User.css';
 import {NavLink} from 'react-router-dom';
 import BottomNav from '../Components/Navigation/BottomNav';
 import {BsHash} from 'react-icons/bs';
+import {MdCancel} from 'react-icons/md'
+import { AuthContext } from '../Context/auth-context';
 
 const Search = () => {
+  const auth = useContext(AuthContext)
+  const myId = auth.userId;
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState()
   const [users, setUsers] = useState()
@@ -31,7 +35,7 @@ const Search = () => {
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get('users/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/${myId}`)
       console.log(res);
       setUser(res.data.user)
     }
@@ -84,12 +88,18 @@ const Search = () => {
     return array.reduce((h, x) => h + (x === value), 0);
   }
 
+  const cancelSearch = () => {
+    setQuery("")
+    document.getElementById("search-page-input").value = ""
+    
+  }
   
 
   return (
     <div>
       <div className="search-header-wrapper">
-        <input className="search-input" placeholder="Search" onChange={queryHandler}></input>
+        <input id="search-page-input" className="search-input" placeholder="Search" onChange={queryHandler}></input>
+        {query && <MdCancel className="cancel-input" onClick={cancelSearch} />}
       </div>
 
       {query && query[0] === "#" && displayedHashTags &&

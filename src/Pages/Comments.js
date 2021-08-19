@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../Static/axios';
 import './Comments.css';
@@ -12,6 +12,7 @@ import * as yup from 'yup';
 import commentContent from '../Static/leaveComment';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import { useHistory } from 'react-router';
+import { AuthContext } from '../Context/auth-context';
 
 const schemaComment = yup.object().shape({
   comment: yup.string().required().min(1)
@@ -23,7 +24,8 @@ const Comments = () => {
     resolver: yupResolver(schemaComment),
     mode: "onChange"
   })
- const myId = "60f701da7c0a002afd585c03"
+ const auth = useContext(AuthContext);
+ const myId = auth.userId;
  const history = useHistory()
  const params = useParams().postId
  const [error, setError] = useState()
@@ -57,7 +59,7 @@ const Comments = () => {
   const commentSubmitHandler = (data) => {
    console.log(data)
    async function sendComment() {
-     const newData = {comment: data.comment, commentor: "60f701da7c0a002afd585c03"}
+     const newData = {comment: data.comment, commentor: myId}
      const res = await api.patch(`posts/comments/${params}`, newData, {headers: {'Content-Type': 'application/json'}})
      console.log(res)
      setError("Comment posted!")
@@ -128,7 +130,7 @@ const Comments = () => {
         <Comment comment={{comment: post.description, date: {time: post.date.time}}} user={users.find(user => user.id === post.user)} heart={false} />
       </div>}
       {post && users && post.comments.length !== 0 && <div className="full-comment-list">
-          {post.comments.map((comment, index) => <Comment deleteHandler={deleteHandler} key={index} comment={comment} commentId={comment.id} user={users.find(user => user.id === comment.user)} heart={true} myId={"60f701da7c0a002afd585c03"} postUser={post.user} deletable={true} heartHandler={heartHandler} />)}
+          {post.comments.map((comment, index) => <Comment deleteHandler={deleteHandler} key={index} comment={comment} commentId={comment.id} user={users.find(user => user.id === comment.user)} heart={true} myId={myId} postUser={post.user} deletable={true} heartHandler={heartHandler} />)}
       </div>}
       <ErrorModal
       show={errorModal}

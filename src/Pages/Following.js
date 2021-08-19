@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import api from '../Static/axios';
 import './Following.css';
 import { BsChevronLeft } from 'react-icons/bs';
@@ -6,9 +6,13 @@ import { NavLink } from 'react-router-dom';
 import ListPerson from '../Components/Reusable/ListPerson';
 import BottomNav from '../Components/Navigation/BottomNav';
 import ListHashTag from '../Components/Reusable/ListHashTag';
+import ErrorModal from '../Components/Reusable/ErrorModal';
+import { BsHash } from 'react-icons/bs';
+import { AuthContext } from '../Context/auth-context';
 
 const Following = () => {
-  const myId = '60f701da7c0a002afd585c03';
+  const auth = useContext(AuthContext)
+  const myId = auth.userId;
   const [popular, setPopular] = useState();
   const [followed, setFollowed] = useState();
   // change to set following?
@@ -17,9 +21,11 @@ const Following = () => {
   const [followedArr, setFollowedArr] =useState([])
   const [me, setMe] = useState()
   const [followedHashTags, setFollowedHashTags] = useState([])
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState(false)
 
   async function fetchMe() {
-    const res = await api.get('users/60f701da7c0a002afd585c03');
+    const res = await api.get(`users/${myId}`);
     setMe(res.data.user)
     setFollowedArr(res.data.user.following)
     setFollowedHashTags(res.data.user.followedHash)
@@ -27,33 +33,39 @@ const Following = () => {
   }
 
   async function fetchFollowed() {
-    const res = await api.get('users/following/60f701da7c0a002afd585c03');
+    const res = await api.get(`users/following/${myId}`);
     setFollowed(res.data.users);
   }
   
   async function fetchPopular() {
-    const res = await api.get('users/popular/60f701da7c0a002afd585c03');
+    const res = await api.get(`users/popular/${myId}`);
     setPopular(res.data.users);
   }
   
   async function unfollow(friend) {
     const res = await api.patch(
-      'users/following/60f701da7c0a002afd585c03',
+      `users/following/${myId}`,
       { otherUser: friend.id },
       { headers: { 'Content-Type': 'application/json' } }
     );
     setFollowedArr(followedArr.filter(u => u !== friend.id))
-    // setLoading(!loading);
+    setError(`You unfollowed ${friend.userName}`)
+    setShowError(true)
+    setTimeout(function() {setShowError(false)}, 2000)
+    
   }
 
   async function follow(friend) {
     const res = await api.patch(
-      'users/following/60f701da7c0a002afd585c03',
+      `users/following/${myId}`,
       { otherUser: friend.id },
       { headers: { 'Content-Type': 'application/json' } }
     );
    setFollowedArr([...followedArr, friend.id])
-    // setLoading(!loading);
+   setError(`You followed ${friend.userName}`)
+    setShowError(true)
+    setTimeout(function() {setShowError(false)}, 2000)
+   
   }
 
   useEffect(() => {
@@ -79,17 +91,26 @@ const Following = () => {
 
 
   const hashHandler = async(hashTag) => {
-    const res = await api.patch('users/hashtags/60f701da7c0a002afd585c03', {hashTag: hashTag})
+    const res = await api.patch(`users/hashtags/${myId}`, {hashTag: hashTag})
     console.log(res)
     if (followedHashTags.includes(hashTag)) {
       setFollowedHashTags(followedHashTags.filter(h => h !== hashTag))
+      setError(`Unfollowed ${hashTag}`)
+      setShowError(true)
     } else {
       setFollowedHashTags([...followedHashTags, hashTag])
+      setError(`Followed ${hashTag}`)
+      setShowError(true)
     }
+    setTimeout(function() {setShowError(false)}, 2000)
   }
 
   return (
     <div>
+       <ErrorModal
+     show={showError}
+     children={<p className="errorText">{error}</p>}
+    />
       <div className="following-header-wrapper">
         <NavLink to="/account" className="back-navlink">
           <BsChevronLeft className="following-back-icon" />
@@ -156,6 +177,18 @@ const Following = () => {
       </div>}
 
       {people === false && <div className="following-list-margin">
+        {followedHashTags.length === 0 && 
+        <div className='no-hash-wrapper'>
+          <div className="no-hash-circle">
+            {/* <BsHash className="hash-icon"/> */}
+            <h2>#</h2>
+          </div>
+          <h1>Hashtags you follow</h1>
+          <p>Once you follow hashtags, you'll see them here.</p>
+        </div>}
+
+
+
         {followedHashTags &&  
         <div className="following-list-wrapper">
 

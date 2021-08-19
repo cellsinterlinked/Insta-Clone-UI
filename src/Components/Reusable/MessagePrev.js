@@ -26,7 +26,8 @@ const MessagePrev = ({convo, user}) => {
         </div>
         <div className="convo-prev-info-wrapper">
           <p style={{color: "black"}}>{user.userName}</p>
-          <p className="convo-fade-text">{convo.messages[convo.messages.length - 1].message.slice(0, 33)}...</p>
+          {convo.messages.length > 1 && <p className="convo-fade-text">{convo.messages[convo.messages.length - 1].message.slice(0, 33)}...</p>}
+          {convo.messages.length === 1 && <p className="convo-fade-text">{`Send ${user.userName} a message...`}</p>}
         </div>
         {time && timeDisplay && <div className="convo-prev-date-wrapper">
         {timeDisplay === "minutesAgo" && <p>∙{Math.floor(time / 60000)}m</p>}

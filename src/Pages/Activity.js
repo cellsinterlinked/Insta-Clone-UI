@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Activity.css';
 import { BsHeart } from 'react-icons/bs';
 import BottomNav from '../Components/Navigation/BottomNav';
@@ -11,11 +11,16 @@ import { isSameYear } from 'date-fns'
 import { isToday } from 'date-fns'
 import { parse } from 'date-fns'
 import { parseJSON } from 'date-fns'
+import ErrorModal from '../Components/Reusable/ErrorModal';
+import { BsChevronLeft} from 'react-icons/bs';
+import { useHistory } from 'react-router';
+import { AuthContext } from '../Context/auth-context';
 
 
 
 const Activity = () => {
-  const myId = '60f701da7c0a002afd585c03';
+  const auth = useContext(AuthContext)
+  const myId = auth.userId;
   const [user, setUser] = useState()
   const [users, setUsers] = useState()
   const [todayArr, setTodayArr] = useState([])
@@ -25,6 +30,9 @@ const Activity = () => {
   const [yearArr, setYearArr] = useState([])
   const [loading, setLoading] = useState(false)
   const [followingArr, setFollowingArr] = useState([])
+  const [showError, setShowError] = useState();
+  const [error, setError] = useState()
+  const history = useHistory()
 
 
  
@@ -45,12 +53,7 @@ const Activity = () => {
     getUser()
   },[loading])
 
-
-  const holyShit = () => {
-    
-  }
-
-    
+  
 
   useEffect(() => {
     async function getUsers() {
@@ -62,13 +65,18 @@ const Activity = () => {
   }, [])
 
   async function adjustFollow(user) {
-   const res  = await api.patch('users/following/60f701da7c0a002afd585c03',
+   const res  = await api.patch(`users/following/${myId}`,
    { otherUser: user },)
    if (followingArr.includes(user)) {
     setFollowingArr(followingArr.filter(u => u !== user))
+    setError("You unfollowed this user")
+    setShowError(true)
   } else {
     setFollowingArr([...followingArr, user])
+    setError("You followed this user")
+    setShowError(true)
   }
+  setTimeout(function() {setShowError(false)}, 2000)
   }
 
 
@@ -82,7 +90,12 @@ const Activity = () => {
 
   return (
     <div className="activity-wrapper">
+      <ErrorModal
+     show={showError}
+     children={<p className="errorText">{error}</p>}
+    />
       <div className="activity-header">
+      <div onClick={history.goBack} className="activity-back-navlink"><BsChevronLeft className="activity-back-icon"/></div>
         <p>Activity</p>
       </div>
 

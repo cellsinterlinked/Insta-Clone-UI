@@ -115,3 +115,43 @@
 .following-list-margin {
   margin-top: 5.8rem;
 }
+
+.no-hash-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 2.3rem;
+}
+
+.no-hash-wrapper h1 {
+  font-weight: 300;
+  font-size: 1.4rem;
+  margin-bottom: 0px;
+}
+
+.no-hash-wrapper p {
+  font-size: 0.9rem;
+}
+
+.no-hash-circle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6.5rem;
+  width: 6.5rem;
+  border: 1px solid rgb(46, 46, 46);
+  border-radius: 50%;
+}
+
+.no-hash-circle h2 {
+  font-weight: 200;
+  font-size: 5rem;
+}
+
+.hash-icon {
+  height: 5rem;
+  width: 5rem;
+  margin: auto;
+  color: rgb(44, 44, 44);
+}

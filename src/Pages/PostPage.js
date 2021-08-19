@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { BsChevronLeft} from 'react-icons/bs'
 import { FaCommentsDollar } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom'
@@ -8,9 +8,11 @@ import './PostPage.css';
 import Post from '../Components/Reusable/Post';
 import { useHistory } from 'react-router';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import { AuthContext } from '../Context/auth-context';
 
 const PostPage = () => {
-  const myId = "60f701da7c0a002afd585c03"
+  const auth = useContext(AuthContext);
+  const myId = auth.userId
   const [post, setPost] = useState()
   const [user, setUser] = useState()
   const [loading, setLoading] = useState(false)
@@ -22,7 +24,7 @@ const PostPage = () => {
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get('users/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/${myId}`)
       console.log(res);
       
       setViewer(res.data.user)
@@ -52,7 +54,7 @@ const PostPage = () => {
 
   const likeHandler = (postId) => {
     async function likeClick() {
-      const res = await api.patch(`posts/likes/${postId}`, {user: "60f701da7c0a002afd585c03"})
+      const res = await api.patch(`posts/likes/${postId}`, {user: myId})
       if (post.likes.includes(myId)) {
         setError("you unliked this post")
         setShowError(true)
@@ -100,7 +102,7 @@ const PostPage = () => {
 
       {post && user && 
       <div className="post-page-margin">
-      <Post post={post} myId={"60f701da7c0a002afd585c03"} user={user} likeHandler={likeHandler} loading={loading} viewer={viewer} saveHandler={saveHandler}/>  
+      <Post post={post} myId={myId} user={user} likeHandler={likeHandler} loading={loading} viewer={viewer} saveHandler={saveHandler} params={params}/>  
       </div>}
 
     </div>

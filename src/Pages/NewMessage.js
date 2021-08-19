@@ -1,34 +1,58 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import './NewMessage.css';
 import { BsChevronLeft } from 'react-icons/bs'
 import api from '../Static/axios';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../Context/auth-context';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 const NewMessage = () => {
-  const history = useHistory();
 
-  const myId = "60f701da7c0a002afd585c03"
+
+  const history = useHistory();
+  const auth = useContext(AuthContext)
+  const myId = auth.userId
   const [selected, setSelected] = useState()
   const [query, setQuery] = useState("")
   const [users, setUsers] = useState()
   const [convos, setConvos] = useState()
   const [displayedUsers, setDisplayedUsers] = useState()
   const [chattingUsers, setChattingUsers] = useState()
+  const [error, setError] = useState();
+  const [showError, setShowError] = useState(false);
 
 
   useEffect(() => {
     async function fetchUsers() {
-      const userRes = await api.get('/users')
-      const convoRes = await api.get(`/convos/messages/${myId}`)
-      let me = userRes.data.users.find(user => user.id === myId)
-      let existingConvos = userRes.data.users.filter(user => user.conversations.some(c => me.conversations.includes(c) && user.id !== myId))
-      // holy crap it works 
+      let userRes
+      let convoRes
+      try{
+      userRes = await api.get('/users')
+      } catch (err) {
+        setError("could not get users")
+        setShowError(true);
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
       
+      try{
+        convoRes = await api.get(`/convos/messages/${myId}`)
+      } catch (err) {
+        setError("could not get convos")
+        setShowError(true);
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       setUsers(userRes.data.users)
-      setConvos(convoRes.data.convos)
-      setChattingUsers(existingConvos)
-      console.log(userRes, convoRes, existingConvos)
+
+      // let me = userRes.data.users.find(user => user.id === myId)
+      let existingConvos
+      // if (convoRes) {
+      //   existingConvos = userRes.data.users.filter(user => user.conversations.some(c => me.conversations.includes(c) && user.id !== myId))
+      //   setConvos(convoRes.data.convos)
+      //   setChattingUsers(existingConvos)
+      // }
+     console.log(myId)
     }
     fetchUsers()
   },[])
@@ -37,6 +61,7 @@ const NewMessage = () => {
   useEffect(() => {
     if (users) {
       setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query) || user.name.toLowerCase().includes(query)))
+      console.log("firing")
       //eventually also make this filter so the more followed/or match those already with a conversation are at the top
     }
   },[query, users])
@@ -56,7 +81,6 @@ const NewMessage = () => {
 
   const queryHandler = (e) => {
     setQuery(e.target.value)
-    //filter the users based on the query
     console.log(displayedUsers)
     console.log(query)
   }
@@ -83,13 +107,18 @@ const NewMessage = () => {
   } 
 
   const data = () => {
-    console.log(chattingUsers)
+    console.log(users)
   }
 
 
 
   return(
     <div className="new-private-message-wrapper">
+      <ErrorModal 
+      show={showError}
+      children={<p className="errorText">{error}</p>}
+      
+      />
 
       <div className="new-message-header-wrapper">
         <NavLink to="/inbox" className="new-message-back-wrapper">
@@ -110,7 +139,7 @@ const NewMessage = () => {
           </div>}
       </div>
       <div className="new-message-spacer"></div>
-
+      <button onClick={data}>Click me</button>
 
 
 

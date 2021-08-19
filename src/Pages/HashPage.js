@@ -1,13 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import './HashPage.css';
 import {BsChevronLeft} from 'react-icons/bs'
 import { useParams } from 'react-router-dom'
 import api from '../Static/axios';
 import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
+import ErrorModal from '../Components/Reusable/ErrorModal';
+import { AuthContext } from '../Context/auth-context';
 
 const HashPage = () => {
-  let myId = "60f701da7c0a002afd585c03"
+  let auth = useContext(AuthContext)
+  let myId = auth.userId
   let history = useHistory()
   const [posts, setPosts] = useState()
   const [recent, setRecent] = useState();
@@ -16,11 +19,13 @@ const HashPage = () => {
   const [followedHashTags, setFollowedHashTags] = useState([])
   const params = useParams().hash;
   const fullParams = `#${params}`
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState(false)
 
  
 
   async function getUser() {
-    const res = await api.get('users/60f701da7c0a002afd585c03')
+    const res = await api.get(`users/${myId}`)
     setUser(res.data.user);
     setFollowedHashTags(res.data.user.followedHash)
     console.log(res.data.user)
@@ -41,18 +46,28 @@ useEffect(() => {
 }, [])
 
 const followHandler = async() => {
-  const res = await api.patch('users/hashtags/60f701da7c0a002afd585c03', {hashTag: fullParams})
+  const res = await api.patch(`users/hashtags/${myId}`, {hashTag: fullParams})
   console.log(res)
   if (followedHashTags.includes(fullParams)) {
     setFollowedHashTags(followedHashTags.filter(h => h !== fullParams))
+    setError(`Unfollowed ${fullParams}`)
+    setShowError(true)
+
   } else {
     setFollowedHashTags([...followedHashTags, fullParams])
+    setError(`Followed ${fullParams}`)
+    setShowError(true)
   }
+  setTimeout(function() {setShowError(false)}, 2000)
 }
 
 
   return (
     <div className="hash-page-wrapper">
+       <ErrorModal
+     show={showError}
+     children={<p className="errorText">{error}</p>}
+    />
       <div className="hash-page-header">
         <p>{`#${params}`}</p>
         <div className="hash-page-back">

@@ -17,6 +17,25 @@
   font-weight: bold;
 }
 
+.activity-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
+}
+
+.activity-back-navlink {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
 .no-activity-circle {
   width: 3.8rem;
   height: 3.8rem;

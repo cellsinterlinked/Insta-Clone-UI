@@ -62,3 +62,46 @@
 .convo-margin {
   margin-top: 3rem;
 }
+
+.no-convos-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-convos-wrapper p {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0;
+}
+
+.no-convos-wrapper h1 {
+  font-weight: 300;
+  font-size: 1.7rem;
+}
+
+.no-convos-circle {
+  width: 3.8rem;
+  height: 3.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 50%;
+  margin-top: 3rem;
+}
+
+.no-convos-icon {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.new-dm-link {
+  text-decoration: none;
+  color: #0095f6;
+  font-weight: bold;
+  font-size: 0.9rem;
+}

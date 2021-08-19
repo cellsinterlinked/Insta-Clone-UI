@@ -7,6 +7,7 @@ import api from '../Static/axios';
 import * as yup from 'yup';
 import './Auth.css';
 import { AuthContext } from '../Context/auth-context';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 
 const schemaLogin = yup.object().shape({
@@ -25,6 +26,8 @@ const schemaSignUp = yup.object().shape({
 const Auth = () => {
   const auth = useContext(AuthContext)
   const [login, setLogin] = useState(true);
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState(false)
 
  
   const {register, handleSubmit, errors, formState} = useForm({
@@ -46,27 +49,40 @@ const Auth = () => {
   }
 
   const loginSubmitHandler = (data) => {
+    let res;
     console.log(data)
     async function sendLogin() {
-      const res = await api.post('users/login', data, {headers: {'Content-Type': 'application/json'}})
-      console.log(res)
+      try {
+        res = await api.post('users/login', data, {headers: {'Content-Type': 'application/json'}})
+        console.log(res)
+        auth.login(res.data.userId, res.data.token, res.data.userName)
+      } catch (err) {
+        setError("Check your credentials and try again")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+        
     }
     sendLogin()
-    auth.login()
-  }
+    }
 
   const signupSubmitHandler = (data) => {
+    let res
     console.log(data)
     async function sendSignUp() {
-      const res = await api.post('users/signup', data, {headers: {'Content-Type': 'application/json'}})
+     res = await api.post('users/signup', data, {headers: {'Content-Type': 'application/json'}})
       console.log(res)
+      auth.login(res.data.userId, res.data.token, res.data.userName)
     }
     sendSignUp()
-    auth.login()
   }
 
   return (
     <div>
+      <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
       <p>{auth.isLoggedIn}</p>
       <h2 className="auth-head text-center">Nonurgentgram</h2>
       {login && 

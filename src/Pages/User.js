@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import api from '../Static/axios';
 import { useParams, NavLink } from 'react-router-dom';
 import { BsChevronLeft} from 'react-icons/bs';
@@ -18,10 +18,13 @@ import { MdSettingsInputAntenna } from 'react-icons/md';
 import Post from '../Components/Reusable/Post';
 import BottomNav from '../Components/Navigation/BottomNav';
 import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../Context/auth-context';
 
 
 
 const User = () => {
+const auth = useContext(AuthContext);
+const myId = auth.userId
 let history = useHistory()
 const [page, setPage] = useState(1)
 const [posts, setPosts] = useState([])
@@ -33,7 +36,7 @@ const [tagged, setTagged] = useState()
 
 useEffect(() => {
   async function getViewer() {
-    const res = await api.get('users/60f701da7c0a002afd585c03')
+    const res = await api.get(`users/${myId}`)
     console.log(res);
     setViewer(res.data.user)
   }
@@ -70,7 +73,7 @@ useEffect(() => {
 
 const likeHandler = (postId) => {
   async function likeClick() {
-    const res = await api.patch(`posts/likes/${postId}`, {user: "60f701da7c0a002afd585c03"})
+    const res = await api.patch(`posts/likes/${postId}`, {user: myId})
     console.log(res)
     setLoading(!loading);
   }
@@ -175,7 +178,7 @@ const messageHandler = () => {
         {page === 2 && 
         <div className="profile-stream-wrapper">
           {posts.map((post, index) => 
-            <Post post={post} key={index} myId={"60f701da7c0a002afd585c03"} user={user} viewer={viewer} likeHandler={likeHandler} loading={loading}/>
+            <Post post={post} key={index} myId={myId} user={user} viewer={viewer} likeHandler={likeHandler} loading={loading}/>
           )}
         </div>
         

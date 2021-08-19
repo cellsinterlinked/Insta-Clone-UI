@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import api from '../Static/axios';
 import './Following.css';
 import { BsChevronLeft } from 'react-icons/bs';
@@ -6,9 +6,11 @@ import { NavLink } from 'react-router-dom'
 import ListPerson from '../Components/Reusable/ListPerson';
 import { IoPersonAddOutline } from 'react-icons/io5' ;
 import BottomNav from '../Components/Navigation/BottomNav';
+import { AuthContext } from '../Context/auth-context';
 
 const Followers = () => {
-  const myId = "60f701da7c0a002afd585c03"
+  const auth = useContext(AuthContext)
+  const myId = auth.userId
   const [popular, setPopular] = useState()
   const [followers, setFollowers] = useState()
   const [people, setPeople] = useState(true)
@@ -16,7 +18,7 @@ const Followers = () => {
 
   useEffect(() => {
     async function fetchFollowing() {
-      const res = await api.get('users/followers/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/followers/${myId}`)
       console.log(res)
       if (res.data.users.length > 0) {
       setFollowers(res.data.users) }
@@ -37,7 +39,7 @@ const Followers = () => {
 
 
   const removeFollowing = async (friend) => {
-    const res = await api.patch('users/following/60f701da7c0a002afd585c03', {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
+    const res = await api.patch(`users/following/${myId}`, {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
     console.log(res)
     setLoading(!loading)
   }
@@ -47,7 +49,7 @@ const Followers = () => {
     
 
   const addFollowing = async (friend) => {
-    const res = await api.patch('users/following/60f701da7c0a002afd585c03', {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
+    const res = await api.patch(`users/following/${myId}`, {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
     console.log(res);
     setLoading(!loading)
   }

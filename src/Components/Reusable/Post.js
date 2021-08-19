@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import '../../Pages/Landing.css';
 import './Post.css';
 import {BiDotsVerticalRounded} from 'react-icons/bi';
@@ -13,13 +13,19 @@ import Modal from './Modal';
 import api from '../../Static/axios';
 import { useHistory } from 'react-router-dom';
 import ErrorModal from '../Reusable/ErrorModal';
+import { AuthContext } from '../../Context/auth-context';
 
 
-const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => {
+
+const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) => {
   const [showModal, setShowModal] = useState(false)
+  const [showError, setShowError] = useState(false)
+  const [error, setError] = useState()
   const [timeDisplay, setTimeDisplay] = useState()
   const [time, setTime] = useState()
   const history = useHistory()
+  const auth = useContext(AuthContext)
+  const myId = auth.userId
   const cancelModalHandler = () => {
     setShowModal(false)
   }
@@ -47,7 +53,7 @@ const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => 
   const removeFollowing = async() => {
 
     async function unfollow() {
-      const res = await api.patch('users/following/60f701da7c0a002afd585c03', {otherUser: user.id})
+      const res = await api.patch(`users/following/${myId}`, {otherUser: user.id})
       console.log(res)
       setShowModal(false);
 
@@ -56,19 +62,36 @@ const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => 
     history.push('/home')
 
   }
+
+  const deleteHandler = async () => {
+  const res = await api.delete(`posts/${post.id}`, {}, {headers: {Authorization: 'Bearer ' + auth.token}})
+  console.log(res)
+  setShowModal(false)
+  setError("Post deleted")
+  setShowError(true);
+  setTimeout(function() {setShowError(false)}, 2000)
+  history.goBack();
+
+  }
   
 
   return(
   <div className='post-wrapper'>
+
+    <ErrorModal
+     show={showError}
+     children={<p className="errorText">{error}</p>}
+    />
    
     <Modal 
     show={showModal}
     onCancel={cancelModalHandler}
     children= {
       <div className="post-modal-wrapper">
-        <a href="https://www.mentalhealth.gov/get-help/immediate-help" target="_blank" className="danger-post-modal-button" rel="noopener noreferrer">Report</a>
-        <div className="danger-post-modal-button" onClick={removeFollowing}>Unfollow</div>
-        <NavLink to={`/post/${post.id}`} className="post-modal-button">Go To Post</NavLink>
+        {myId !== post.user && <a href="https://www.mentalhealth.gov/get-help/immediate-help" target="_blank" className="danger-post-modal-button" rel="noopener noreferrer">Report</a>}
+        {myId !== post.user && <div className="danger-post-modal-button" onClick={removeFollowing}>Unfollow</div>}
+        {myId === post.user && <div className="danger-post-modal-button" onClick={deleteHandler}>Delete</div>}
+        {!params && <NavLink to={`/post/${post.id}`} className="post-modal-button">Go To Post</NavLink>}
         <div className="post-modal-button last-button-post-modal" onClick={cancelModalHandler}>Cancel</div>
       </div>
     }
@@ -131,6 +154,7 @@ const Post = ({post, user, likeHandler, myId, loading, saveHandler, viewer}) => 
               {timeDisplay === "longTime" && <p>{post.date.monthString} {post.date.day} {post.date.year}</p>}
               
             </div>}
+        
             
           </div>
         </div>

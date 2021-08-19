@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import api from '../Static/axios';
 import './Following.css';
 import { useParams } from 'react-router-dom';
@@ -7,9 +7,11 @@ import { NavLink } from 'react-router-dom';
 import { BsChevronLeft } from 'react-icons/bs';
 import './Following.css';
 import BottomNav from '../Components/Navigation/BottomNav'
+import { AuthContext } from '../Context/auth-context';
 
 const ProfileFollowing = () => {
-  const myId = "60f701da7c0a002afd585c03"
+  const auth = useContext(AuthContext);
+  const myId = auth.userId;
   const params = useParams().username;
   const [following, setFollowing] = useState();
   const [loading, setLoading] = useState(false)
@@ -26,7 +28,7 @@ const ProfileFollowing = () => {
 
   const removeFollowing = async (friend) => {
     
-    const res = await api.patch('users/following/60f701da7c0a002afd585c03', {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
+    const res = await api.patch(`users/following/${myId}`, {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
     console.log(res)
     setLoading(loading)
   }

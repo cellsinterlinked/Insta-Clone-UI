@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './EditProfile.css';
 import { BsChevronLeft } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { useForm, useFormState } from 'react-hook-form';
 import { yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Axios from 'axios';
+import { AuthContext } from '../Context/auth-context';
 
 
 const EditProfile = () => {
@@ -29,12 +30,13 @@ const EditProfile = () => {
 
 
 
-
+  const auth = useContext(AuthContext);
+  const myId = auth.userId
   const [user, setUser] = useState()
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get('users/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/${myId}`)
       console.log(res)
       setUser(res.data.user)
     }

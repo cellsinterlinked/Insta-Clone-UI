@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './Landing.css';
 import './Home.css';
 import Post from '../Components/Reusable/Post';
@@ -10,14 +10,17 @@ import api from '../Static/axios';
 import { NavLink } from 'react-router-dom';
 import BottomNav from '../Components/Navigation/BottomNav';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import Spinner from '../Components/Reusable/Spinner';
+import {AuthContext} from '../Context/auth-context';
 
 
 
 
 const Home = () => {
-  const myId = "60f701da7c0a002afd585c03"
+  const auth = useContext(AuthContext)
+  const myId = auth.userId
   const [loading, setLoading] = useState(false)
-  const [followed, setFollowed] = useState()
+  const [followed, setFollowed] = useState([])
   const [posts, setPosts] = useState();
   const [user, setUser] = useState();
   const [error, setError] = useState()
@@ -28,7 +31,7 @@ const Home = () => {
   
   useEffect(() => {
     async function getUser() {
-      const res = await api.get('users/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/${auth.userId}`)
       console.log(res);
       const annoying = res.data.user
       setUser(annoying)
@@ -39,7 +42,7 @@ const Home = () => {
   
   useEffect(() => {
     async function fetchFollowed () {
-      const res = await api.get('users/following/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/following/${auth.userId}`)
       console.log(res);
       setFollowed(res.data.users)
     }
@@ -48,7 +51,7 @@ const Home = () => {
   
   useEffect(() => {
     async function fetchPosts() {
-      const res = await api.get('posts/followed/60f701da7c0a002afd585c03')
+      const res = await api.get(`posts/followed/${auth.userId}`)
       console.log(res)
       setPosts(res.data.posts.reverse())
     }
@@ -57,7 +60,7 @@ const Home = () => {
   
   const saveHandler = (postId) => {
     async function saveClick() {
-      const res = await api.patch(`users/saves/${myId}`, {postId: postId})
+      const res = await api.patch(`users/saves/${auth.userId}`, {postId: postId})
       if (user.saves.includes(postId)) {
         setError("Removed this post from saves")
         setShowError(true)
@@ -74,7 +77,7 @@ const Home = () => {
 
   const likeHandler = (postId) => {
     async function likeClick() {
-      const res = await api.patch(`posts/likes/${postId}`, {user: "60f701da7c0a002afd585c03"})
+      const res = await api.patch(`posts/likes/${postId}`, {user: myId})
       const thisPost = posts.find(post => post.id === postId)
       if (thisPost.likes.includes(myId)) {
         setError("you unliked this post")
@@ -105,6 +108,7 @@ const Home = () => {
           <h1 className="home-head-text">Nonurgentgram</h1>
       <NavLink to={`/inbox`} className="right-home-head-wrapper"><IoPaperPlaneOutline className="home-icon"/></NavLink>
       </div>
+      
       <div className="home-carousel-wrapper">
         { followed && <div className="friends-carousel">
           <div className="carousel-item-container">
@@ -132,7 +136,7 @@ const Home = () => {
      <Post  
         post={post} 
         key={index} 
-        myId={"60f701da7c0a002afd585c03"} 
+        myId={myId} 
         user={followed.find(u => u.id === post.user)} 
         likeHandler={likeHandler}  
         saveHandler={saveHandler}  

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import api from '../Static/axios';
 import './Account.css';
 import './User.css';
@@ -13,6 +13,7 @@ import { NavLink } from 'react-router-dom';
 import Post from '../Components/Reusable/Post';
 import BottomNav from '../Components/Navigation/BottomNav';
 import { FiCamera } from 'react-icons/fi';
+import { AuthContext } from '../Context/auth-context';
 
 //you were turning following into navlink on thursday
 
@@ -20,7 +21,9 @@ import { FiCamera } from 'react-icons/fi';
 
 
 const Account = () => {
-
+  const auth = useContext(AuthContext);
+  const myId = auth.userId;
+  const myName = auth.userName;
   const [user, setUser] = useState()
   const [posts, setPosts] = useState();
   const [button, setButton] = useState(1)
@@ -30,7 +33,7 @@ const Account = () => {
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get('users/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/${myId}`)
       console.log(res);
       setUser(res.data.user)
     }
@@ -39,7 +42,7 @@ const Account = () => {
 
   useEffect(() => {
     async function getPosts() {
-      const res = await api.get(`/posts/user/60f701da7c0a002afd585c03`)
+      const res = await api.get(`/posts/user/${myId}`)
       console.log(res)
       setPosts(res.data.posts.reverse())
   
@@ -49,7 +52,7 @@ const Account = () => {
 
   useEffect(() => {
     async function getTagged() {
-      const res = await api.get(`/posts/tagged/P_Meng`)
+      const res = await api.get(`/posts/tagged/${myName}`)
       setTagged(res.data.posts.reverse())
       
     }
@@ -58,7 +61,7 @@ const Account = () => {
 
   useEffect(() => {
     async function getSaved() {
-      const res = await api.get('users/saved/60f701da7c0a002afd585c03')
+      const res = await api.get(`users/saved/${myId}`)
       console.log(res);
       setSaved(res.data.posts.reverse())
     }
@@ -197,7 +200,7 @@ const Account = () => {
         {button === 2 && posts &&
         <div className="profile-stream-wrapper">
           {posts.map((post, index) => 
-            <Post post={post} key={index} myId={"60f701da7c0a002afd585c03"} user={user}  loading={loading}/>
+            <Post post={post} key={index} myId={myId} user={user}  loading={loading}/>
           )}
         </div>
         

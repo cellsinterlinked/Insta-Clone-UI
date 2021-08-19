@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './NewPost.css';
 import { BsChevronLeft } from 'react-icons/bs';
 import { NavLink } from 'react-router-dom';
@@ -15,6 +15,7 @@ import { useHistory } from 'react-router-dom'
 import FullModal from '../Components/Reusable/FullModal';
 import './Search.css';
 import { MdCancel } from 'react-icons/md';
+import { AuthContext } from '../Context/auth-context';
 
 const NewPost = () => {
 
@@ -39,6 +40,8 @@ const NewPost = () => {
   const [users, setUsers] = useState()
   const [displayedUsers, setDisplayedUsers] = useState()
   const [selectedTags, setSelectedTags] = useState([])
+  const auth = useContext(AuthContext)
+  const myId = auth.userId
 
 
   useEffect(() => {
@@ -101,7 +104,11 @@ const NewPost = () => {
       let newImageUrl = res.data.url;
       let results;
       if (newImageUrl !== undefined) {
-       results = await api.post("posts", {description: description, image: newImageUrl, user: "60f701da7c0a002afd585c03", hashTags: tags, tags: selectedTags})
+       results = await api.post(
+         "posts", 
+         {description: description, image: newImageUrl, user: myId, hashTags: tags, tags: selectedTags},
+         {headers: {Authorization : 'Bearer ' + auth.token}}
+         )
       }
       console.log(results)
     }
@@ -217,10 +224,10 @@ const NewPost = () => {
       </div>
       </form>
 
-      <div className="add-location-wrapper">
+      {/* <div className="add-location-wrapper">
         <p className="post-add-text">Add Location</p>
         <BsChevronRight className="add-to-post-arrow" />
-      </div>
+      </div> */}
 
       <div className= 'tag-person-wrapper' onClick={setModal}>
         <p className="post-add-text">Tag People</p>

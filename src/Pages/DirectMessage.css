@@ -157,6 +157,23 @@
   font-size: 0.9rem;
 }
 
+.reciever-heart-wrapper {
+  justify-self: flex-start;
+  max-width: 55%;
+  margin-left: 3rem;
+
+  padding: 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.message-heart {
+  height: 3rem;
+  width: 3rem;
+  color: rgb(204, 0, 0);
+}
+
 .reciever-image-wrapper {
   justify-self: flex-start;
   max-width: 60%;
@@ -202,6 +219,18 @@
   margin-right: 1rem;
   border: 1px solid #efefef;
   background-color: #efefef;
+  padding: 0.8rem;
+  border-radius: 20px;
+  margin-bottom: 0.6rem;
+  font-size: 0.9rem;
+}
+
+.sender-heart-wrapper {
+  display: flex;
+  align-self: flex-end;
+  max-width: 58%;
+  margin-right: 1rem;
+
   padding: 0.8rem;
   border-radius: 20px;
   margin-bottom: 0.6rem;
@@ -355,6 +384,7 @@
   min-height: 100%;
   min-width: 100%;
   max-width: 150%;
+  object-fit: cover;
 }
 
 .members-names-wrapper {

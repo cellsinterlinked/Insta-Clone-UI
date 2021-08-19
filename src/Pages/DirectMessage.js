@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import './DirectMessage.css';
 import { BsChevronLeft } from 'react-icons/bs';
 import { BsImage } from 'react-icons/bs';
 import { BsHeart } from 'react-icons/bs';
+import { BsHeartFill } from 'react-icons/bs';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import api from '../Static/axios';
 import { useParams, NavLink } from 'react-router-dom';
@@ -12,7 +13,8 @@ import * as yup from 'yup';
 import Axios from 'axios'
 import FullModal from '../Components/Reusable/FullModal';
 import Modal from '../Components/Reusable/Modal';
-import { useHistory } from 'react-router-dom' 
+import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../Context/auth-context'; 
 
 const schemaText = yup.object().shape({
   message: yup.string().required().min(1)
@@ -40,7 +42,8 @@ const DirectMessage = () => {
 
 
   const history = useHistory()
-  const myId = "60f701da7c0a002afd585c03"
+  const auth = useContext(AuthContext)
+  const myId = auth.userId;
   const params = useParams().convoId;
   const [user, setUser] = useState()
   const [convo, setConvo] = useState()
@@ -77,15 +80,23 @@ const DirectMessage = () => {
   }
 
   const sendTextHandler = (data) => {
-    console.log(data)
     async function sendText() {
      const res = await api.patch(`convos/${params}`, {user: myId, message: data.message, image: ""})
-     console.log(res)
      setLoading(!loading)
     }
     sendText()
     reset({})
   }
+
+
+  const sendHeartHandler = () => {
+    async function sendHeart() {
+      const res = await api.patch(`convos/${params}`, {user: myId, message: "<3", image: ""})
+      setLoading(!loading)
+     }
+     sendHeart()
+    }
+
 
   const sendImageHandler = async(event) => {
     let pickedFile;
@@ -106,7 +117,7 @@ const DirectMessage = () => {
       let newImageUrl = res.data.url;
       let results;
       if (newImageUrl !== undefined) {
-       results = await api.patch(`convos/${params}`, {message:"message", image: newImageUrl, user: "60f701da7c0a002afd585c03"})
+       results = await api.patch(`convos/${params}`, {message:"message", image: newImageUrl, user: myId})
       }
       console.log(results)
       setLoading(!loading)
@@ -221,10 +232,16 @@ const DirectMessage = () => {
          
           {toStandardTime(message.date.fullDate.slice(11, 19))}</div>}
 
-        {(!message.image || message.image === "") && <div 
+        {(!message.image || message.image === "") && (message.message !== "<3") && <div 
         className={message.user === myId ? "sender-message-wrapper" : "reciever-message-wrapper"}
         >
         {message.message}
+        </div>}
+
+        {message.message === "<3" && 
+        <div className={message.user === myId ? "sender-heart-wrapper" : "reciever-heart-wrapper"}>
+         <BsHeartFill className="message-heart"/> 
+          
         </div>}
 
         {(message.image && message.image !== "") && 
@@ -257,7 +274,7 @@ const DirectMessage = () => {
           <input className="message-image-input" type="file" name="image" {...register2("image")} onChange={sendImageHandler} />
 
         </form>}
-        {!formState.isValid && <div className="message-input-icon2">
+        {!formState.isValid && <div className="message-input-icon2" onClick={sendHeartHandler}>
           <BsHeart className="messageInput-Icon" />
         </div>}
 
