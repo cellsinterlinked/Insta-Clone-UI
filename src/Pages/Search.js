@@ -56,7 +56,8 @@ const Search = () => {
     async function fetchUsers() {
       const res = await api.get('users')
       console.log(res)
-      setUsers(res.data.users)
+      let allUsers = res.data.users.filter(user => user.id !== myId)
+      setUsers(allUsers)
     }
     fetchUsers()
 

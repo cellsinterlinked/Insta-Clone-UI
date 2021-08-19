@@ -39,9 +39,9 @@ const Inbox = () => {
   return(
     <div className="inbox-wrapper">
       <div className="inbox-header-wrapper">
-        <div onClick={history.goBack} className="inbox-back-wrapper">
+        <NavLink to="/home" className="inbox-back-wrapper">
           <BsChevronLeft className="inbox-back-icon" />
-        </div>
+        </NavLink>
         <p>Direct</p>
         <NavLink to="/direct/new" className ="new-message-wrapper">
           <BsPencilSquare className="new-message-icon"/>

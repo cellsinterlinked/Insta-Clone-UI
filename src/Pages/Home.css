@@ -125,3 +125,46 @@
   padding-top: 9.8rem;
   padding-bottom: 3.2rem;
 }
+
+.no-feed-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-feed-wrapper h1 {
+  font-weight: 300;
+  font-size: 1.7rem;
+}
+
+.no-feed-wrapper p {
+  margin-left: 3rem;
+  margin-right: 3rem;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0;
+}
+
+.no-feed-circle {
+  width: 3.8rem;
+  height: 3.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 50%;
+  margin-top: 3rem;
+}
+
+.no-feed-icon {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.no-feed-link {
+  text-decoration: none;
+  color: #0095f6;
+  font-weight: bold;
+  font-size: 0.9rem;
+}

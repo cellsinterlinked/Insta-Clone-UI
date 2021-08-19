@@ -60,6 +60,7 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
     }
     await unfollow()
     history.push('/home')
+    //get rid of this history.push/ make this function for follow or unfollow. Also needs to refresh this component's page. 
 
   }
 

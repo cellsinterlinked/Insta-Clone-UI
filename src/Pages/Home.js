@@ -12,6 +12,7 @@ import BottomNav from '../Components/Navigation/BottomNav';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import Spinner from '../Components/Reusable/Spinner';
 import {AuthContext} from '../Context/auth-context';
+import { CgDisplayFullwidth } from 'react-icons/cg';
 
 
 
@@ -132,6 +133,18 @@ const Home = () => {
       </div>
 
      <div className="home-list-container">
+
+     {user && (!followed || !posts) &&
+      <div className="no-feed-wrapper">
+        <div className="no-feed-circle">
+          <CgDisplayFullwidth className="no-feed-icon"/>
+        </div>
+        <h1>Your Feed Is Empty!</h1>
+        <p>When you follow other users or hashtags their posts will display here.</p>
+        <NavLink to="/search" className="no-feed-link"><p>Search for users/hashtags to follow</p></NavLink>
+        
+      </div>}
+
      {posts && followed && user && posts.map((post, index) => 
      <Post  
         post={post} 
