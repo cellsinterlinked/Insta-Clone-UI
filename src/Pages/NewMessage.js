@@ -18,7 +18,7 @@ const NewMessage = () => {
   const [users, setUsers] = useState()
   const [convos, setConvos] = useState()
   const [displayedUsers, setDisplayedUsers] = useState()
-  const [chattingUsers, setChattingUsers] = useState()
+  const [chattingUsers, setChattingUsers] = useState([])
   const [error, setError] = useState();
   const [showError, setShowError] = useState(false);
 
@@ -34,6 +34,7 @@ const NewMessage = () => {
         setShowError(true);
         setTimeout(function() {setShowError(false)}, 2000)
       }
+      setUsers(userRes.data.users)
       
       try{
         convoRes = await api.get(`/convos/messages/${myId}`)
@@ -42,20 +43,19 @@ const NewMessage = () => {
         setShowError(true);
         setTimeout(function() {setShowError(false)}, 2000)
       }
+      setConvos(convoRes.data.convos)
 
-      setUsers(userRes.data.users)
 
-      // let me = userRes.data.users.find(user => user.id === myId)
+      let me = userRes.data.users.find(user => user.id === myId)
       let existingConvos
-      // if (convoRes) {
-      //   existingConvos = userRes.data.users.filter(user => user.conversations.some(c => me.conversations.includes(c) && user.id !== myId))
-      //   setConvos(convoRes.data.convos)
-      //   setChattingUsers(existingConvos)
-      // }
+      if (convoRes) {
+        existingConvos = userRes.data.users.filter(user => user.conversations.some(c => me.conversations.includes(c) && user.id !== myId))
+        setChattingUsers(existingConvos)
+      }
      console.log(myId)
     }
     fetchUsers()
-  },[])
+  },[myId])
   
   
   useEffect(() => {
@@ -91,25 +91,18 @@ const NewMessage = () => {
     let res;
     if (chattingUsers.filter(user => user.id === selected).length !== 0) {
       chosenUser = await users.find(user => user.id === selected )
-      console.log(chosenUser)
       ourConvo = await chosenUser.conversations.find(convo => convos.some(c => c.id === convo)) //this isn't working. this is stupid. it only has the convoId.
-      console.log(ourConvo)
-      console.log(convos)
       history.push(`/direct/${ourConvo}`)
     }
-
-
     if (chattingUsers.filter(user => user.id === selected).length === 0) {
      res = await api.post('convos', {user1: myId, user2: selected, message:"init", image: ""})
-          console.log(res.data.convo.id);
-           history.push(`/direct/${res.data.convo.id}`)
+      history.push(`/direct/${res.data.convo.id}`)
     }
   } 
 
-  const data = () => {
-    console.log(users)
-  }
 
+
+  
 
 
   return(
@@ -139,14 +132,14 @@ const NewMessage = () => {
           </div>}
       </div>
       <div className="new-message-spacer"></div>
-      <button onClick={data}>Click me</button>
+     
 
 
 
 
       {query === "" && 
       <div className="new-message-suggested-wrapper" >
-        <p className="new-message-suggested-text">Suggested</p>
+        {convos && <p className="new-message-suggested-text">Suggested</p>}
         {chattingUsers && chattingUsers.length > 0 && 
         <div className="new-message-user-container">
           {chattingUsers.map((user, index) =>
@@ -162,14 +155,14 @@ const NewMessage = () => {
           )}
         </div>}
 
-        <button onClick={data}></button>
+        
       </div>
     }
 
 
     {query !== "" && 
     <div className="new-message-suggested-wrapper">
-      { displayedUsers && displayedUsers.length > 0 &&
+      { displayedUsers && displayedUsers.length > 0 && !selected &&
       <div className="new-message-user-container">
       {displayedUsers.map((user, index) =>
         <div key={index} className="new-message-user-object" onClick={() => selectHandler(user.id)} style={{backgroundColor: selected === user.id ? "#e9e9e9" : "white"}}>

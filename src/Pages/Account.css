@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: row;
   height: 20%;
-  border-bottom: 1px solid #dbdbdb;
+  /* border-bottom: 1px solid #dbdbdb; */
 }
 
 .account-profile-wrapper {
@@ -205,4 +205,230 @@
 .no-posts-icon {
   height: 2rem;
   width: 2rem;
+}
+
+.account-optional-details-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  border-bottom: 1px solid #dbdbdb;
+  padding-bottom: 10px;
+}
+
+.userBio {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.bio-userName {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-bottom: 5px;
+}
+
+.userSite {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-top: 5px;
+  color: rgb(46, 76, 139);
+  text-decoration: none;
+}
+
+.system-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.system-options-wrapper p {
+  color: red;
+  font-size: 0.9rem;
+  margin-left: 1.3rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+}
+
+.system-options-wrapper a {
+  color: red;
+  font-size: 0.9rem;
+  margin-left: 1.3rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+  font-weight: 400;
+  text-decoration: none;
+}
+.system-options-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 2.8rem;
+  background-color: white;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.system-options-header p {
+  font-weight: bold;
+  color: black;
+}
+
+.system-options-back {
+  left: 0.7rem;
+  top: auto;
+  bottom: auto;
+  height: 2.2rem;
+  width: 2.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  text-decoration: none;
+}
+
+.system-user-container {
+  margin-top: 2rem;
+  height: 9rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.system-user-container p {
+  font-weight: bold;
+  font-size: 1rem;
+  margin-left: 1.3rem;
+  margin-top: 0;
+}
+
+.system-details-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+}
+
+.system-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+  height: 3.5rem;
+  width: 3.5rem;
+  margin-left: 1.3rem;
+}
+
+.system-image-wrapper img {
+  max-height: 140%;
+  min-height: 100%;
+  min-width: 100%;
+  max-width: 150%;
+  object-fit: cover;
+}
+
+.system-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.system-name-wrapper p {
+  font-size: 0.9rem;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}
+
+.system-options-wrapper {
+  border-bottom: 1px solid #dbdbdb;
+  height: 8.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.delete-modal-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.danger-delete-modal-button {
+  width: 100%;
+  height: 2.9rem;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  color: red;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.delete-modal-button {
+  width: 100%;
+  height: 2.9rem;
+  border-bottom: 1px solid #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  color: black;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.last-button-delete-modal {
+  border-bottom: none;
+}
+
+.delete-modal-text-wrapper {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.delete-modal-text-wrapper p {
+  color: #8e8e8e;
+  text-align: center;
+  font-size: 0.9rem;
+  margin-left: 1.8rem;
+  margin-right: 1.8rem;
+  margin-bottom: 2rem;
+  font-weight: 500;
+}
+
+.delete-modal-text-wrapper h1 {
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.system-back-icon {
+  color: black;
+  height: 1.3rem;
+  width: 1.3rem;
 }

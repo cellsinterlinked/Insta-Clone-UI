@@ -15,6 +15,7 @@ import ErrorModal from '../Components/Reusable/ErrorModal';
 import { BsChevronLeft} from 'react-icons/bs';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../Context/auth-context';
+import Modal from '../Components/Reusable/Modal';
 
 
 
@@ -94,6 +95,11 @@ const Activity = () => {
      show={showError}
      children={<p className="errorText">{error}</p>}
     />
+    
+
+
+
+
       <div className="activity-header">
       <div onClick={history.goBack} className="activity-back-navlink"><BsChevronLeft className="activity-back-icon"/></div>
         <p>Activity</p>
@@ -105,7 +111,7 @@ const Activity = () => {
       </div>
       <h1>Activity On Your Posts</h1>
       <p>When someone likes or comments on one of your posts, you'll see it here.</p>
-      <a href="/create">Share your first photo.</a>
+      <a href="/create">Share a photo.</a>
     </div>}
 
     {user && users && user.activity.length !== 0 && 

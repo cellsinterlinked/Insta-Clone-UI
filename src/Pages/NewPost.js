@@ -30,7 +30,8 @@ const NewPost = () => {
   })
   
   const { register, handleSubmit, errors, formState} = useForm({
-    validationSchema: schema,
+    resolver: yupResolver(schema),  // these were the latest changes in case it breaks
+    // mode: "onChange"
   })
   const [previewUrl, setPreviewUrl] = useState();
   const [file, setFile] = useState()
@@ -198,7 +199,7 @@ const NewPost = () => {
         </NavLink>
         <p>New Post</p>
         <button type="submit" disabled={!formState.isValid} className="new-post-share-button">
-          <p >Share</p>
+          Share
         </button>
       </div>
 

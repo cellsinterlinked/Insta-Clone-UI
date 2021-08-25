@@ -38,7 +38,7 @@ const Home = () => {
       setUser(annoying)
     }
     getUser()
-  }, [loading, posts])
+  }, [loading, posts, auth.userId])
   
   
   useEffect(() => {
@@ -48,7 +48,7 @@ const Home = () => {
       setFollowed(res.data.users)
     }
     fetchFollowed()
-  }, [loading])
+  }, [loading, auth.userId])
   
   useEffect(() => {
     async function fetchPosts() {
@@ -57,7 +57,7 @@ const Home = () => {
       setPosts(res.data.posts.reverse())
     }
     fetchPosts()
-  }, [loading])
+  }, [loading, auth.userId])
   
   const saveHandler = (postId) => {
     async function saveClick() {
@@ -134,7 +134,7 @@ const Home = () => {
 
      <div className="home-list-container">
 
-     {user && (!followed || !posts) &&
+     {user && myId && !posts &&
       <div className="no-feed-wrapper">
         <div className="no-feed-circle">
           <CgDisplayFullwidth className="no-feed-icon"/>
@@ -145,7 +145,7 @@ const Home = () => {
         
       </div>}
 
-     {posts && followed && user && posts.map((post, index) => 
+     {posts && myId && followed && user && posts.map((post, index) => 
      <Post  
         post={post} 
         key={index} 

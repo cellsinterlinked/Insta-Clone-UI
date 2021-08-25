@@ -55,20 +55,13 @@
   outline: none;
   border: none;
   background-color: transparent;
+  font-weight: bold;
+  color: #0095f6;
+  font-size: 1rem;
 }
 
 .new-post-share-button:disabled {
   opacity: 0.5;
-}
-
-.new-post-share-button:disabled p {
-  opacity: 0.5;
-}
-
-.new-post-share-button p {
-  font-weight: bold;
-  color: #0095f6;
-  font-size: 1rem;
 }
 
 .new-post-info1-wrapper {

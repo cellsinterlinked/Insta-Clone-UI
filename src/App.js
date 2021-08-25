@@ -50,6 +50,7 @@ function App() {
 
   const logout = useCallback(() => {
     setToken(null);
+    setTokenExpirationDate(null);
     setUserId(null);
     setUserName(null);
     localStorage.removeItem('userData');

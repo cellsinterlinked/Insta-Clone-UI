@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 import { BsChevronLeft } from 'react-icons/bs';
 import BottomNav from '../Components/Navigation/BottomNav';
 import { AuthContext } from '../Context/auth-context';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 const ProfileFollowers = () => {
   const auth = useContext(AuthContext);
@@ -14,6 +15,15 @@ const ProfileFollowers = () => {
   const params = useParams().username;
   const [followers, setFollowers] = useState();
   const [loading, setLoading] = useState(false)
+  const [followedArr, setFollowedArr] = useState()
+  const [error, setError] = useState();
+  const [showError, setShowError] = useState(false)
+
+  async function getMe() {
+    const res = await api.get(`users/${myId}`)
+    setFollowedArr(res.data.user.following)
+
+  }
   
 
   useEffect(() => {
@@ -23,13 +33,31 @@ const ProfileFollowers = () => {
       setFollowers(res.data.users)
     }
       fetchFollowed()
-  }, [params, loading])
+      getMe()
+  }, [params])
 
-  const removeFollowing = async (friend) => {
+  const unfollow = async (friend) => {
     
-    const res = await api.patch(`users/following/${myId}`, {otherUser: friend.id}, {headers: {'Content-Type': 'application/json'}})
-    console.log(res)
-    setLoading(loading)
+    const res = await api.patch(
+      `users/following/${myId}`, 
+      {otherUser: friend.id}, 
+      {headers: {'Content-Type': 'application/json'}})
+    setFollowedArr(followedArr.filter(u => u !== friend.id))
+    setError(`You unfollowed ${friend.userName}`)
+    setShowError(true)
+    setTimeout(function() {setShowError(false)}, 2000)
+    
+  }
+
+  const follow = async (friend) => {
+    const res = await api.patch(
+      `users/following/${myId}`,
+      { otherUser: friend.id },
+    );
+   setFollowedArr([...followedArr, friend.id])
+   setError(`You followed ${friend.userName}`)
+   setShowError(true)
+   setTimeout(function() {setShowError(false)}, 2000)
   }
     
     
@@ -39,6 +67,10 @@ const ProfileFollowers = () => {
   
   return(
     <div>
+      <ErrorModal 
+      show={showError}
+      children={<p className="errorText">{error}</p>}
+      />
       <div className="following-header-wrapper">
         <NavLink to={`/user/${params}`} className="back-navlink"><BsChevronLeft className="following-back-icon"/></NavLink>
         <p>Followers</p>
@@ -46,7 +78,7 @@ const ProfileFollowers = () => {
 
       {followers && followers.length !== 0 && 
       <div className="following-list-wrapper" style={{marginTop: "3rem"}}>
-        {followers.map((user, index) => <ListPerson user={user} key={index} removeFollowing={removeFollowing}/>)}
+        {followers.map((user, index) => <ListPerson user={user} key={index} removeFollowing={unfollow} addFollowing={follow}  followedArr={followedArr}/>)}
 
       </div>}
     <BottomNav />

@@ -1,6 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import '../../Pages/Landing.css';
 import './Post.css';
+import './Modal.css';
 import {BiDotsVerticalRounded} from 'react-icons/bi';
 import {BsHeart} from 'react-icons/bs';
 import {BsHeartFill} from 'react-icons/bs'
@@ -34,9 +35,9 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
     setShowModal(true)
   }
 
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [loading, user, post, viewer])
+  // }, [loading, user, post, viewer])
 
   
   useEffect(() => {
@@ -84,13 +85,13 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
      children={<p className="errorText">{error}</p>}
     />
    
-    <Modal 
+    {myId && post && <Modal 
     show={showModal}
     onCancel={cancelModalHandler}
     children= {
       <div className="post-modal-wrapper">
         {myId !== post.user && <a href="https://www.mentalhealth.gov/get-help/immediate-help" target="_blank" className="danger-post-modal-button" rel="noopener noreferrer">Report</a>}
-        {myId !== post.user && <div className="danger-post-modal-button" onClick={removeFollowing}>Unfollow</div>}
+        {myId !== post.user && user.followers.includes(myId) && <div className="danger-post-modal-button" onClick={removeFollowing}>Unfollow</div>}
         {myId === post.user && <div className="danger-post-modal-button" onClick={deleteHandler}>Delete</div>}
         {!params && <NavLink to={`/post/${post.id}`} className="post-modal-button">Go To Post</NavLink>}
         <div className="post-modal-button last-button-post-modal" onClick={cancelModalHandler}>Cancel</div>
@@ -98,12 +99,12 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
     }
     >
 
-    </Modal>
+    </Modal>}
           <div className="post-header">
             <div className='post-header-pic-wrapper'>
               <img alt="" src={user.image}/>
             </div>
-            <NavLink to={`user/${user.userName}`} className="userLink">{user.userName}</NavLink>
+            <NavLink to={`/user/${user.userName}`} className="userLink">{user.userName}</NavLink>
             <div className="dots-menu-wrapper" onClick={showModalHandler}>
               <BiDotsVerticalRounded className='menu-dots'/>
             </div>

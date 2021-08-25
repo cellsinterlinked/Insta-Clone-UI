@@ -46,7 +46,6 @@ const Following = () => {
     const res = await api.patch(
       `users/following/${myId}`,
       { otherUser: friend.id },
-      { headers: { 'Content-Type': 'application/json' } }
     );
     setFollowedArr(followedArr.filter(u => u !== friend.id))
     setError(`You unfollowed ${friend.userName}`)
@@ -59,7 +58,6 @@ const Following = () => {
     const res = await api.patch(
       `users/following/${myId}`,
       { otherUser: friend.id },
-      { headers: { 'Content-Type': 'application/json' } }
     );
    setFollowedArr([...followedArr, friend.id])
    setError(`You followed ${friend.userName}`)

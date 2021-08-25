@@ -1,0 +1,113 @@
+.suggested-wrapper {
+  height: 13.5rem;
+  border: none;
+  display: flex;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  margin-top: 1rem;
+  margin-bottom: 0.8rem;
+  padding-left: 1rem;
+}
+
+.suggested-wrapper::-webkit-scrollbar {
+  width: 0;
+}
+
+.suggested-item {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  object-fit: contain;
+  height: 12rem;
+  text-align: center;
+  margin-right: 7px;
+  border-radius: 4px;
+  border: 1px solid #dbdbdb;
+}
+.box {
+  position: relative;
+  width: 9.6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.suggested-header {
+  border-top: 1px solid #dbdbdb;
+}
+
+.suggested-header p {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #8e8e8e;
+}
+
+.suggested-footer {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.suggested-portrait {
+  margin-top: 0.3rem;
+  margin-bottom: 6px;
+  width: 5rem;
+  height: 5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.suggested-portrait img {
+  max-height: 140%;
+  min-height: 100%;
+  max-width: 150%;
+  min-width: 100%;
+  object-fit: cover;
+}
+
+.suggested-follow-button {
+  height: 1.8rem;
+  width: 7rem;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
+  background-color: #0095f6;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+
+.suggested-following-button {
+  border: 1px solid #dbdbdb;
+  height: 1.8rem;
+  width: 7rem;
+  border: none;
+  outline: none;
+  color: black;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 3px;
+  margin-top: 8px;
+}
+
+.box p {
+  font-size: 0.8rem;
+  text-align: center;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.suggested-close {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  height: 1rem;
+  width: 1rem;
+  color: #8e8e8e;
+}

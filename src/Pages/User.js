@@ -3,6 +3,7 @@ import api from '../Static/axios';
 import { useParams, NavLink } from 'react-router-dom';
 import { BsChevronLeft} from 'react-icons/bs';
 import './User.css';
+import '../Components/Reusable/Modal.css';
 import { set } from 'react-hook-form';
 import { FaCheckCircle } from 'react-icons/fa';
 import { BsThreeDots } from 'react-icons/bs';
@@ -19,6 +20,9 @@ import Post from '../Components/Reusable/Post';
 import BottomNav from '../Components/Navigation/BottomNav';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../Context/auth-context';
+import ErrorModal from '../Components/Reusable/ErrorModal';
+import Modal from '../Components/Reusable/Modal';
+import Suggested from '../Components/Reusable/Suggested';
 
 
 
@@ -33,29 +37,91 @@ const [loading, setLoading] = useState(false)
 const params = useParams().username
 const [viewer, setViewer] = useState()
 const [tagged, setTagged] = useState()
+const [error, setError] = useState()
+const [showError, setShowError] = useState(false)
+const [followedArr, setFollowedArr] = useState()
+const [showModal, setShowModal] = useState(false)
+const [suggested, setSuggested] = useState(false)
+const [popular, setPopular] = useState()
+
+
+async function getViewer() {
+  const res = await api.get(`users/${myId}`)
+  setViewer(res.data.user)
+  setFollowedArr(res.data.user.following)
+}
+
+async function getUser() {
+  const res = await api.get(`/users/profile/${params}`)
+  setUser(res.data.user);
+}
+
+async function fetchPopular() {
+  const res = await api.get(`users/popular/${myId}`);
+  setPopular(res.data.users);
+}
+
+const follow = async () => {
+  const res = await api.patch(
+    `users/following/${myId}`,
+    { otherUser: user.id },
+  );
+ setFollowedArr([...followedArr, user.id])
+ setError(`You followed ${user.userName}`)
+ setShowError(true)
+ setTimeout(function() {setShowError(false)}, 2000)
+}
+
+const suggestedFollow = async (user) => {
+  const res = await api.patch(
+    `users/following/${myId}`,
+    { otherUser: user.id },
+  );
+ setFollowedArr([...followedArr, user.id])
+ setError(`You followed ${user.userName}`)
+ setShowError(true)
+ setTimeout(function() {setShowError(false)}, 2000)
+}
+
+const suggestedUnfollow = async (user) => {
+    
+  const res = await api.patch(
+    `users/following/${myId}`, 
+    {otherUser: user.id}, 
+    {headers: {'Content-Type': 'application/json'}})
+  setShowModal(false)
+  setFollowedArr(followedArr.filter(u => u !== user.id))
+  setError(`You unfollowed ${user.userName}`)
+  setShowError(true)
+  setTimeout(function() {setShowError(false)}, 2000)
+  
+}
+const unfollow = async () => {
+    
+  const res = await api.patch(
+    `users/following/${myId}`, 
+    {otherUser: user.id}, 
+    {headers: {'Content-Type': 'application/json'}})
+  setShowModal(false)
+  setFollowedArr(followedArr.filter(u => u !== user.id))
+  setError(`You unfollowed ${user.userName}`)
+  setShowError(true)
+  setTimeout(function() {setShowError(false)}, 2000)
+  
+}
+
 
 useEffect(() => {
-  async function getViewer() {
-    const res = await api.get(`users/${myId}`)
-    console.log(res);
-    setViewer(res.data.user)
-  }
   getViewer()
-}, [])
-
-useEffect(() => {
-  async function getUser() {
-    const res = await api.get(`/users/profile/${params}`)
-    console.log(res)
-    setUser(res.data.user);
-  }
   getUser();
+  fetchPopular()
 }, [params])
+
+
 
 useEffect(() => {
   async function getPosts() {
     const res = await api.get(`/posts/profile/${params}`)
-    console.log(res)
     setPosts(res.data.posts.reverse())
 
   }
@@ -74,20 +140,79 @@ useEffect(() => {
 const likeHandler = (postId) => {
   async function likeClick() {
     const res = await api.patch(`posts/likes/${postId}`, {user: myId})
-    console.log(res)
     setLoading(!loading);
   }
   likeClick()
-
 }
 
-const messageHandler = () => {
+const suggestedHandler = () => {
+  setSuggested(!suggested)
+}
+
+
+
+const messageHandler = async () => {
+  let conversation = []
+  let res;
+  async function loop() {
+    for (let i = 0; i < viewer.convos.length; i++) {
+      if (user.convos.includes(viewer.convos[i])) {
+        conversation.push(viewer.convos[i])
+        history.push(`/direct/${conversation[0]}`)
+      }
+    }
+  }
+    
+    
+  await loop()
+  if (conversation.length === 0) {
+    res = await  api.post('convos', {user1: myId, user2: user.id, message:"init", image: ""})
+    history.push(`/direct/${res.data.convo.id}`)
+  }
+}
+
+const developingError = () => {
+  setError("Blocking feature in development!")
+  setShowError(true)
+  setTimeout(function() {setShowError(false)}, 2000)
+}
+
+
   
+const modalHandler = () => {
+  setShowModal(true);
+}    
+
+const cancelModalHandler = () => {
+  setShowModal(false);
+}
+
+const removeItem = (id) => {
+  setPopular(popular.filter(user => user.id !== id)) 
 }
 
   return(
     
     <div className="user-wrapper">
+      <Modal 
+    show={showModal}
+    onCancel={cancelModalHandler}
+    children = {user && <div className="post-modal-wrapper">
+      <div className="unfollow-modal-portrait">
+        <img alt="" src={user.image}/>
+        </div>
+      <p className="unfollow-modal-text">Unfollow @{user.userName}?</p>
+      <div className="unfollow-modal-break"></div>
+      <div className="danger-post-modal-button" onClick={unfollow}>Unfollow</div>
+      <div className="post-modal-button last-button-post-modal" onClick={cancelModalHandler}>Cancel</div>
+    </div>
+
+    }
+    />
+      <ErrorModal 
+        show={showError}
+        children={<p className="errorText">{error}</p>}
+      />
        <div className="user-header-wrapper">
         <div onClick={history.goBack} className="profile-back-button">
           <BsChevronLeft className="profile-back-icon" />
@@ -95,7 +220,7 @@ const messageHandler = () => {
          <p>{params}</p>
       </div>
       <div className="wtf"></div>
-      { user && <div>
+   { user && viewer && followedArr && <div>
 
       <div className="profile-second-box" >
         <div className="profile-portrait-info-wrapper">
@@ -106,25 +231,44 @@ const messageHandler = () => {
               <div className="profile-name-wrapper">
                 <p>{user.userName}</p>
                 <FaCheckCircle className="profile-check-icon" />
-                <BsThreeDots className="profile-dots-button" />
+                <BsThreeDots className="profile-dots-button" onClick={developingError} />
               </div>
-              <div className="profile-buttons-wrapper">
-                <button className="profile-message-button">Message</button>
-                <button className="profile-follow-button">
+              { followedArr.includes(user.id) && <div className="profile-buttons-wrapper">
+                <button className="profile-message-button" onClick={messageHandler}>Message</button>
+                <button className="profile-follow-button" onClick={modalHandler}>
                     <BsFillPersonFill className="follow-button-person"/>
                     <BsCheck className="follow-button-check" />
                 </button>
-                <button className="show-suggestions-profile-button" >
+                <button className="show-suggestions-profile-button" onClick={suggestedHandler}>
                   <BsChevronDown />
-                  {/* these buttons are replaced with wider blue follow button and chevron down button that are blue */}
                 </button>
-              </div>
+              </div>}
+
+              { !followedArr.includes(user.id) && <div className="profile-buttons-wrapper">
+                <button className="profile-big-follow-button" onClick={follow}>Follow</button>
+                <button className="show-suggestions-profile-button-blue" onClick={suggestedHandler} >
+                  <BsChevronDown />
+                  
+                </button>
+              </div>}
+
+
           </div>
 
         </div>
+        {suggested && <div className="suggested-header">
+          <p>Suggested</p>
+        </div>}
+        { suggested && 
+        <Suggested followingArr={followedArr} users={popular} removeItem={removeItem} suggestedFollow={suggestedFollow} suggestedUnfollow={suggestedUnfollow}/>
+        }
+        { suggested && <div className="suggested-footer">
+        </div>}
+
         <div className="profile-name-details-wrapper">
           <p className="profile-full-name">{user.name}</p>
-          <p className="profile-email">{user.email}</p>
+          {user.bio && user.bio !== "" && <p className="profile-bio">{user.bio}</p>}
+          {user.email && user.email !== "" && <a href={user.email} className="profile-email">{user.email}</a>}
         </div>
       </div>
 
@@ -182,6 +326,30 @@ const messageHandler = () => {
           )}
         </div>
         
+        }
+
+        {page === 3 && 
+        <div className="working-content-wrapper">
+          <div className="working-content-circle">
+            <BsCollectionPlay className="working-content-icon" />
+          </div>
+          <h1>Feature In Development</h1>
+          <p>The developer is a noob and hasn't gotten to this feature yet!</p>
+            
+
+        </div>
+        }
+
+        {page === 4 && 
+        <div className="working-content-wrapper">
+          <div className="working-content-circle">
+            <GrChannel className="working-content-icon" />
+          </div>
+          <h1>Feature In Development</h1>
+          <p>The developer is a noob and hasn't gotten to this feature yet!</p>
+            
+
+        </div>
         }
 
         {page === 5 && tagged && 
