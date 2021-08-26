@@ -78,14 +78,15 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
   
 
   return(
-  <div className='post-wrapper'>
+    <>
+  {post && user && myId && <div className='post-wrapper'>
 
     <ErrorModal
      show={showError}
      children={<p className="errorText">{error}</p>}
     />
    
-    {myId && post && <Modal 
+     <Modal 
     show={showModal}
     onCancel={cancelModalHandler}
     children= {
@@ -99,7 +100,7 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
     }
     >
 
-    </Modal>}
+    </Modal>
           <div className="post-header">
             <div className='post-header-pic-wrapper'>
               <img alt="" src={user.image}/>
@@ -159,8 +160,8 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
         
             
           </div>
-        </div>
-
+        </div>}
+</>
   )
 }
 

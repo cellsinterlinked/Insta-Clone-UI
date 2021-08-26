@@ -7,7 +7,8 @@ const ListPerson = ({user, followedArr, removeFollowing, addFollowing, myId}) =>
   
 
   return (
-    <div className="listPerson-wrapper">
+    <>
+    {user && followedArr && <div className="listPerson-wrapper">
       <div className="list-person-wrapper1">
         <div className='list-person-image-wrapper'>
           <img alt="" src={user.image}/>
@@ -19,9 +20,11 @@ const ListPerson = ({user, followedArr, removeFollowing, addFollowing, myId}) =>
       </div>
      <div className="list-person-wrapper2">
 
-        {followedArr.includes(user.id) ? <button onClick={() => removeFollowing(user)}className="list-following-button">
+        {followedArr.includes(user.id) && user.id !== myId && <button onClick={() => removeFollowing(user)}className="list-following-button">
           Following
-        </button> : <button onClick={() => addFollowing(user)} className="list-follow-button">
+        </button>}
+        
+        {!followedArr.includes(user.id) && user.id !== myId &&<button onClick={() => addFollowing(user)} className="list-follow-button">
           Follow
         </button> }
 
@@ -30,7 +33,8 @@ const ListPerson = ({user, followedArr, removeFollowing, addFollowing, myId}) =>
       </div>
         
 
-    </div>
+    </div>}
+    </>
   )
 }
 

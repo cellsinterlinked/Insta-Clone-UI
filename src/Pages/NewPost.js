@@ -30,8 +30,9 @@ const NewPost = () => {
   })
   
   const { register, handleSubmit, errors, formState} = useForm({
-    resolver: yupResolver(schema),  // these were the latest changes in case it breaks
+    // resolver: yupResolver(schema),  // these were the latest changes in case it breaks
     // mode: "onChange"
+    validationSchema: schema
   })
   const [previewUrl, setPreviewUrl] = useState();
   const [file, setFile] = useState()

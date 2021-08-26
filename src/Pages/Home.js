@@ -109,25 +109,28 @@ const Home = () => {
           <h1 className="home-head-text">Nonurgentgram</h1>
       <NavLink to={`/inbox`} className="right-home-head-wrapper"><IoPaperPlaneOutline className="home-icon"/></NavLink>
       </div>
+
+
+
       
       <div className="home-carousel-wrapper">
         { followed && <div className="friends-carousel">
-          <div className="carousel-item-container">
+          <NavLink to={`/create`} className="carousel-item-container">
           <div className="carousel-portrait-container" style={{backgroundColor: "#dbdbdb", border:"1px solid #8e8e8e", overflow:"visible"}}>
             <BsPlusCircleFill className="plus-circle"/>
           <div style={{backgroundColor:"white", borderRadius: "50%"}}>
             <IoPersonCircle className="no-portrait-story"/>
             </div>
           </div>
-          <p className="carousel-item-userName">Your Story</p>
-          </div>
+          <p className="carousel-item-userName">New Post</p>
+          </NavLink>
           {followed.map((user, index) => 
-          <div key={index} className="carousel-item-container">
+          <NavLink to={`/user/${user.userName}`} key={index} className="carousel-item-container">
           <div className="carousel-portrait-container">
             <img src={user.image} alt=""/>
           </div>
           <p className="carousel-item-userName">{user.userName}</p>
-          </div>
+          </NavLink>
           )}
         </div>}
       </div>

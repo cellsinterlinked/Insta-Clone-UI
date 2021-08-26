@@ -21,7 +21,6 @@
   height: 7rem;
   width: 100%;
   position: fixed;
-  overflow: hidden;
   background-color: white;
   top: 2.8rem;
   left: 0;
@@ -66,12 +65,31 @@
 }
 
 .friends-carousel {
+  padding-top: 0.5rem;
+  overflow-y: hidden;
+  overflow-x: scroll;
   height: 100%;
   display: flex;
   display: flex;
+  padding-left: 1rem;
   align-items: center;
-  flex-direction: row;
-  flex-wrap: nowrap;
+  /* flex-direction: row;
+  flex-wrap: nowrap;  */
+}
+
+.friends-carousel::-webkit-scrollbar {
+  width: 0;
+}
+
+.carousel-item-container {
+  width: 100%;
+  object-fit: contain;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  text-decoration: none;
 }
 
 .carousel-portrait-container {
@@ -98,18 +116,11 @@
   max-height: 5rem;
 }
 
-.carousel-item-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .carousel-item-userName {
   font-size: 0.7rem;
   margin-bottom: 0;
+  color: rgb(46, 46, 46);
+  text-decoration: none;
 }
 
 .plus-circle {

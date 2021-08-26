@@ -78,7 +78,7 @@ const ProfileFollowers = () => {
 
       {followers && followers.length !== 0 && 
       <div className="following-list-wrapper" style={{marginTop: "3rem"}}>
-        {followers.map((user, index) => <ListPerson user={user} key={index} removeFollowing={unfollow} addFollowing={follow}  followedArr={followedArr}/>)}
+        {followers.map((user, index) => <ListPerson user={user} myId={myId}key={index} removeFollowing={unfollow} addFollowing={follow}  followedArr={followedArr}/>)}
 
       </div>}
     <BottomNav />
