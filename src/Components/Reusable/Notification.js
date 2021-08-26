@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './Notification.css';
 import { NavLink } from 'react-router-dom';
+import { IoPersonCircle } from 'react-icons/io5'
 
 const Notification  = ({user, activity, viewer, followHandler, followingArr }) => {
 
@@ -26,7 +27,7 @@ const Notification  = ({user, activity, viewer, followHandler, followingArr }) =
   return (
     <div className="notification-wrapper">
       <div className="notification-portrait">
-        <img alt="" src={user.image}/>
+        {user.image ? <img alt="" src={user.image} /> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
       </div>
 
       {activity.type === "follow" && 

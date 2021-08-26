@@ -23,6 +23,8 @@ import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import Modal from '../Components/Reusable/Modal';
 import Suggested from '../Components/Reusable/Suggested';
+import Spinner from '../Components/Reusable/Spinner';
+import { IoPersonCircle } from 'react-icons/io5'
 
 
 
@@ -96,7 +98,7 @@ const suggestedUnfollow = async (user) => {
   setTimeout(function() {setShowError(false)}, 2000)
   
 }
-const unfollow = async () => {
+const unfollow = async (user) => {
     
   const res = await api.patch(
     `users/following/${myId}`, 
@@ -192,8 +194,9 @@ const removeItem = (id) => {
 }
 
   return(
-    
-    <div className="user-wrapper">
+    <>
+    {(!user || !viewer || !myId) && <Spinner />}
+    {user && viewer && <div className="user-wrapper">
       <Modal 
     show={showModal}
     onCancel={cancelModalHandler}
@@ -203,7 +206,7 @@ const removeItem = (id) => {
         </div>
       <p className="unfollow-modal-text">Unfollow @{user.userName}?</p>
       <div className="unfollow-modal-break"></div>
-      <div className="danger-post-modal-button" onClick={unfollow}>Unfollow</div>
+      <div className="danger-post-modal-button" onClick={() => unfollow(user)}>Unfollow</div>
       <div className="post-modal-button last-button-post-modal" onClick={cancelModalHandler}>Cancel</div>
     </div>
 
@@ -225,7 +228,7 @@ const removeItem = (id) => {
       <div className="profile-second-box" >
         <div className="profile-portrait-info-wrapper">
           <div className="profile-face-box">
-            <img alt="" src={user.image}/>
+            {user.image ? <img alt="" src={user.image}/>: <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
           </div>
           <div className="profile-name-buttons-wrapper">
               <div className="profile-name-wrapper">
@@ -314,7 +317,7 @@ const removeItem = (id) => {
         {page === 1 && 
         <div className="profile-grid-wrapper">
           {posts.map((post, index) => 
-          <NavLink to={`post/${post.id}`} className="grid-picture-wrapper"key={index}>
+          <NavLink to={`/post/${post.id}`} className="grid-picture-wrapper"key={index}>
             <img alt="" src={post.image} />
           </NavLink>)}
         </div>}
@@ -322,7 +325,7 @@ const removeItem = (id) => {
         {page === 2 && 
         <div className="profile-stream-wrapper">
           {posts.map((post, index) => 
-            <Post post={post} key={index} myId={myId} user={user} viewer={viewer} likeHandler={likeHandler} loading={loading}/>
+            <Post post={post} key={index} myId={myId} user={user} viewer={viewer} likeHandler={likeHandler} loading={loading} unfollow={unfollow} followedArr={followedArr}/>
           )}
         </div>
         
@@ -355,7 +358,7 @@ const removeItem = (id) => {
         {page === 5 && tagged && 
         <div className="profile-grid-wrapper">
         {tagged.map((post, index) => 
-        <NavLink to={`post/${post.id}`} className="grid-picture-wrapper"key={index}>
+        <NavLink to={`/post/${post.id}`} className="grid-picture-wrapper"key={index}>
           <img alt="" src={post.image} />
         </NavLink>)}
         </div>}
@@ -366,8 +369,8 @@ const removeItem = (id) => {
       </div>}
 
       <BottomNav />
-    </div>
-    
+    </div>}
+    </>
   )
 }
 

@@ -15,6 +15,7 @@ import FullModal from '../Components/Reusable/FullModal';
 import Modal from '../Components/Reusable/Modal';
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../Context/auth-context'; 
+import { IoPersonCircle } from 'react-icons/io5'
 
 const schemaText = yup.object().shape({
   message: yup.string().required().min(1)
@@ -67,17 +68,6 @@ const DirectMessage = () => {
     }
     fetchConvo()
   },[params, loading])
-
-  const toStandardTime = (militaryTime) => {
-    militaryTime = militaryTime.split(':');
-    if (militaryTime[0].charAt(0) !== 1 && militaryTime[0].charAt(1) > 2) {
-      return (militaryTime[0] - 12) + ':' + militaryTime[1] + ' PM';
-    } else if (militaryTime[0].charAt(0) !== 2){
-      return (militaryTime[0] - 12) + ':' + militaryTime[1] + ' PM';
-    } else {
-      return militaryTime.join(':').slice(0,5) + ' AM';
-    }
-  }
 
   const sendTextHandler = (data) => {
     async function sendText() {
@@ -144,6 +134,39 @@ const DirectMessage = () => {
     deleteConvo()
   }
 
+  const annoyingDate = (param) => {
+    let now = new Date()
+    let nowSec = now.getTime()
+    let amPm = ""
+    let date = new Date(param.time)
+    let hour = date.getHours();
+    if (hour < 12) 
+    {
+      amPm = "AM"
+    } else {
+      amPm = "PM"
+    }
+    if (hour === 0) {
+      hour = 12
+    }
+    if (hour > 12) {
+      hour = hour - 12
+    }
+
+    let minutes = date.getMinutes();
+    if (minutes < 10) {minutes = `0${minutes}`}
+    if (nowSec - param.time < 86400000) {
+      return `${hour}:${minutes} ${amPm}`
+    } else {
+      return `${param.monthString} ${param.day} ${param.year} ${hour}:${minutes} ${amPm}`
+    }
+
+
+
+
+    
+  }
+
 
 
   return(
@@ -181,7 +204,7 @@ const DirectMessage = () => {
             <div>
               <div className="members-details-wrapper">
               <div className="members-image-wrapper">
-                <img alt="" src={user.image}></img>
+                {user.image ? <img alt="" src={user.image}></img> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
               </div>
 
               <div className="members-names-wrapper">
@@ -214,7 +237,7 @@ const DirectMessage = () => {
 
         <div className="direct-user-wrapper">
           <div className="direct-image-wrapper">
-            <img src={user.image} alt=""/>
+            {user.image ? <img src={user.image} alt=""/> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
           </div>
           <p style={{fontWeight: "bold"}}>{user.userName}</p>
 
@@ -230,7 +253,8 @@ const DirectMessage = () => {
         <div key={index} className="message-component-wrapper">
         {( !convo.messages[index - 1] || convo.messages[index - 1].date.time - message.date.time < -3600000) && <div className="message-time-stamp">
          
-          {toStandardTime(message.date.fullDate.slice(11, 19))}</div>}
+          {annoyingDate(message.date)}
+        </div>}
 
         {(!message.image || message.image === "") && (message.message !== "<3") && <div 
         className={message.user === myId ? "sender-message-wrapper" : "reciever-message-wrapper"}
@@ -253,7 +277,7 @@ const DirectMessage = () => {
 
 
         { message.user !== myId && (!convo.messages[index + 1] || convo.messages[index + 1].user === myId)  &&  <div className="message-user-circle">
-          <img src={user.image} alt=""/>
+          {user.image ? <img src={user.image} alt=""/> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
         </div>}
         </div>
         )}

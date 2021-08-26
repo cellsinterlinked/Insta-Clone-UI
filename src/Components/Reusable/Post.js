@@ -18,12 +18,14 @@ import { AuthContext } from '../../Context/auth-context';
 
 
 
-const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) => {
+const Post = ({post, user, likeHandler, saveHandler, viewer, params, unfollow, followedArr}) => {
   const [showModal, setShowModal] = useState(false)
   const [showError, setShowError] = useState(false)
   const [error, setError] = useState()
   const [timeDisplay, setTimeDisplay] = useState()
   const [time, setTime] = useState()
+  const [finalDescription, setFinalDescription] = useState()
+  const [loading, setLoading] = useState()
   const history = useHistory()
   const auth = useContext(AuthContext)
   const myId = auth.userId
@@ -39,6 +41,12 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
 
   // }, [loading, user, post, viewer])
 
+  useEffect(() => {
+    let descSplit = post.description.split(" ").filter(word => word[0] !== "#")
+    let finalDesc = descSplit.join(" ")
+    setFinalDescription(finalDesc)
+  },[post])
+
   
   useEffect(() => {
     const now = new Date();
@@ -51,19 +59,7 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
 
   }, [post.date.time])
 
-  const removeFollowing = async() => {
-
-    async function unfollow() {
-      const res = await api.patch(`users/following/${myId}`, {otherUser: user.id})
-      console.log(res)
-      setShowModal(false);
-
-    }
-    await unfollow()
-    history.push('/home')
-    //get rid of this history.push/ make this function for follow or unfollow. Also needs to refresh this component's page. 
-
-  }
+  
 
   const deleteHandler = async () => {
   const res = await api.delete(`posts/${post.id}`, {}, {headers: {Authorization: 'Bearer ' + auth.token}})
@@ -75,11 +71,23 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
   history.goBack();
 
   }
+
+  const removeFollow = async () => {
+    const res = await unfollow(user)
+    setShowModal(false);
+  
+  }
+
+  const shareClick = () => {
+    setError("Share functionality isn't finished!")
+    setShowError(true)
+    setTimeout(function() {setShowError(false)}, 2000)
+  }
   
 
   return(
     <>
-  {post && user && myId && <div className='post-wrapper'>
+  {post && user && myId && finalDescription && <div className='post-wrapper'>
 
     <ErrorModal
      show={showError}
@@ -92,7 +100,7 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
     children= {
       <div className="post-modal-wrapper">
         {myId !== post.user && <a href="https://www.mentalhealth.gov/get-help/immediate-help" target="_blank" className="danger-post-modal-button" rel="noopener noreferrer">Report</a>}
-        {myId !== post.user && user.followers.includes(myId) && <div className="danger-post-modal-button" onClick={removeFollowing}>Unfollow</div>}
+        {myId !== post.user && followedArr.includes(user.id) && <div className="danger-post-modal-button" onClick={removeFollow}>Unfollow</div>}
         {myId === post.user && <div className="danger-post-modal-button" onClick={deleteHandler}>Delete</div>}
         {!params && <NavLink to={`/post/${post.id}`} className="post-modal-button">Go To Post</NavLink>}
         <div className="post-modal-button last-button-post-modal" onClick={cancelModalHandler}>Cancel</div>
@@ -123,7 +131,7 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
             <IoChatbubbleOutline className='post-icon' />
             </NavLink>
 
-            <IoPaperPlaneOutline className='post-icon'/>
+            <IoPaperPlaneOutline className='post-icon' onClick={shareClick}/>
 
             {viewer && viewer.saves.includes(post.id) &&
             <MdTurnedIn  onClick={() => saveHandler(post.id)} className='last-post-icon' style={{color: "#000000"}}/>}
@@ -137,7 +145,11 @@ const Post = ({post, user, likeHandler, loading, saveHandler, viewer, params}) =
           <div className='post-details-wrapper'>
             <p className='likes'>{post.likes.length} Likes</p>
             <div className='post-description'>
-            <p className="post-description-text"><strong>{user.userName}</strong> {post.description}</p>
+            <p className="post-description-text"><strong>{user.userName}</strong> {finalDescription}</p>
+            </div>
+
+            <div className="hash-post-display-wrapper">
+              {post.hashTags.map((tag, index) => <NavLink className="post-hash-link" key={index} to={`/hashtag/${tag.slice(1)}`}><p className="why-need-class">{tag}</p></NavLink>)}
             </div>
 
             <div className="view-comments-title">

@@ -8,6 +8,7 @@ import { IoPersonAddOutline } from 'react-icons/io5' ;
 import BottomNav from '../Components/Navigation/BottomNav';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import Spinner from '../Components/Reusable/Spinner';
 
 const Followers = () => {
   const auth = useContext(AuthContext)
@@ -81,7 +82,9 @@ const Followers = () => {
 
 
   return (
-    <div>
+    <>
+    {( !me || !myId || !popular) && <Spinner />}
+    {popular && me && myId && <div>
       <ErrorModal
      show={showError}
      children={<p className="errorText">{error}</p>}
@@ -124,7 +127,8 @@ const Followers = () => {
       
 
       <BottomNav />
-    </div>
+    </div>}
+    </>
   )
 }
 

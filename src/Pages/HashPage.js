@@ -91,7 +91,7 @@ const followHandler = async() => {
       {popular && 
       <div className="hash-top-posts-grid">
         {popular.map((post, index) => 
-          <NavLink to={`post/${post.id}`} className="grid-hash-picture-wrapper"key={index}>
+          <NavLink to={`/post/${post.id}`} className="grid-hash-picture-wrapper"key={index}>
             <img alt="" src={post.image} />
           </NavLink>)}
 
@@ -104,7 +104,7 @@ const followHandler = async() => {
       {recent && 
       <div className="hash-top-posts-grid">
         {recent.map((post, index) => 
-          <NavLink to={`post/${post.id}`} className="grid-hash-picture-wrapper"key={index}>
+          <NavLink to={`/post/${post.id}`} className="grid-hash-picture-wrapper"key={index}>
             <img alt="" src={post.image} />
           </NavLink>)}
 

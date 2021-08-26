@@ -14,6 +14,11 @@ const signUpContent = {
       label: 'Username',
       name: 'userName',
       type: 'text'
+    },
+    {
+      label: "Name",
+      name: "name",
+      type: "text"
     }
   ]
 }

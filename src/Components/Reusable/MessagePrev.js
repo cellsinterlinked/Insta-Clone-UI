@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './MessagePrev.css';
 import { NavLink } from 'react-router-dom';
+import { IoPersonCircle } from 'react-icons/io5'
 
 const MessagePrev = ({convo, user}) => {
   const [time, setTime] = useState()
@@ -22,7 +23,7 @@ const MessagePrev = ({convo, user}) => {
   return(
     <NavLink to={`/direct/${convo.id}`} className="convo-prev-wrapper">
         <div className="convo-image-wrapper">
-          <img alt="" src={user.image}/>
+          {user.image ? <img alt="" src={user.image}/> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
         </div>
         <div className="convo-prev-info-wrapper">
           <p style={{color: "black"}}>{user.userName}</p>

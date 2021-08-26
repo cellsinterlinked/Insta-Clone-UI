@@ -8,6 +8,8 @@ import BottomNav from '../Components/Navigation/BottomNav';
 import {BsHash} from 'react-icons/bs';
 import {MdCancel} from 'react-icons/md'
 import { AuthContext } from '../Context/auth-context';
+import Spinner from '../Components/Reusable/Spinner';
+import { IoPersonCircle } from 'react-icons/io5'
 
 const Search = () => {
   const auth = useContext(AuthContext)
@@ -97,7 +99,9 @@ const Search = () => {
   
 
   return (
-    <div>
+    <>
+    {(!myId || !posts || !user || !users || !hashTags) && <Spinner />}
+    {myId && posts && user && users && hashTags && <div>
       <div className="search-header-wrapper">
         <input id="search-page-input" className="search-input" placeholder="Search" onChange={queryHandler}></input>
         {query && <MdCancel className="cancel-input" onClick={cancelSearch} />}
@@ -125,18 +129,18 @@ const Search = () => {
 
       {query && query[0] !== "#" && displayedUsers &&
       <div className="user-search-container">
-        {displayedUsers.map((user, index) => <div key={index} className="search-user-object">
+        {displayedUsers.map((user, index) => <NavLink style={{textDecoration: "none"}} to={`/user/${user.userName}`} key={index} className="search-user-object">
           <div className="search-user-portrait">
-            <img alt="user" src={user.image} />
+            {user.image ? <img alt="user" src={user.image} /> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/> }
 
           </div>
           <div className="search-user-name-container">
-            <p style={{fontWeight: "bold"}}>{user.userName}</p>
+            <p style={{fontWeight: "bold", color: "black"}}>{user.userName}</p>
             <p style={{color: "#8e8e8e"}}>{user.name}</p>
           </div>
 
 
-        </div>)}
+        </NavLink>)}
 
 
       </div>
@@ -150,7 +154,8 @@ const Search = () => {
           </NavLink>)}
           </div>}
     <BottomNav />
-    </div>
+    </div>}
+    </>
   )
 }
 

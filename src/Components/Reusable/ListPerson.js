@@ -1,6 +1,7 @@
 import React from 'react'
 import './ListPerson.css';
 import {NavLink} from 'react-router-dom'
+import { IoPersonCircle } from 'react-icons/io5'
 
 const ListPerson = ({user, followedArr, removeFollowing, addFollowing, myId}) => {
 
@@ -11,7 +12,7 @@ const ListPerson = ({user, followedArr, removeFollowing, addFollowing, myId}) =>
     {user && followedArr && <div className="listPerson-wrapper">
       <div className="list-person-wrapper1">
         <div className='list-person-image-wrapper'>
-          <img alt="" src={user.image}/>
+          {user.image ? <img alt="" src={user.image}/> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}} />}
         </div>
         <NavLink to={`user/${user.userName}`} className="list-person-names-wrapper">
           <p >{user.userName}</p>

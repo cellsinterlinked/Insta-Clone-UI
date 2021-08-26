@@ -1,6 +1,7 @@
 import React from 'react';
 import './Suggested.css';
 import { IoClose } from 'react-icons/io5';
+import { IoPersonCircle } from 'react-icons/io5'
 
 const Suggested = ({ users, followingArr, removeItem, suggestedFollow, suggestedUnfollow }) => {
 
@@ -14,7 +15,7 @@ const Suggested = ({ users, followingArr, removeItem, suggestedFollow, suggested
         <div className="box">
       <IoClose className="suggested-close" onClick={() => removeItem(user.id)}/>
           <div className="suggested-portrait">
-            <img alt="" src={user.image}/>
+            {user.image ? <img alt="" src={user.image}/> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
           </div>
             <p>{user.userName}</p>
             <p style={{color: "#8e8e8e"}}>{user.name}</p>

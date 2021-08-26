@@ -21,11 +21,14 @@ const Home = () => {
   const auth = useContext(AuthContext)
   const myId = auth.userId
   const [loading, setLoading] = useState(false)
-  const [followed, setFollowed] = useState([])
+  const [followed, setFollowed] = useState()
   const [posts, setPosts] = useState();
   const [user, setUser] = useState();
   const [error, setError] = useState()
   const [showError, setShowError] = useState()
+  const [followedArr, setFollowedArr] = useState();
+
+  
 
   
   
@@ -35,6 +38,7 @@ const Home = () => {
       const res = await api.get(`users/${auth.userId}`)
       console.log(res);
       const annoying = res.data.user
+      setFollowedArr(res.data.user.following)
       setUser(annoying)
     }
     getUser()
@@ -95,6 +99,19 @@ const Home = () => {
  
   }
 
+  const unfollow = async (user) => {
+    
+    const res = await api.patch(
+      `users/following/${myId}`, 
+      {otherUser: user.id}, 
+      {headers: {'Content-Type': 'application/json'}})
+    setFollowedArr(followedArr.filter(u => u !== user.id))
+    setError(`You unfollowed ${user.userName}`)
+    setShowError(true)
+    setTimeout(function() {setShowError(false)}, 2000)
+    
+  }
+
   
 
  
@@ -110,9 +127,10 @@ const Home = () => {
       <NavLink to={`/inbox`} className="right-home-head-wrapper"><IoPaperPlaneOutline className="home-icon"/></NavLink>
       </div>
 
+      {(!user || !myId || !posts || !followed) && <Spinner  />}
 
+      {user && myId && followed && <div>
 
-      
       <div className="home-carousel-wrapper">
         { followed && <div className="friends-carousel">
           <NavLink to={`/create`} className="carousel-item-container">
@@ -157,12 +175,16 @@ const Home = () => {
         likeHandler={likeHandler}  
         saveHandler={saveHandler}  
         viewer={user}
+        unfollow={unfollow}
+        followedArr={followedArr}
         /> )}
      </div>
 
 
 
 
+
+      </div>}
 
     <BottomNav />
     </div>

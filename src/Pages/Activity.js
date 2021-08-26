@@ -16,6 +16,7 @@ import { BsChevronLeft} from 'react-icons/bs';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../Context/auth-context';
 import Modal from '../Components/Reusable/Modal';
+import Spinner from '../Components/Reusable/Spinner';
 
 
 
@@ -90,7 +91,9 @@ const Activity = () => {
 
 
   return (
-    <div className="activity-wrapper">
+    <>
+    {(!user || !users || !myId) && <Spinner />}
+    {user && users && myId && <div className="activity-wrapper">
       <ErrorModal
      show={showError}
      children={<p className="errorText">{error}</p>}
@@ -104,7 +107,7 @@ const Activity = () => {
       <div onClick={history.goBack} className="activity-back-navlink"><BsChevronLeft className="activity-back-icon"/></div>
         <p>Activity</p>
       </div>
-
+    
     {user && user.activity.length === 0 && <div className="no-activity-wrapper">
       <div className="no-activity-circle">
         <BsHeart className="no-activity-icon"/>
@@ -155,7 +158,8 @@ const Activity = () => {
     
   }
     <BottomNav />
-    </div>
+    </div>}
+    </>
   )
 }
 

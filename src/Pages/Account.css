@@ -75,6 +75,12 @@
   /* overflow: hidden; */
 }
 
+.edit-profile-icon {
+  height: 3rem;
+  width: 3rem;
+  color: #383838;
+}
+
 .account-name-edit-wrapper {
   display: flex;
   flex-direction: column;

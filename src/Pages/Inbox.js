@@ -8,6 +8,7 @@ import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../Context/auth-context';
 import { useHistory } from 'react-router';
 import { BiConversation } from 'react-icons/bi';
+import Spinner from '../Components/Reusable/Spinner';
 
 const Inbox = () => {
   const auth = useContext(AuthContext);
@@ -37,7 +38,10 @@ const Inbox = () => {
 
 
   return(
-    <div className="inbox-wrapper">
+    <>
+    {(!users || !myId) && <Spinner /> }
+    {users && myId && <div className="inbox-wrapper">
+      
       <div className="inbox-header-wrapper">
         <NavLink to="/home" className="inbox-back-wrapper">
           <BsChevronLeft className="inbox-back-icon" />
@@ -60,7 +64,7 @@ const Inbox = () => {
       </div>}
 
       {users && convos && convos.map((convo, index) => 
-      <MessagePrev key={index} user={users.find(user => user.conversations.includes(convo.id))} convo={convo} />)}
+      <MessagePrev key={index} user={users.find(user => user.conversations.includes(convo.id) && user.id !== myId)} convo={convo} />)}
 
       </div>
       
@@ -71,7 +75,8 @@ const Inbox = () => {
 
 
 
-    </div>
+    </div>}
+    </>
   )
 }
 

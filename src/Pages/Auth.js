@@ -18,7 +18,8 @@ const schemaLogin = yup.object().shape({
 const schemaSignUp = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required().min(6),
-  userName: yup.string().required().min(6)
+  userName: yup.string().required().min(6),
+  name: yup.string().required().min(4)
 })
 
 

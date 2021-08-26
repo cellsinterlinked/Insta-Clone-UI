@@ -18,6 +18,7 @@ import FullModal from '../Components/Reusable/FullModal';
 import Modal from '../Components/Reusable/Modal';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useHistory } from 'react-router-dom';
+import Spinner from '../Components/Reusable/Spinner';
 
 //you were turning following into navlink on thursday
 
@@ -96,7 +97,8 @@ const Account = () => {
 
   return (
     <>
-      {user && (
+    {(!user || !myName || !myId) && <Spinner />}
+      {user && myId && myName &&  (
         <div>
           <FullModal
             show={systemModal}

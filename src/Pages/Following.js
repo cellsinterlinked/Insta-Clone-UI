@@ -9,6 +9,7 @@ import ListHashTag from '../Components/Reusable/ListHashTag';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import { BsHash } from 'react-icons/bs';
 import { AuthContext } from '../Context/auth-context';
+import Spinner from '../Components/Reusable/Spinner';
 
 const Following = () => {
   const auth = useContext(AuthContext)
@@ -104,7 +105,9 @@ const Following = () => {
   }
 
   return (
-    <div>
+    <>
+    {(!myId || !me || !popular) && <Spinner />}
+    {popular && me && myId && <div>
        <ErrorModal
      show={showError}
      children={<p className="errorText">{error}</p>}
@@ -196,7 +199,8 @@ const Following = () => {
         </div>}
 
       <BottomNav />
-    </div>
+    </div>}
+    </>
   );
 };
 

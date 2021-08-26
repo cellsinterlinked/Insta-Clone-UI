@@ -9,6 +9,7 @@ import Post from '../Components/Reusable/Post';
 import { useHistory } from 'react-router';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import { AuthContext } from '../Context/auth-context';
+import Spinner from '../Components/Reusable/Spinner';
 
 const PostPage = () => {
   const auth = useContext(AuthContext);
@@ -21,36 +22,39 @@ const PostPage = () => {
   const [showError, setShowError] = useState()
   const params = useParams().postId
   const history = useHistory();
+  const [followedArr, setFollowedArr] = useState()
 
-  useEffect(() => {
-    async function getUser() {
-      const res = await api.get(`users/${myId}`)
-      console.log(res);
-      
-      setViewer(res.data.user)
+  async function getViewer() {
+    const res = await api.get(`users/${myId}`)
+    console.log(res);
+    setFollowedArr(res.data.user.following)
+    setViewer(res.data.user)
+  }
+  
+  async function getPost() {
+    const res  = await api.get(`posts/${params}`)
+    console.log(res)
+    setPost(res.data.post)
+  }
+  async function getUser() {
+     if (post) {
+       const res = await api.get(`users/${post.user}`)
+       console.log(res);
+       setUser(res.data.user)
+     } else return;
     }
+    
+    useEffect(() => {
+      getViewer()
+    },[loading, post])
+    
+    useEffect(() => {
+      getPost()
+    },[params, loading])
+    
+    useEffect(() => {
     getUser()
-  },[loading, post])
-
-  useEffect(() => {
-    async function getPost() {
-      const res  = await api.get(`posts/${params}`)
-      console.log(res)
-      setPost(res.data.post)
-    }
-    getPost()
-  },[params, loading])
-
-  useEffect(() => {
-    async function getUser() {
-       if (post) {
-         const res = await api.get(`users/${post.user}`)
-         console.log(res);
-         setUser(res.data.user)
-       } else return;
-      }
-      getUser()
-  }, [post])
+  }, [post, loading])
 
   const likeHandler = (postId) => {
     async function likeClick() {
@@ -87,8 +91,26 @@ const PostPage = () => {
     saveClick()
   }
 
+  async function unfollow(friend) {
+    const res = await api.patch(
+      `users/following/${myId}`,
+      { otherUser: friend.id },
+    );
+    setFollowedArr(followedArr.filter(u => u !== friend.id))
+    getUser()
+    setError(`You unfollowed ${friend.userName}`)
+    setShowError(true)
+    setTimeout(function() {setShowError(false)}, 2000)
+    
+  }
+
+
+
+
   return(
+    
     <div className="post-page-wrapper">
+      {(!post || !user) && <Spinner />}
       <ErrorModal
      show={showError}
      children={<p className="errorText">{error}</p>}
@@ -102,10 +124,11 @@ const PostPage = () => {
 
       {post && user && 
       <div className="post-page-margin">
-      <Post post={post} myId={myId} user={user} likeHandler={likeHandler} loading={loading} viewer={viewer} saveHandler={saveHandler} params={params}/>  
+      <Post post={post} myId={myId} user={user} likeHandler={likeHandler} loading={loading} viewer={viewer} saveHandler={saveHandler} params={params} unfollow={unfollow} followedArr={followedArr}/>  
       </div>}
 
     </div>
+    
   )
 }
 

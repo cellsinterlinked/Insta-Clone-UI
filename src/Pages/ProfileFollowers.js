@@ -8,6 +8,7 @@ import { BsChevronLeft } from 'react-icons/bs';
 import BottomNav from '../Components/Navigation/BottomNav';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import Spinner from '../Components/Reusable/Spinner';
 
 const ProfileFollowers = () => {
   const auth = useContext(AuthContext);
@@ -66,7 +67,9 @@ const ProfileFollowers = () => {
 
   
   return(
-    <div>
+    <>
+    {(!myId) && <Spinner />}
+    {myId && <div>
       <ErrorModal 
       show={showError}
       children={<p className="errorText">{error}</p>}
@@ -76,13 +79,14 @@ const ProfileFollowers = () => {
         <p>Followers</p>
       </div>
 
-      {followers && followers.length !== 0 && 
+      {followers && followers.length !== 0 &&
       <div className="following-list-wrapper" style={{marginTop: "3rem"}}>
         {followers.map((user, index) => <ListPerson user={user} myId={myId}key={index} removeFollowing={unfollow} addFollowing={follow}  followedArr={followedArr}/>)}
 
       </div>}
     <BottomNav />
-    </div>
+    </div>}
+    </>
   )
 }
 
