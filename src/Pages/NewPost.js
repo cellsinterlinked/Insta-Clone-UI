@@ -91,7 +91,7 @@ const NewPost = () => {
       const formData = new FormData();
       formData.append("file", file)
       formData.append("upload_preset", "postImage")
-      res = await Axios.post("https://api.cloudinary.com/v1_1/dbnapmpvm/image/upload", formData)
+      res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
       console.log(res.data.url);
     }
       
