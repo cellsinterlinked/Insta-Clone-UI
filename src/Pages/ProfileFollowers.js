@@ -29,7 +29,15 @@ const ProfileFollowers = () => {
 
   useEffect(() => {
     async function fetchFollowed() {
-      const res = await api.get(`users/profile/followers/${params}`)
+      let res; 
+      try{
+        res = await api.get(`users/profile/followers/${params}`)
+      } catch(err) {
+        setError("Error getting followed users")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       setFollowers(res.data.users)
     }
@@ -38,11 +46,18 @@ const ProfileFollowers = () => {
   }, [params])
 
   const unfollow = async (friend) => {
-    
-    const res = await api.patch(
-      `users/following/${myId}`, 
-      {otherUser: friend.id}, 
-      {headers: {'Content-Type': 'application/json'}})
+    let res;
+    try{
+        res = await api.patch(
+        `users/following/${myId}`, 
+        {otherUser: friend.id}, 
+        {headers: {'Content-Type': 'application/json'}})
+    } catch(err) {
+      setError("Error trying to unfollow")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setFollowedArr(followedArr.filter(u => u !== friend.id))
     setError(`You unfollowed ${friend.userName}`)
     setShowError(true)
@@ -51,10 +66,18 @@ const ProfileFollowers = () => {
   }
 
   const follow = async (friend) => {
-    const res = await api.patch(
-      `users/following/${myId}`,
-      { otherUser: friend.id },
-    );
+    let res;
+    try{
+      res = await api.patch(
+          `users/following/${myId}`,
+          { otherUser: friend.id },
+        );
+
+    } catch(err) {
+      setError("Error while trying to follow")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
    setFollowedArr([...followedArr, friend.id])
    setError(`You followed ${friend.userName}`)
    setShowError(true)

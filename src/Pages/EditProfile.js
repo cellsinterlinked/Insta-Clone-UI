@@ -9,6 +9,7 @@ import { yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Axios from 'axios';
 import { AuthContext } from '../Context/auth-context';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 
 const EditProfile = () => {
@@ -47,10 +48,21 @@ const EditProfile = () => {
 
   const [previewUrl, setPreviewUrl] = useState();
   const [file, setFile] = useState()
+  const [error, setError] = useState();
+  const [showError, setShowError] = useState(false)
+
 
 
   const resetImage = async() => {
-    const res = await api.get(`users/${myId}`)
+    let res;
+    try{
+      res = await api.get(`users/${myId}`)
+
+    } catch(err) {
+      setError("Error getting your information")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
     setUser(res.data.user)
   }
 
@@ -61,7 +73,15 @@ const EditProfile = () => {
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get(`users/${myId}`)
+      let res;
+      try{
+        res = await api.get(`users/${myId}`)
+      } catch(err) {
+        setError("Error getting your information")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       setUser(res.data.user)
       setValue("name", res.data.user.name, { shouldValidate: true })
@@ -79,9 +99,15 @@ const EditProfile = () => {
   const dataSubmitHandler = (data) => {
 
     let res;
-    console.log(data);
     async function sendUserUpdate() {
-      res = await api.patch(`users/${myId}`, data)
+      try{
+        res = await api.patch(`users/${myId}`, data)
+      } catch(err) {
+        setError("Error updating your info")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
     }
 
@@ -100,7 +126,14 @@ const EditProfile = () => {
       const formData = new FormData();
       formData.append("file", pickedFile)
       formData.append("upload_preset", "postImage")
-      res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
+      try{
+        res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
+      } catch(err) {
+        setError("Error uploading image")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res.data.url);
     }
 
@@ -108,7 +141,14 @@ const EditProfile = () => {
       let newImageUrl = res.data.url;
       let results;
       if (newImageUrl !== undefined) {
-       results = await api.patch(`users/${myId}`, {image: newImageUrl})
+      try{
+        results = await api.patch(`users/${myId}`, {image: newImageUrl})
+      } catch(err) {
+        setError("Error setting new profile image")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       }
       console.log(results)
       setLoading(!loading)
@@ -122,6 +162,10 @@ const EditProfile = () => {
 
   return (
     <div className="edit-profile-wrapper">
+      <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
       <div className="edit-profile-header-wrapper">
         <NavLink to="/account" className="edit-back-container"><BsChevronLeft  className="edit-back-icon"/></NavLink>
         <p>Edit Profile</p>
@@ -136,14 +180,14 @@ const EditProfile = () => {
         <form className="edit-profile-photo-text">
           <p style={{fontSize: "1.2rem", fontWeight: "500"}}>{user.userName}</p>
           <label className="edit-profile-image-label" style={{fontWeight: "bold", color: "#0095f6", fontSize: ".9rem"}}>Change Profile Photo</label>
-          <input className="edit-image-input" type="file" name="image" {...register2("image")} onChange={sendImageHandler} />
+          <input style={{fontSize: "16px"}} className="edit-image-input" type="file" name="image" {...register2("image")} onChange={sendImageHandler} />
         </form>
 
         </div>
       <form onSubmit={handleSubmit(dataSubmitHandler)}>
         <div className="edit-piece-wrapper">
           <h1>Name</h1>
-          <input className="edit-small-input"  type="text" name="name" {...register("name")} />
+          <input  style={{fontSize: "16px"}}className="edit-small-input"  type="text" name="name" {...register("name")} />
 
           <p>Help people discover your account by using the name you're known by: either your full name, nickname, or business name.</p>
           <p>You can only change your name twice within 14 days.</p>
@@ -151,13 +195,13 @@ const EditProfile = () => {
 
         <div className="edit-piece-wrapper">
           <h1>Username</h1>
-          <input className="edit-small-input" type="text" name="username" {...register("username")} />
+          <input  style={{fontSize: "16px"}}className="edit-small-input" type="text" name="username" {...register("username")} />
           <p>{`In most cases, you'll be able to change your username back to ${user.userName} for another 14 days `}</p>
         </div>
 
         <div className="edit-piece-wrapper">
           <h1>Website</h1>
-          <input className="edit-small-input" name="website" {...register("website")} />
+          <input  style={{fontSize: "16px"}}className="edit-small-input" name="website" {...register("website")} />
           <h1>Bio</h1>
           <textarea className="edit-large-input" name="bio" {...register("bio")}/>
 
@@ -165,14 +209,14 @@ const EditProfile = () => {
           <p style={{marginTop: "1px"}}>Provide your personal information, even if the account is used for a business, a pet, or something else. This won't be part of your public profile.</p>
 
           <h1>Email</h1>
-          <input className="edit-small-input" name="email" {...register("email")}/>
+          <input  style={{fontSize: "16px"}}className="edit-small-input" name="email" {...register("email")}/>
           <button className="confirm-edit-button">Confirm Email</button>
 
           <h1>Phone Number</h1>
-          <input className="edit-small-input" name="phone" {...register("phone")}/>
+          <input  style={{fontSize: "16px"}}className="edit-small-input" name="phone" {...register("phone")}/>
 
           <h1>Gender</h1>
-          <input className="edit-small-input" name="gender" {...register("gender")}/>
+          <input  style={{fontSize: "16px"}}className="edit-small-input" name="gender" {...register("gender")}/>
 
           <button className="confirm-edit-button" type="submit" disabled={!formState.isValid}>Submit</button>
         </div>

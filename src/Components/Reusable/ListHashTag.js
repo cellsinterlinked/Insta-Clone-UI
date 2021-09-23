@@ -2,14 +2,25 @@ import React, {useState, useEffect} from 'react'
 import './ListHashTag.css';
 import api from '../../Static/axios';
 import { NavLink } from 'react-router-dom'
+import ErrorModal from '../Reusable/ErrorModal';
 
 const ListHashTag = ({hashTag, hashHandler, followedArr, shortHash}) => {
   const [posts, setPosts] = useState()
   const [popular, setPopular] = useState()
+  const [error, setError] = useState();
+  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     async function getPosts() {
-      const res = await api.get(`posts/hash/${shortHash}`)
+      let res;
+      try{
+        res = await api.get(`posts/hash/${shortHash}`)
+      } catch(err) {
+        setError("Error getting posts")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       setPosts(res.data.posts)
       setPopular(res.data.popular)
     }
@@ -18,6 +29,10 @@ const ListHashTag = ({hashTag, hashHandler, followedArr, shortHash}) => {
 
   return (
     <div>
+      <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
      {posts && popular &&  <div className="listHash-wrapper">
       <div className="list-hash-wrapper1">
         <div className='list-hash-image-wrapper'>

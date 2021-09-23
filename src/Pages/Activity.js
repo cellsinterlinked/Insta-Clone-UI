@@ -41,7 +41,15 @@ const Activity = () => {
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get(`users/${myId}`)
+      let res;
+      try {
+       res = await api.get(`users/${myId}`)
+      }catch(err) {
+        setError("Could not get your information from server")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       setUser(res.data.user)
       setTodayArr(res.data.user.activity.filter(activity => isToday(parseJSON(activity.date.fullDate)) === true))
       setYesterdayArr(res.data.user.activity.filter(activity => isYesterday(parseJSON(activity.date.fullDate)) === true))
@@ -59,7 +67,15 @@ const Activity = () => {
 
   useEffect(() => {
     async function getUsers() {
-      const res = await api.get(`users/`)
+      let res;
+      try{
+        res = await api.get(`users/`)
+      } catch(err) {
+        setError("Couldn't get users")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       setUsers(res.data.users)
       
     }
@@ -67,8 +83,16 @@ const Activity = () => {
   }, [])
 
   async function adjustFollow(user) {
-   const res  = await api.patch(`users/following/${myId}`,
-   { otherUser: user },)
+  let res;
+    try{
+      res = await api.patch(`users/following/${myId}`,
+      { otherUser: user },)
+
+    } catch(err) {
+        setError("Something went wrong")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
    if (followingArr.includes(user)) {
     setFollowingArr(followingArr.filter(u => u !== user))
     setError("You unfollowed this user")

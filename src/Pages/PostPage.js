@@ -25,20 +25,44 @@ const PostPage = () => {
   const [followedArr, setFollowedArr] = useState()
 
   async function getViewer() {
-    const res = await api.get(`users/${myId}`)
+    let res;
+    try{
+      res = await api.get(`users/${myId}`)
+    } catch(err) {
+      setError("Error getting your user info")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     console.log(res);
     setFollowedArr(res.data.user.following)
     setViewer(res.data.user)
   }
   
   async function getPost() {
-    const res  = await api.get(`posts/${params}`)
+    let res;
+    try{
+      res  = await api.get(`posts/${params}`)
+    } catch(err) {
+      setError("Error getting post")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+      
     console.log(res)
     setPost(res.data.post)
   }
   async function getUser() {
      if (post) {
-       const res = await api.get(`users/${post.user}`)
+       let res;
+       try{
+         const res = await api.get(`users/${post.user}`)
+        } catch(err) {
+          setError("Error getting user info")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+        }
+
        console.log(res);
        setUser(res.data.user)
      } else return;
@@ -58,7 +82,15 @@ const PostPage = () => {
 
   const likeHandler = (postId) => {
     async function likeClick() {
-      const res = await api.patch(`posts/likes/${postId}`, {user: myId})
+      let res;
+      try{
+        res = await api.patch(`posts/likes/${postId}`, {user: myId})
+      } catch(err) {
+        setError("Error liking post")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+ 
       if (post.likes.includes(myId)) {
         setError("you unliked this post")
         setShowError(true)
@@ -76,7 +108,15 @@ const PostPage = () => {
 
   const saveHandler = (postId) => {
     async function saveClick() {
-      const res = await api.patch(`users/saves/${myId}`, {postId: postId})
+      let res;
+      try{
+        res = await api.patch(`users/saves/${myId}`, {postId: postId})
+      } catch(err) {
+        setError("Error while saving")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       if (user.saves.includes(postId)) {
         setError("Removed this post from saves")
         setShowError(true)
@@ -92,10 +132,18 @@ const PostPage = () => {
   }
 
   async function unfollow(friend) {
-    const res = await api.patch(
-      `users/following/${myId}`,
-      { otherUser: friend.id },
-    );
+    let res;
+    try{
+      res = await api.patch(
+        `users/following/${myId}`,
+        { otherUser: friend.id },
+      );
+    } catch(err) {
+      setError("Error unfollowing")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setFollowedArr(followedArr.filter(u => u !== friend.id))
     getUser()
     setError(`You unfollowed ${friend.userName}`)

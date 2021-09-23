@@ -39,7 +39,15 @@ const Comments = () => {
 
  useEffect(() => {
    async function getPost() {
-     const res = await api.get(`posts/${params}`)
+     let res;
+     try{
+       res = await api.get(`posts/${params}`)
+      } catch(err) {
+        setError("getting posts was unsuccessful")
+        setErrorModal(true)
+        setTimeout(function() {setErrorModal(false)}, 2000)
+      }
+
      console.log(res);
      setPost(res.data.post)
     }
@@ -48,7 +56,15 @@ const Comments = () => {
   
   useEffect(() => {
     async function fetchUsers() {
-      const res = await api.get('users')
+      let res;
+      try{
+        const res = await api.get('users')
+
+      } catch(err) {
+        setError("Getting users was unsuccessful")
+        setErrorModal(true)
+        setTimeout(function() {setErrorModal(false)}, 2000)
+      }
       console.log(res)
       setUsers(res.data.users)
       setUser(res.data.users.find(user => user.id === myId))
@@ -60,7 +76,15 @@ const Comments = () => {
    console.log(data)
    async function sendComment() {
      const newData = {comment: data.comment, commentor: myId}
-     const res = await api.patch(`posts/comments/${params}`, newData, {headers: {'Content-Type': 'application/json'}})
+     let res;
+     try{
+       res = await api.patch(`posts/comments/${params}`, newData, {headers: {'Content-Type': 'application/json'}})
+
+     } catch(err) {
+      setError("Error posting comment")
+      setErrorModal(true)
+      setTimeout(function() {setErrorModal(false)}, 2000)
+     }
      console.log(res)
      setError("Comment posted!")
      setErrorModal(true)
@@ -81,7 +105,15 @@ const Comments = () => {
   const deleteHandler = (commentId) => {
     setLoading(true)
     async function deleteComment() {
-      const res = await api.patch(`posts/comment-delete/${commentId}`, {postId: post.id}, {headers: {'Content-Type': 'application/json'}})
+      let res;
+      try{
+        res = await api.patch(`posts/comment-delete/${commentId}`, {postId: post.id}, {headers: {'Content-Type': 'application/json'}})
+
+      } catch(err) {
+        setError("Error deleting comment")
+        setErrorModal(true)
+        setTimeout(function() {setErrorModal(false)}, 2000)
+      }
       setError('Deleted comment')
       setErrorModal(true)
       setTimeout(function() {setErrorModal(false)}, 2000)
@@ -117,7 +149,7 @@ const Comments = () => {
         {commentContent.inputs.map((input,key) => {
             return (
               <div key={key} className="CommentInputWrapper">
-                <input className="add-comment-input" name={input.name} placeholder={input.label} type={input.type} {...register(input.name)} deletable={false} />
+                <input style={{fontSize: "16px"}} className="add-comment-input" name={input.name} placeholder={input.label} type={input.type} {...register(input.name)} deletable={false} />
               </div>
             )
           } )}

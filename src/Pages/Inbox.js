@@ -9,6 +9,7 @@ import { AuthContext } from '../Context/auth-context';
 import { useHistory } from 'react-router';
 import { BiConversation } from 'react-icons/bi';
 import Spinner from '../Components/Reusable/Spinner';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 const Inbox = () => {
   const auth = useContext(AuthContext);
@@ -16,10 +17,20 @@ const Inbox = () => {
   const history = useHistory()
   const [convos, setConvos] = useState([])
   const [users, setUsers] = useState()
+  const [error, setError] =useState()
+  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     async function fetchFollowed() {
-      const res = await api.get('users')
+      let res;
+      try{
+        res = await api.get('users')
+      } catch(err) {
+        setError("Error getting followed users")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       setUsers(res.data.users)
     }
@@ -28,7 +39,15 @@ const Inbox = () => {
 
   useEffect(() => {
     async function fetchConvos() {
-      const res = await api.get(`convos/messages/${myId}`)
+      let res;
+      try{
+        res = await api.get(`convos/messages/${myId}`)
+      } catch(err) {
+        setError("Error getting messages")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       const orderedConvos = res.data.convos.sort(function(a, b) {return a.messages[a.messages.length - 1].date.time - b.messages[b.messages.length - 1].date.time })
       setConvos(orderedConvos.reverse())
@@ -39,6 +58,10 @@ const Inbox = () => {
 
   return(
     <>
+    <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
     {(!users || !myId) && <Spinner /> }
     {users && myId && <div className="inbox-wrapper">
       

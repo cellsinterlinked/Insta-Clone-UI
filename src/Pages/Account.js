@@ -19,6 +19,8 @@ import Modal from '../Components/Reusable/Modal';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useHistory } from 'react-router-dom';
 import Spinner from '../Components/Reusable/Spinner';
+import ErrorModal from '../Components/Reusable/ErrorModal';
+
 
 //you were turning following into navlink on thursday
 
@@ -36,26 +38,53 @@ const Account = () => {
   const [systemModal, setSystemModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
+  const [error, setError] =  useState()
+  const [showError, setShowError] = useState(false);
+  
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get(`users/${myId}`);
-      setUser(res.data.user);
+      let res;
+      try {
+      res = await api.get(`users/${myId}`);
+    } catch(err) {
+      setError("Couldn't get user information")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
     }
-    getUser();
-  }, [myId]);
+    setUser(res.data.user);
+  }
+  getUser();
+}, [myId]);
+
 
   useEffect(() => {
     async function getPosts() {
-      const res = await api.get(`/posts/user/${myId}`);
+      let res;
+      try{
+        res = await api.get(`/posts/user/${myId}`);
+      } catch(err) {
+        setError("Couldn't get posts information")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000) 
+      }
       setPosts(res.data.posts.reverse());
     }
     getPosts();
   }, [loading, myId]);
 
+
   useEffect(() => {
     async function getTagged() {
-      const res = await api.get(`/posts/tagged/${myName}`);
+      let res;
+      try{
+        res = await api.get(`/posts/tagged/${myName}`);
+      } catch(err) {
+        setError("Couldn't get posts information")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000) 
+      }
+
       setTagged(res.data.posts.reverse());
     }
     getTagged();
@@ -63,7 +92,15 @@ const Account = () => {
 
   useEffect(() => {
     async function getSaved() {
-      const res = await api.get(`users/saved/${myId}`);
+      let res;
+      try{
+        res = await api.get(`users/saved/${myId}`);
+      } catch(err) {
+        setError("Couldn't get posts information")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000) 
+      }
+
       console.log(res);
       setSaved(res.data.posts.reverse());
     }
@@ -100,6 +137,10 @@ const Account = () => {
     {(!user || !myName || !myId) && <Spinner />}
       {user && myId && myName &&  (
         <div>
+          <ErrorModal 
+        children={<p className="errorText">{error}</p>}
+        show={showError}
+          />
           <FullModal
             show={systemModal}
             onCancel={systemHandler}

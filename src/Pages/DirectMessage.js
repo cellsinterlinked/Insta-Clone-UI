@@ -16,6 +16,8 @@ import Modal from '../Components/Reusable/Modal';
 import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../Context/auth-context'; 
 import { IoPersonCircle } from 'react-icons/io5'
+import ErrorModal from '../Components/Reusable/ErrorModal'
+import Spinner from '../Components/Reusable/Spinner';
 
 const schemaText = yup.object().shape({
   message: yup.string().required().min(1)
@@ -52,14 +54,32 @@ const DirectMessage = () => {
   const [file, setFile] = useState()
   const [showModal, setShowModal] = useState(false)
   const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [error, setError] = useState();
+  const [showError, setShowError] = useState(false);
+  const [spinner, setSpinner] = useState(false)
 
 
   useEffect(() => {
     async function fetchConvo() {
-      const res = await api.get(`convos/${params}`)
+      let res;
+      try{
+        res = await api.get(`convos/${params}`)
+      } catch(err) {
+        setError("Error getting your conversations")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       let user = res.data.convo.users.find(user => user !== myId)
-     
-      const userres = await api.get(`users/${user}`)
+      let userres;
+      try {
+        userres = await api.get(`users/${user}`)
+      } catch(err) {
+        setError("Error finding your info")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       res.data.convo.messages.shift() //this gets rid of the init message.
       setConvo(res.data.convo)
       setUser(userres.data.user)
@@ -71,7 +91,15 @@ const DirectMessage = () => {
 
   const sendTextHandler = (data) => {
     async function sendText() {
-     const res = await api.patch(`convos/${params}`, {user: myId, message: data.message, image: ""})
+    let res;
+    try{
+      res = await api.patch(`convos/${params}`, {user: myId, message: data.message, image: ""})
+    } catch(err) {
+      setError("Error sending message")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
+
      setLoading(!loading)
     }
     sendText()
@@ -81,7 +109,15 @@ const DirectMessage = () => {
 
   const sendHeartHandler = () => {
     async function sendHeart() {
-      const res = await api.patch(`convos/${params}`, {user: myId, message: "<3", image: ""})
+      let res;
+      try{
+        res = await api.patch(`convos/${params}`, {user: myId, message: "<3", image: ""})
+      } catch(err) {
+        setError("Error sending your love")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       setLoading(!loading)
      }
      sendHeart()
@@ -89,6 +125,7 @@ const DirectMessage = () => {
 
 
   const sendImageHandler = async(event) => {
+    setSpinner(true)
     let pickedFile;
     if (event.target.files && event.target.files.length === 1) {
       pickedFile = event.target.files[0]
@@ -99,7 +136,14 @@ const DirectMessage = () => {
       const formData = new FormData();
       formData.append("file", pickedFile)
       formData.append("upload_preset", "postImage")
-      res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
+      try{
+        res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
+
+      } catch(err) {
+        setError("Error uploading image")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
       console.log(res.data.url);
     }
 
@@ -107,7 +151,14 @@ const DirectMessage = () => {
       let newImageUrl = res.data.url;
       let results;
       if (newImageUrl !== undefined) {
-       results = await api.patch(`convos/${params}`, {message:"message", image: newImageUrl, user: myId})
+        try{
+          results = await api.patch(`convos/${params}`, {message:"message", image: newImageUrl, user: myId})
+
+        } catch(err) {
+          setError("Error sending your image")
+          setShowError(true)
+          setTimeout(function() {setShowError(false)}, 2000)
+        }
       }
       console.log(results)
       setLoading(!loading)
@@ -115,6 +166,7 @@ const DirectMessage = () => {
 
     await uploadImage()
     await sendNewImage()
+    setSpinner(false)
   }
 
   const cancelModalHandler = () => {
@@ -127,7 +179,15 @@ const DirectMessage = () => {
   
   const deleteHandler = () => {
     async function deleteConvo() {
-      const res = await api.delete(`/convos/${convo.id}`)
+      let res;
+      try{
+        res = await api.delete(`/convos/${convo.id}`)
+
+      } catch(err) {
+        setError("Error deleting your conversation")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
       console.log(res)
       history.push(`/inbox`)
     }
@@ -171,6 +231,10 @@ const DirectMessage = () => {
 
   return(
     <>
+      <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
       {user && convo && <FullModal
       show={showModal}
       onCancel={cancelModalHandler}
@@ -229,7 +293,8 @@ const DirectMessage = () => {
       </FullModal>}
 
 
-     { user && convo && <div className="direct-message-wrapper">Direct Message
+     { user && convo && 
+     <div className="direct-message-wrapper">Direct Message
       <div className="direct-message-head-wrapper">
         <NavLink to="/inbox" className="direct-back-wrapper">
           <BsChevronLeft className="direct-back-icon"/>
@@ -247,7 +312,7 @@ const DirectMessage = () => {
         </div>
       
       </div>
-
+        {spinner && <Spinner />}
       <div className="convo-wrapper">
         {convo.messages.map((message, index) => 
         <div key={index} className="message-component-wrapper">
@@ -295,7 +360,7 @@ const DirectMessage = () => {
           <label className="message-image-input-label">
           <BsImage className="messageInput-Icon" />
           </label>
-          <input className="message-image-input" type="file" name="image" {...register2("image")} onChange={sendImageHandler} />
+          <input style={{fontSize: "16px"}} className="message-image-input" type="file" name="image" {...register2("image")} onChange={sendImageHandler} />
 
         </form>}
         {!formState.isValid && <div className="message-input-icon2" onClick={sendHeartHandler}>

@@ -35,7 +35,15 @@ const Home = () => {
   
   useEffect(() => {
     async function getUser() {
-      const res = await api.get(`users/${auth.userId}`)
+      let res;
+      try{
+        res = await api.get(`users/${auth.userId}`)
+      } catch(err) {
+        setError("Error getting user info")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res);
       const annoying = res.data.user
       setFollowedArr(res.data.user.following)
@@ -47,7 +55,15 @@ const Home = () => {
   
   useEffect(() => {
     async function fetchFollowed () {
-      const res = await api.get(`users/following/${auth.userId}`)
+      let res;
+      try{
+        res = await api.get(`users/following/${auth.userId}`)
+
+      } catch(err) {
+        setError("Error getting posts of followed users")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
       console.log(res);
       setFollowed(res.data.users)
     }
@@ -56,7 +72,15 @@ const Home = () => {
   
   useEffect(() => {
     async function fetchPosts() {
-      const res = await api.get(`posts/followed/${auth.userId}`)
+      let res;
+      try{
+        res = await api.get(`posts/followed/${auth.userId}`)
+      } catch(err) {
+        setError("Error getting posts")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       setPosts(res.data.posts.reverse())
     }
@@ -65,7 +89,15 @@ const Home = () => {
   
   const saveHandler = (postId) => {
     async function saveClick() {
-      const res = await api.patch(`users/saves/${auth.userId}`, {postId: postId})
+      let res;
+      try{
+       res = await api.patch(`users/saves/${auth.userId}`, {postId: postId})
+      } catch(err) {
+        setError("Error Saving Post")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       if (user.saves.includes(postId)) {
         setError("Removed this post from saves")
         setShowError(true)
@@ -82,7 +114,15 @@ const Home = () => {
 
   const likeHandler = (postId) => {
     async function likeClick() {
-      const res = await api.patch(`posts/likes/${postId}`, {user: myId})
+      let res;
+      try{
+       res = await api.patch(`posts/likes/${postId}`, {user: myId})
+      } catch(err) {
+        setError("Error liking post")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       const thisPost = posts.find(post => post.id === postId)
       if (thisPost.likes.includes(myId)) {
         setError("you unliked this post")
@@ -100,11 +140,18 @@ const Home = () => {
   }
 
   const unfollow = async (user) => {
-    
-    const res = await api.patch(
-      `users/following/${myId}`, 
-      {otherUser: user.id}, 
-      {headers: {'Content-Type': 'application/json'}})
+    let res;
+    try{
+      res = await api.patch(
+        `users/following/${myId}`, 
+        {otherUser: user.id}, 
+        {headers: {'Content-Type': 'application/json'}})
+
+    } catch(err) {
+      setError("Error unfollowing")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
     setFollowedArr(followedArr.filter(u => u !== user.id))
     setError(`You unfollowed ${user.userName}`)
     setShowError(true)

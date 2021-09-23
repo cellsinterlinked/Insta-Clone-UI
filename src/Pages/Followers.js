@@ -24,20 +24,44 @@ const Followers = () => {
 
 
   async function fetchFollowers() {
-    const res = await api.get(`users/followers/${myId}`)
+    let res;
+    try{
+      res = await api.get(`users/followers/${myId}`)
+    } catch(err) {
+      setError("Error fetching followers")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     if (res.data.users.length > 0) {
     setFollowers(res.data.users) }
       
   }
 
   async function fetchMe() {
-    const res = await api.get(`users/${myId}`);
+    let res;
+    try{
+      res = await api.get(`users/${myId}`);
+    } catch(err) {
+      setError("Error getting your user info")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setMe(res.data.user)
     setFollowedArr(res.data.user.following)
   }
 
   async function fetchPopular() {
-    const res = await api.get(`users/popular/${myId}`)
+    let res;
+    try{
+      res = await api.get(`users/popular/${myId}`)
+    } catch(err) {
+      setError("Error fetching popular users")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     console.log(res.data.users)
     setPopular(res.data.users)
     
@@ -55,10 +79,18 @@ const Followers = () => {
 
   
   async function unfollow(friend) {
-    const res = await api.patch(
-      `users/following/${myId}`,
-      { otherUser: friend.id },
-    );
+    let res;
+    try{
+      res = await api.patch(
+        `users/following/${myId}`,
+        { otherUser: friend.id },
+      );
+
+    } catch(err) {
+      setError("Error unfollowing")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
     setFollowedArr(followedArr.filter(u => u !== friend.id))
     setError(`You unfollowed ${friend.userName}`)
     setShowError(true)
@@ -67,10 +99,18 @@ const Followers = () => {
   }
 
   async function follow(friend) {
-    const res = await api.patch(
-      `users/following/${myId}`,
-      { otherUser: friend.id },
-    );
+    let res;
+    try{
+      res = await api.patch(
+        `users/following/${myId}`,
+        { otherUser: friend.id },
+      );
+    } catch(err) {
+      setError("Error following")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+    }
+
    setFollowedArr([...followedArr, friend.id])
    setError(`You followed ${friend.userName}`)
    setShowError(true)

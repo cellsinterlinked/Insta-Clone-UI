@@ -16,6 +16,7 @@ import FullModal from '../Components/Reusable/FullModal';
 import './Search.css';
 import { MdCancel } from 'react-icons/md';
 import { AuthContext } from '../Context/auth-context';
+import ErrorModal from '../Components/Reusable/ErrorModal';
 
 const NewPost = () => {
 
@@ -30,7 +31,7 @@ const NewPost = () => {
   })
   
   const { register, handleSubmit, errors, formState} = useForm({
-    // resolver: yupResolver(schema),  // these were the latest changes in case it breaks
+    // resolver: yupResolver(schema),  
     // mode: "onChange"
     validationSchema: schema
   })
@@ -42,6 +43,9 @@ const NewPost = () => {
   const [users, setUsers] = useState()
   const [displayedUsers, setDisplayedUsers] = useState()
   const [selectedTags, setSelectedTags] = useState([])
+  const [user, setUser] = useState()
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState(false)
   const auth = useContext(AuthContext)
   const myId = auth.userId
 
@@ -59,9 +63,19 @@ const NewPost = () => {
 
   useEffect(() => {
     async function fetchUsers() {
-      const res = await api.get('users')
-      console.log(res)
+      let res;
+      let myUser
+      try {
+       res = await api.get('users')
+      } catch(err) {
+        setError("Couldn't get users information from database")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+      myUser = res.data.users.filter(user => user.id === myId)
       setUsers(res.data.users)
+      setUser(myUser[0])
+      console.log(users)
     }
     fetchUsers()
 
@@ -69,7 +83,7 @@ const NewPost = () => {
 
   useEffect(() => {
     if (users && query && query[0] !== "#") {
-      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query) || user.name.toLowerCase().includes(query)))
+      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query.toLowerCase())))
     }
   },[query, users])
       
@@ -91,7 +105,14 @@ const NewPost = () => {
       const formData = new FormData();
       formData.append("file", file)
       formData.append("upload_preset", "postImage")
-      res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
+      try {
+        res = await Axios.post(`${process.env.REACT_APP_CLOUDINARY_URL}`, formData)
+      } catch(err) {
+        setError("Couldn't store image")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res.data.url);
     }
       
@@ -106,11 +127,21 @@ const NewPost = () => {
       let newImageUrl = res.data.url;
       let results;
       if (newImageUrl !== undefined) {
-       results = await api.post(
-         "posts", 
-         {description: description, image: newImageUrl, user: myId, hashTags: tags, tags: selectedTags},
-         {headers: {Authorization : 'Bearer ' + auth.token}}
-         )
+      try {
+        results = await api.post(
+          "posts", 
+          {description: description, image: newImageUrl, user: myId, hashTags: tags, tags: selectedTags},
+          {headers: {Authorization : 'Bearer ' + auth.token}}
+          )
+
+      } catch(err) {
+        setError("Posting was unsuccessful")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
+
+
       }
       console.log(results)
     }
@@ -120,7 +151,7 @@ const NewPost = () => {
 
     await uploadImage();
     await sendNewPost();
-    history.push('/home')
+    if(error !== "Posting was unsuccessful") {history.push('/home')}
   }
 
   const cancelModal = () => {
@@ -158,13 +189,17 @@ const NewPost = () => {
 
   return(
     <div className="create-post-wrapper">
+      <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
       <FullModal
       show={fullModal}
       onCancel={cancelModal}
       children={<div>
         <div className="search-header-wrapper">
           {query && <MdCancel className="cancel-input" onClick={cancelSearch} />}
-        <input className="search-input" placeholder="Search" value={query} onChange={queryHandler} id="search">
+        <input style={{fontSize: "16px"}} className="search-input" placeholder="Search" value={query} onChange={queryHandler} id="search">
         </input>
         </div>
         
@@ -199,14 +234,14 @@ const NewPost = () => {
           <BsChevronLeft className="create-back-icon" />
         </NavLink>
         <p>New Post</p>
-        <button type="submit" disabled={!formState.isValid} className="new-post-share-button">
+        <button type="submit" disabled={!formState.isValid || !file} className="new-post-share-button">
           Share
         </button>
       </div>
 
       <div className="new-post-info1-wrapper">
         <div className="new-post-portrait-wrapper">
-          <IoPersonCircle className="new-post-no-icon" />
+          {(user && user.image) ? <img className="new-post_user-display" alt="" src={user.image} /> : <IoPersonCircle className="new-post-no-icon" />}
         </div>
 
         <div className="new-post-input-wrapper">
@@ -219,7 +254,7 @@ const NewPost = () => {
           {previewUrl && <img className="post-preview" src={previewUrl} alt="Preview" />}
             {!previewUrl && <RiImageAddLine className="add-image-icon" />}
           </label>
-          <input className="new-post-image-input" type="file" placeholder="" name="image" id="image" {...register("image")} label="" onChange={pickedHandler}/>
+          <input style={{fontSize: "16px"}} className="new-post-image-input" type="file" placeholder="" name="image" id="image" {...register("image")} label="" onChange={pickedHandler}/>
           </div>
         </div>
 

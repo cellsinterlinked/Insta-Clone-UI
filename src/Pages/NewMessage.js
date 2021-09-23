@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import { IoPersonCircle } from 'react-icons/io5';
 
 const NewMessage = () => {
 
@@ -60,7 +61,7 @@ const NewMessage = () => {
   
   useEffect(() => {
     if (users) {
-      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query) || user.name.toLowerCase().includes(query)))
+      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query.toLowerCase())))
       console.log("firing")
       //eventually also make this filter so the more followed/or match those already with a conversation are at the top
     }
@@ -95,8 +96,15 @@ const NewMessage = () => {
       history.push(`/direct/${ourConvo}`)
     }
     if (chattingUsers.filter(user => user.id === selected).length === 0) {
-     res = await api.post('convos', {user1: myId, user2: selected, message:"init", image: ""})
-      history.push(`/direct/${res.data.convo.id}`)
+     try {
+       res = await api.post('convos', {user1: myId, user2: selected, message:"init", image: ""})
+
+     } catch(err) {
+      setError("Could not start new conversation")
+      setShowError(true);
+      setTimeout(function() {setShowError(false)}, 2000)
+     }
+      if (error !== "Could not start new conversation") {history.push(`/direct/${res.data.convo.id}`)}
     }
   } 
 
@@ -124,7 +132,7 @@ const NewMessage = () => {
 
       <div className="new-message-search-wrapper">
         <p className="new-message-to">To:</p>
-        {(!selected || selected === null) && <input type="text" value={query} placeholder="Search..." onChange={queryHandler} className="new-message-search-input" />}
+        {(!selected || selected === null) && <input style={{fontSize: "16px"}} type="text" value={query} placeholder="Search..." onChange={queryHandler} className="new-message-search-input" />}
 
         {selected && <div className="name-selected-container">
           <p>{users.find(user => user.id === selected).userName}</p>
@@ -145,7 +153,7 @@ const NewMessage = () => {
           {chattingUsers.map((user, index) =>
             <div key={index} className="new-message-user-object" onClick={() => selectHandler(user.id)} style={{backgroundColor: selected === user.id ? "#e9e9e9" : "white"}}>
               <div className="user-container-portrait">
-                <img alt="" src={user.image} />
+                {user.image ? <img alt="" src={user.image} /> : <IoPersonCircle className="no-image_user-circle" /> }
               </div>
               <div className="user-object-name-container">
               <p style={{fontWeight: "bold"}}>{user.userName}</p>

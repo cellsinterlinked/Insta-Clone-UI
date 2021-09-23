@@ -48,26 +48,58 @@ const [popular, setPopular] = useState()
 
 
 async function getViewer() {
-  const res = await api.get(`users/${myId}`)
+  let res;
+  try{
+    res = await api.get(`users/${myId}`)
+  } catch(err) {
+    setError("Error getting your user data")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+  }
+
   setViewer(res.data.user)
   setFollowedArr(res.data.user.following)
 }
 
 async function getUser() {
-  const res = await api.get(`/users/profile/${params}`)
+  let res;
+  try{
+    res = await api.get(`/users/profile/${params}`)
+  } catch(err) {
+    setError("Error getting user data")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+  }
+
   setUser(res.data.user);
 }
 
 async function fetchPopular() {
-  const res = await api.get(`users/popular/${myId}`);
+  let res;
+  try{
+    res = await api.get(`users/popular/${myId}`);
+  } catch(err) {
+    setError("Error fetching popular users")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+  }
+
   setPopular(res.data.users);
 }
 
 const follow = async () => {
-  const res = await api.patch(
-    `users/following/${myId}`,
-    { otherUser: user.id },
-  );
+  let res;
+  try{
+    res = await api.patch(
+      `users/following/${myId}`,
+      { otherUser: user.id },
+    );
+  } catch(err) {
+    setError("Error trying to follow")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+  }
+
  setFollowedArr([...followedArr, user.id])
  setError(`You followed ${user.userName}`)
  setShowError(true)
@@ -75,10 +107,18 @@ const follow = async () => {
 }
 
 const suggestedFollow = async (user) => {
-  const res = await api.patch(
-    `users/following/${myId}`,
-    { otherUser: user.id },
-  );
+  let res;
+  try{
+    res = await api.patch(
+      `users/following/${myId}`,
+      { otherUser: user.id },
+    );
+
+  } catch(err) {
+    setError("An error occured")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+  }
  setFollowedArr([...followedArr, user.id])
  setError(`You followed ${user.userName}`)
  setShowError(true)
@@ -86,11 +126,18 @@ const suggestedFollow = async (user) => {
 }
 
 const suggestedUnfollow = async (user) => {
-    
-  const res = await api.patch(
-    `users/following/${myId}`, 
-    {otherUser: user.id}, 
-    {headers: {'Content-Type': 'application/json'}})
+  let res;
+  try{
+    res = await api.patch(
+     `users/following/${myId}`, 
+     {otherUser: user.id}, 
+     {headers: {'Content-Type': 'application/json'}})
+    } catch(err) {
+      setError("An error occured")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
   setShowModal(false)
   setFollowedArr(followedArr.filter(u => u !== user.id))
   setError(`You unfollowed ${user.userName}`)
@@ -99,11 +146,18 @@ const suggestedUnfollow = async (user) => {
   
 }
 const unfollow = async (user) => {
-    
-  const res = await api.patch(
-    `users/following/${myId}`, 
-    {otherUser: user.id}, 
-    {headers: {'Content-Type': 'application/json'}})
+  let res;
+  try{
+    res = await api.patch(
+      `users/following/${myId}`, 
+      {otherUser: user.id}, 
+      {headers: {'Content-Type': 'application/json'}})
+    } catch(err) {
+      setError("Error unfollowing")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
   setShowModal(false)
   setFollowedArr(followedArr.filter(u => u !== user.id))
   setError(`You unfollowed ${user.userName}`)
@@ -123,7 +177,15 @@ useEffect(() => {
 
 useEffect(() => {
   async function getPosts() {
-    const res = await api.get(`/posts/profile/${params}`)
+    let res; 
+    try{
+      res = await api.get(`/posts/profile/${params}`)
+    } catch(err) {
+      setError("Error getting posts")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setPosts(res.data.posts.reverse())
 
   }
@@ -132,7 +194,15 @@ useEffect(() => {
 
 useEffect(() => {
   async function getTagged() {
-    const res = await api.get(`/posts/tagged/${params}`)
+    let res;
+    try{
+      res = await api.get(`/posts/tagged/${params}`)
+    } catch(err) {
+      setError("Error getting tagged posts")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setTagged(res.data.posts.reverse())
   }
   getTagged();
@@ -140,8 +210,17 @@ useEffect(() => {
     
 
 const likeHandler = (postId) => {
+
   async function likeClick() {
-    const res = await api.patch(`posts/likes/${postId}`, {user: myId})
+    let res;
+    try{
+      res = await api.patch(`posts/likes/${postId}`, {user: myId})
+    } catch(err) {
+      setError("An error occured")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setLoading(!loading);
   }
   likeClick()
@@ -168,7 +247,14 @@ const messageHandler = async () => {
     
   await loop()
   if (conversation.length === 0) {
-    res = await  api.post('convos', {user1: myId, user2: user.id, message:"init", image: ""})
+    try{
+      res = await  api.post('convos', {user1: myId, user2: user.id, message:"init", image: ""})
+    } catch(err) {
+      setError("An error occured")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     history.push(`/direct/${res.data.convo.id}`)
   }
 }

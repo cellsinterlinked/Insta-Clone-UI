@@ -88,6 +88,16 @@
   margin-left: 0.8rem;
   margin-top: 0.8rem;
   margin-right: 0.6rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.new-post_user-display {
+  min-width: 100%;
+  min-height: 100%;
+  max-width: 140%;
+  max-height: 140%;
+  object-fit: cover;
 }
 
 .new-post-no-icon {

@@ -10,6 +10,7 @@ import {MdCancel} from 'react-icons/md'
 import { AuthContext } from '../Context/auth-context';
 import Spinner from '../Components/Reusable/Spinner';
 import { IoPersonCircle } from 'react-icons/io5'
+import ErrorModal from '../Components/Reusable/ErrorModal'
 
 const Search = () => {
   const auth = useContext(AuthContext)
@@ -23,12 +24,22 @@ const Search = () => {
   const [displayedHashTags, setDisplayedHashTags] = useState();
   const [hashTags, setHashTags] = useState();
   const [fullTags, setFullTags] = useState()
+  const [error, setError] = useState()
+  const [showError, setShowError] = useState(false);
 
 
 
   useEffect(() => {
     async function getHashTags() {
-      const res = await api.get('/posts/hashtags')
+      let res;
+      try{
+        res = await api.get('/posts/hashtags')
+      } catch(err) {
+        setError("Error getting hashtags")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       setHashTags(res.data.hashTags)
       setFullTags(res.data.fullTags)
     }
@@ -37,7 +48,15 @@ const Search = () => {
 
   useEffect(() => {
     async function getUser() {
-      const res = await api.get(`users/${myId}`)
+      let res;
+      try{
+        res = await api.get(`users/${myId}`)
+      } catch(err) {
+        setError("Error getting user")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res);
       setUser(res.data.user)
     }
@@ -46,7 +65,15 @@ const Search = () => {
 
   useEffect(() => {
     async function fetchPosts() {
-      const res = await api.get('posts')
+      let res;
+      try{
+        res = await api.get('posts')
+      } catch(err) {
+        setError("Error getting posts")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       setPosts(res.data.posts.reverse())
     }
@@ -56,7 +83,15 @@ const Search = () => {
 
   useEffect(() => {
     async function fetchUsers() {
-      const res = await api.get('users')
+      let res;
+      try{
+        res = await api.get('users')
+      } catch(err) {
+        setError("Error getting users")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+      }
+
       console.log(res)
       let allUsers = res.data.users.filter(user => user.id !== myId)
       setUsers(allUsers)
@@ -68,13 +103,13 @@ const Search = () => {
   
   useEffect(() => {
     if (hashTags && query && query[0] === "#") {
-      setDisplayedHashTags(hashTags.filter(tag => tag.includes(query)))
+      setDisplayedHashTags(hashTags.filter(tag => tag.includes(query.toLowerCase())))
     }
   }, [query, hashTags])
 
   useEffect(() => {
     if (users && query && query[0] !== "#") {
-      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query) || user.name.toLowerCase().includes(query)))
+      setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query)))
     }
   },[query, users])
   
@@ -100,10 +135,14 @@ const Search = () => {
 
   return (
     <>
+     <ErrorModal 
+      children={<p className="errorText">{error}</p>}
+      show={showError}
+      />
     {(!myId || !posts || !user || !users || !hashTags) && <Spinner />}
     {myId && posts && user && users && hashTags && <div>
       <div className="search-header-wrapper">
-        <input id="search-page-input" className="search-input" placeholder="Search" onChange={queryHandler}></input>
+        <input style={{fontSize: "16px"}} id="search-page-input" className="search-input" placeholder="Search" onChange={queryHandler}></input>
         {query && <MdCancel className="cancel-input" onClick={cancelSearch} />}
       </div>
 

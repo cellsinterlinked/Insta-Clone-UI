@@ -69,9 +69,15 @@ const Auth = () => {
 
   const signupSubmitHandler = (data) => {
     let res
-    console.log(data)
     async function sendSignUp() {
-     res = await api.post('users/signup', data, {headers: {'Content-Type': 'application/json'}})
+    try {
+      res = await api.post('users/signup', data, {headers: {'Content-Type': 'application/json'}})
+    } catch(err) {
+      setError("Something went wrong. Try different username/password")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
       console.log(res)
       auth.login(res.data.userId, res.data.token, res.data.userName)
     }

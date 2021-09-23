@@ -181,3 +181,9 @@
   border-left: 1px solid #93d4ff;
   color: #68c3ff;
 }
+
+.no-image_user-circle {
+  height: 100%;
+  width: 100%;
+  color: #dbdbdb;
+}

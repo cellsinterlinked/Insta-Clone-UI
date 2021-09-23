@@ -25,7 +25,15 @@ const HashPage = () => {
  
 
   async function getUser() {
-    const res = await api.get(`users/${myId}`)
+    let res;
+    try{
+      res = await api.get(`users/${myId}`)
+
+    } catch(err) {
+      setError("Error getting user info")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
     setUser(res.data.user);
     setFollowedHashTags(res.data.user.followedHash)
     console.log(res.data.user)
@@ -33,7 +41,15 @@ const HashPage = () => {
   }
 
   async function getPosts() {
-    const res = await api.get(`posts/hash/${params}`)
+    let res;
+    try{
+      res = await api.get(`posts/hash/${params}`)
+    } catch(err) {
+      setError("Error getting posts")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+    }
+
     setPosts(res.data.posts)
     setRecent(res.data.recent)
     setPopular(res.data.popular)
@@ -46,7 +62,15 @@ useEffect(() => {
 }, [])
 
 const followHandler = async() => {
-  const res = await api.patch(`users/hashtags/${myId}`, {hashTag: fullParams})
+  let res;
+  try{
+  res = await api.patch(`users/hashtags/${myId}`, {hashTag: fullParams})
+    
+  } catch(err) {
+    setError("Error editing follows")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+  }
   console.log(res)
   if (followedHashTags.includes(fullParams)) {
     setFollowedHashTags(followedHashTags.filter(h => h !== fullParams))
