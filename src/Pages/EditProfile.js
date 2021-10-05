@@ -10,6 +10,8 @@ import * as yup from 'yup';
 import Axios from 'axios';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import { useHistory } from 'react-router-dom';
+import { BsPersonBoundingBox } from 'react-icons/bs';
 
 
 const EditProfile = () => {
@@ -50,6 +52,7 @@ const EditProfile = () => {
   const [file, setFile] = useState()
   const [error, setError] = useState();
   const [showError, setShowError] = useState(false)
+  const history = useHistory();
 
 
 
@@ -96,22 +99,27 @@ const EditProfile = () => {
   }, [])
 
 
-  const dataSubmitHandler = (data) => {
-
+  const dataSubmitHandler = async (data) => {
+    let error;
     let res;
     async function sendUserUpdate() {
       try{
         res = await api.patch(`users/${myId}`, data)
       } catch(err) {
+        error = err
         setError("Error updating your info")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        return
       }
 
       console.log(res)
     }
 
-    sendUserUpdate()
+    await sendUserUpdate()
+    if (!error) {
+      history.push("/account")
+    }
 
   }
 
@@ -139,10 +147,11 @@ const EditProfile = () => {
 
     async function sendNewImage() {
       let newImageUrl = res.data.url;
+      let newPublicId = res.data.public_id
       let results;
       if (newImageUrl !== undefined) {
       try{
-        results = await api.patch(`users/${myId}`, {image: newImageUrl})
+        results = await api.patch(`users/${myId}`, {image: newImageUrl, newPublicId: newPublicId})
       } catch(err) {
         setError("Error setting new profile image")
         setShowError(true)
@@ -175,7 +184,7 @@ const EditProfile = () => {
       <div className="edit-profile-list">
         <div className="edit-profile-photo-wrapper">
           <div className="edit-profile-image">
-            <img alt="" src={user.image}/>
+            {user.image ? <img alt="" src={user.image}/> : <BsPersonBoundingBox style={{height: "100%", width: "100%", color: "#dbdbdb"}}/> }
           </div>
         <form className="edit-profile-photo-text">
           <p style={{fontSize: "1.2rem", fontWeight: "500"}}>{user.userName}</p>

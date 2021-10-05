@@ -181,9 +181,11 @@ useEffect(() => {
     try{
       res = await api.get(`/posts/profile/${params}`)
     } catch(err) {
+      setPosts([])
       setError("Error getting posts")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        return
     }
 
     setPosts(res.data.posts.reverse())

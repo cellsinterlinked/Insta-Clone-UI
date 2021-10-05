@@ -113,7 +113,8 @@ const NewPost = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res.data.url);
+      // console.log(res.data.url);
+      console.log(res.data)
     }
       
       
@@ -125,12 +126,13 @@ const NewPost = () => {
     async function sendNewPost() {
       //setup hashtags in here
       let newImageUrl = res.data.url;
+      let newPublicId = res.data.public_id
       let results;
       if (newImageUrl !== undefined) {
       try {
         results = await api.post(
           "posts", 
-          {description: description, image: newImageUrl, user: myId, hashTags: tags, tags: selectedTags},
+          {description: description, image: newImageUrl, user: myId, hashTags: tags, tags: selectedTags, publicId: newPublicId},
           {headers: {Authorization : 'Bearer ' + auth.token}}
           )
 

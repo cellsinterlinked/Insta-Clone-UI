@@ -149,10 +149,11 @@ const DirectMessage = () => {
 
     async function sendNewImage() {
       let newImageUrl = res.data.url;
+      let newPublicId = res.data.public_id
       let results;
       if (newImageUrl !== undefined) {
         try{
-          results = await api.patch(`convos/${params}`, {message:"message", image: newImageUrl, user: myId})
+          results = await api.patch(`convos/${params}`, {message:"message", image: newImageUrl, user: myId, publicId: newPublicId})
 
         } catch(err) {
           setError("Error sending your image")

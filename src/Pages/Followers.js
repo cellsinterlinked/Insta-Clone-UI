@@ -28,9 +28,11 @@ const Followers = () => {
     try{
       res = await api.get(`users/followers/${myId}`)
     } catch(err) {
+      setFollowers([])
       setError("Error fetching followers")
       setShowError(true)
       setTimeout(function() {setShowError(false)}, 2000)
+      return
     }
 
     if (res.data.users.length > 0) {
@@ -153,6 +155,7 @@ const Followers = () => {
       </div>
       }
 
+      <div style={{marginTop: "4rem"}}>
       <div className="follow-suggestions-text">
       <p>Suggestions For You</p>
       </div>
@@ -162,6 +165,10 @@ const Followers = () => {
         {popular.map((user, index) => <ListPerson user={user} key={index} followed={false} addFollowing={follow} followedArr={followedArr} />)}
       </div>
       }
+
+
+      </div>
+      
 
       
       

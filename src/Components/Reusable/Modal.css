@@ -8,6 +8,22 @@
   background-color: white;
   border: none;
   max-height: 70vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.alternate-modal {
+  z-index: 100;
+  position: fixed;
+  top: 10vh;
+  left: 15%;
+  width: 70%;
+  border-radius: 0.8rem;
+  background-color: white;
+  border: none;
+  max-height: 70vh;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .modal-enter {

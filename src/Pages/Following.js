@@ -46,9 +46,11 @@ const Following = () => {
     try{
       res = await api.get(`users/following/${myId}`);
     } catch(err) {
+      setFollowed([])
       setError("Error getting followed users")
-        setShowError(true)
-        setTimeout(function() {setShowError(false)}, 2000)
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000)
+      return
     }
 
     setFollowed(res.data.users);

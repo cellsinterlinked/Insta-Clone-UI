@@ -33,8 +33,8 @@ const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler
         {timeDisplay === "minutesAgo" && <p>{Math.floor(time / 60000)} MINUTES AGO</p>}
               {timeDisplay === "today" && <p>{Math.floor(time / 3600000)} HOURS AGO</p>}
               {timeDisplay === "thisWeek" && <p>{Math.floor(time / 86400000)} DAYS AGO</p>}
-              {timeDisplay === "thisYear" && <p>{comment.date.stringMonth} {comment.date.day}</p>}
-              {timeDisplay === "longTime" && <p>{comment.date.stringMonth} {comment.date.day} {comment.date.year}</p>}
+              {timeDisplay === "thisYear" && <p>{comment.date.monthString} {comment.date.day}</p>}
+              {timeDisplay === "longTime" && <p>{comment.date.monthString} {comment.date.day} {comment.date.year}</p>}
         {deletable === true && <div>
         {(myId === user.id || myId === postUser) && <p onClick={() => {deleteHandler(commentId)} }className="comment-delete">Delete</p>}
         </div>}

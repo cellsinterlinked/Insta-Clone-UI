@@ -24,6 +24,12 @@ const PostPage = () => {
   const history = useHistory();
   const [followedArr, setFollowedArr] = useState()
 
+  // async function starterFunction() {
+  //   await getViewer()
+  //   await getPost()
+  //   await getUser()
+  // }
+
   async function getViewer() {
     let res;
     try{
@@ -56,7 +62,7 @@ const PostPage = () => {
      if (post) {
        let res;
        try{
-         const res = await api.get(`users/${post.user}`)
+        res = await api.get(`users/${post.user}`)
         } catch(err) {
           setError("Error getting user info")
         setShowError(true)
@@ -67,6 +73,10 @@ const PostPage = () => {
        setUser(res.data.user)
      } else return;
     }
+
+    // useEffect(() => {
+    //   starterFunction()
+    // }, [])
     
     useEffect(() => {
       getViewer()

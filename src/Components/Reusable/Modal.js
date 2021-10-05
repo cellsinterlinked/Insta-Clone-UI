@@ -7,7 +7,7 @@ import './Modal.css';
 const ModalOverlay = props => {
   
   const content = (
-    <div className="modal" >
+    <div className={`modal ${props.modalStyle && "alternate-modal"}`} >
     {props.children}                                          
     </div>
     );                                                                   
@@ -23,7 +23,7 @@ const ModalOverlay = props => {
           mountOnEnter 
           unmountOnExit 
           timeout={200} 
-          classNames={"modal"}   
+          classNames={"modal alternate-modal"} 
           >
             <ModalOverlay {...props} />
           </CSSTransition>

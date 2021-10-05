@@ -48,6 +48,7 @@ const Activity = () => {
         setError("Could not get your information from server")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        return
       }
 
       setUser(res.data.user)
@@ -71,9 +72,11 @@ const Activity = () => {
       try{
         res = await api.get(`users/`)
       } catch(err) {
+        setUsers([])
         setError("Couldn't get users")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        return
       }
 
       setUsers(res.data.users)

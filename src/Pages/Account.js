@@ -51,6 +51,7 @@ const Account = () => {
       setError("Couldn't get user information")
       setShowError(true)
       setTimeout(function() {setShowError(false)}, 2000)
+      return;
     }
     setUser(res.data.user);
   }
@@ -68,7 +69,10 @@ const Account = () => {
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
       }
-      setPosts(res.data.posts.reverse());
+      if (res && res.data) {
+        setPosts(res.data.posts.reverse());
+
+      }
     }
     getPosts();
   }, [loading, myId]);
@@ -80,9 +84,11 @@ const Account = () => {
       try{
         res = await api.get(`/posts/tagged/${myName}`);
       } catch(err) {
+        setTagged([])
         setError("Couldn't get posts information")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
+        return
       }
 
       setTagged(res.data.posts.reverse());
@@ -99,6 +105,7 @@ const Account = () => {
         setError("Couldn't get posts information")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
+        return
       }
 
       console.log(res);
@@ -119,11 +126,21 @@ const Account = () => {
     setLogoutModal(!logoutModal);
   };
 
-  const accountDeleteHandler = () => {
-    deleteModalHandler();
-    systemHandler();
-    history.push('/');
-    console.log('lol good luck with that bud');
+  const accountDeleteHandler = async () => {
+    let res;
+    try {
+      res = await api.delete(`/users/${myId}`)
+    } catch (err) {
+      setError("Couldn't delete your account")
+      setShowError(true)
+      setTimeout(function() {setShowError(false)}, 2000) 
+      return
+    }
+    auth.logout()
+    // deleteModalHandler();
+    // systemHandler();
+    // history.push('/');
+    // console.log('lol good luck with that bud');
   };
 
   const logoutHandler = () => {
@@ -211,7 +228,7 @@ const Account = () => {
                   <div>
                     <div className="system-details-wrapper">
                       <div className="system-image-wrapper">
-                        <img alt="" src={user.image}></img>
+                      {user.image ? <img alt="" src={user.image}/> : <BsPersonBoundingBox style={{height: "100%", width: "100%", color: "#dbdbdb"}}/> }
                       </div>
 
                       <div className="system-name-wrapper">

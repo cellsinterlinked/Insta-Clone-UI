@@ -58,7 +58,7 @@ const Comments = () => {
     async function fetchUsers() {
       let res;
       try{
-        const res = await api.get('users')
+      res = await api.get('users')
 
       } catch(err) {
         setError("Getting users was unsuccessful")
@@ -72,8 +72,7 @@ const Comments = () => {
     fetchUsers()
   }, [])
   
-  const commentSubmitHandler = (data) => {
-   console.log(data)
+  const commentSubmitHandler = async (data) => {
    async function sendComment() {
      const newData = {comment: data.comment, commentor: myId}
      let res;
@@ -84,6 +83,8 @@ const Comments = () => {
       setError("Error posting comment")
       setErrorModal(true)
       setTimeout(function() {setErrorModal(false)}, 2000)
+      console.log(err, newData, {params: params});
+      return;
      }
      console.log(res)
      setError("Comment posted!")
@@ -95,7 +96,7 @@ const Comments = () => {
   //  async function fetchUsers() {const res = await api.get(`posts/${params}`)
   //  setPost(res.data.post)
   // }
-   sendComment()
+   await sendComment()
 
   //  fetchUsers()
  
