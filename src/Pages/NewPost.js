@@ -92,17 +92,17 @@ const NewPost = () => {
   
 
   const pickedHandler = event => {
-    setLoading(true);
     let pickedFile;
     if (event.target.files && event.target.files.length === 1) {
       pickedFile = event.target.files[0];
       setFile(pickedFile);
     }
   }
-    
-
+  
+  
   const postHandler = async(data) => {
     let res;
+    setLoading(true);
 
     async function uploadImage() {
       const formData = new FormData();
