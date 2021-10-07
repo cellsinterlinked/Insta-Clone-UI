@@ -2,9 +2,11 @@ import React, {useState, useEffect} from 'react';
 import './Comment.css';
 import { BsHeart } from 'react-icons/bs';
 import api from '../../Static/axios';
+import { IoPersonCircle } from 'react-icons/io5';
+import { NavLink } from 'react-router-dom';
 
 
-const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler, commentId, heartHandler}) => {
+const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler, commentId, heartHandler, tags}) => {
 
   const [timeDisplay, setTimeDisplay] = useState()
   const [time, setTime] = useState()
@@ -24,10 +26,12 @@ const Comment = ({comment, user, heart, myId, postUser, deletable, deleteHandler
   return (
     <div className="comment-wrapper">
       <div className="comment-item-portrait-wrapper">
-        <img src={user.image} alt="" />
+        {user.image ? <img src={user.image} alt="" /> : <IoPersonCircle style={{height: "100%", width: "100%", color: "#dbdbdb"}} />}
       </div>
       <div className="comment-details-wrapper">
-        <p><strong>{user.userName}</strong>{` ${comment.comment}`} </p>
+        <p><NavLink style={{textDecoration: "none", color: "black"}} to={`/user/${user.userName}`}><strong>{user.userName}</strong></NavLink>{` ${comment.comment}`} </p>
+        {tags && <div style={{marginTop: "6px"}}></div>}
+        {tags && tags.map((tag, index) => <NavLink style={{color: "rgb(20, 0, 147)", textDecoration: "none", fontSize: ".9rem"}} to={`/hashtag/${tag.slice(1)}`} key={index}>{tag} </NavLink>)}
 
         {time && timeDisplay && <div className="comment-fine-wrapper">
         {timeDisplay === "minutesAgo" && <p>{Math.floor(time / 60000)} MINUTES AGO</p>}

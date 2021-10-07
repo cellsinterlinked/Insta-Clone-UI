@@ -34,21 +34,28 @@ const Comments = () => {
  const [user, setUser] = useState()
  const [users, setUsers] = useState();
  const [loading, setLoading] = useState(false);
+ const [userList, setUserList] = useState()
+ const [finalDescription, setFinalDescription] = useState()
 
 
 
  useEffect(() => {
    async function getPost() {
      let res;
+     let descSplit;
+     let finalDesc;
      try{
        res = await api.get(`posts/${params}`)
       } catch(err) {
         setError("getting posts was unsuccessful")
         setErrorModal(true)
         setTimeout(function() {setErrorModal(false)}, 2000)
+        return
       }
-
+     descSplit = res.data.post.description.split(" ").filter(word => word[0] !== "#")
+     finalDesc = descSplit.join(" ")
      console.log(res);
+     setFinalDescription(finalDesc);
      setPost(res.data.post)
     }
     getPost()
@@ -57,15 +64,22 @@ const Comments = () => {
   useEffect(() => {
     async function fetchUsers() {
       let res;
+      let userArr = []
       try{
       res = await api.get('users')
 
       } catch(err) {
+        setUsers([])
         setError("Getting users was unsuccessful")
         setErrorModal(true)
         setTimeout(function() {setErrorModal(false)}, 2000)
+        return
       }
-      console.log(res)
+      console.log(res.data.users)
+      for (let i = 0; i < res.data.users.length; i++) {
+        userArr.push(res.data.users[i].id)
+      }
+      setUserList(userArr)
       setUsers(res.data.users)
       setUser(res.data.users.find(user => user.id === myId))
     }
@@ -160,10 +174,10 @@ const Comments = () => {
 
       </div>
       {post && users && <div className="post-description-comment">
-        <Comment comment={{comment: post.description, date: {time: post.date.time}}} user={users.find(user => user.id === post.user)} heart={false} />
+        <Comment comment={{comment: finalDescription, date: {time: post.date.time}}} user={users.find(user => user.id === post.user)} heart={false} tags={post.hashTags} />
       </div>}
       {post && users && post.comments.length !== 0 && <div className="full-comment-list">
-          {post.comments.map((comment, index) => <Comment deleteHandler={deleteHandler} key={index} comment={comment} commentId={comment.id} user={users.find(user => user.id === comment.user)} heart={true} myId={myId} postUser={post.user} deletable={true} heartHandler={heartHandler} />)}
+          {post.comments.filter(comment => userList.includes(comment.user)).map((comment, index) => <Comment deleteHandler={deleteHandler} key={index} comment={comment} commentId={comment.id} user={users.find(user => user.id === comment.user)} heart={true} myId={myId} postUser={post.user} deletable={true} heartHandler={heartHandler} />)}
       </div>}
       <ErrorModal
       show={errorModal}
