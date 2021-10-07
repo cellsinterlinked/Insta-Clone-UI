@@ -36,7 +36,7 @@ const NewMessage = () => {
         setShowError(true);
         setTimeout(function() {setShowError(false)}, 2000)
       }
-      setUsers(userRes.data.users)
+      setUsers(userRes.data.users.filter(user => user.id !== myId))
       
       try{
         convoRes = await api.get(`/convos/messages/${myId}`)
