@@ -17,6 +17,7 @@ import './Search.css';
 import { MdCancel } from 'react-icons/md';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
+import Spinner from '../Components/Reusable/Spinner';
 
 const NewPost = () => {
 
@@ -48,6 +49,7 @@ const NewPost = () => {
   const [showError, setShowError] = useState(false)
   const auth = useContext(AuthContext)
   const myId = auth.userId
+  const [loading, setLoading] = useState(false)
 
 
   useEffect(() => {
@@ -90,6 +92,7 @@ const NewPost = () => {
   
 
   const pickedHandler = event => {
+    setLoading(true);
     let pickedFile;
     if (event.target.files && event.target.files.length === 1) {
       pickedFile = event.target.files[0];
@@ -111,6 +114,8 @@ const NewPost = () => {
         setError("Couldn't store image")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        setLoading(false)
+        return
       }
 
       // console.log(res.data.url);
@@ -140,6 +145,8 @@ const NewPost = () => {
         setError("Posting was unsuccessful")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        setLoading(false)
+        return
       }
 
 
@@ -195,6 +202,7 @@ const NewPost = () => {
       children={<p className="errorText">{error}</p>}
       show={showError}
       />
+      {loading && <Spinner />}
       <FullModal
       show={fullModal}
       onCancel={cancelModal}

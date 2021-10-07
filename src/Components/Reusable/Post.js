@@ -15,6 +15,7 @@ import api from '../../Static/axios';
 import { useHistory } from 'react-router-dom';
 import ErrorModal from '../Reusable/ErrorModal';
 import { AuthContext } from '../../Context/auth-context';
+import Spinner from '../Reusable/Spinner';
 
 
 
