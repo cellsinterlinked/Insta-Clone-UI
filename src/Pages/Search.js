@@ -170,7 +170,7 @@ const Search = () => {
       <div className="user-search-container">
         {displayedUsers.map((user, index) => <NavLink style={{textDecoration: "none"}} to={`/user/${user.userName}`} key={index} className="search-user-object">
           <div className="search-user-portrait">
-            {user.image ? <img alt="user" src={user.image} /> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/> }
+            {user.image ? <img alt="" src={user.image} /> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/> }
 
           </div>
           <div className="search-user-name-container">

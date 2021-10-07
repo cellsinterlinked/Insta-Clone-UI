@@ -8,6 +8,7 @@ import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import { IoPersonCircle } from 'react-icons/io5';
 
+
 const NewMessage = () => {
 
 
@@ -175,7 +176,7 @@ const NewMessage = () => {
       {displayedUsers.map((user, index) =>
         <div key={index} className="new-message-user-object" onClick={() => selectHandler(user.id)} style={{backgroundColor: selected === user.id ? "#e9e9e9" : "white"}}>
           <div className="user-container-portrait">
-            <img alt="" src={user.image} />
+            {user.image ? <img alt="" src={user.image} /> : <IoPersonCircle style={{height: "100%", width: "100%", color: "#dbdbdb"}} />}
           </div>
           <div className="user-object-name-container">
           <p style={{fontWeight: "bold"}}>{user.userName}</p>
