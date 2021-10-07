@@ -58,7 +58,7 @@ const Home = () => {
         res = await api.get(`users/following/${auth.userId}`);
       } catch (err) {
         setFollowed([]);
-        setError('Error getting posts of followed users');
+        setError('You must follow users to populate your feed!');
         setShowError(true);
         setTimeout(function () {
           setShowError(false);
