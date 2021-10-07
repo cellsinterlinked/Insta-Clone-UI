@@ -65,7 +65,7 @@ const Account = () => {
       try{
         res = await api.get(`/posts/user/${myId}`);
       } catch(err) {
-        setError("Couldn't get posts information")
+        setError("You don't have any posts yet.")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
       }
@@ -85,7 +85,7 @@ const Account = () => {
         res = await api.get(`/posts/tagged/${myName}`);
       } catch(err) {
         setTagged([])
-        setError("Couldn't get posts information")
+        setError("You haven't posted anything yet.")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
         return
@@ -102,7 +102,7 @@ const Account = () => {
       try{
         res = await api.get(`users/saved/${myId}`);
       } catch(err) {
-        setError("Couldn't get posts information")
+        setError("You haven't saved any posts.")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
         return

@@ -29,7 +29,7 @@ const Followers = () => {
       res = await api.get(`users/followers/${myId}`)
     } catch(err) {
       setFollowers([])
-      setError("Error fetching followers")
+      setError("You don't have any followers yet.")
       setShowError(true)
       setTimeout(function() {setShowError(false)}, 2000)
       return
