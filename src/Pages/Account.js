@@ -18,7 +18,7 @@ import FullModal from '../Components/Reusable/FullModal';
 import Modal from '../Components/Reusable/Modal';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useHistory } from 'react-router-dom';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 
 

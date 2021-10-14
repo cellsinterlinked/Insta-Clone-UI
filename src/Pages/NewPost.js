@@ -17,7 +17,7 @@ import './Search.css';
 import { MdCancel } from 'react-icons/md';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 
 
 const NewPost = () => {

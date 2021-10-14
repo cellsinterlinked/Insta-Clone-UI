@@ -9,7 +9,7 @@ import ListHashTag from '../Components/Reusable/ListHashTag';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import { BsHash } from 'react-icons/bs';
 import { AuthContext } from '../Context/auth-context';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 
 const Following = () => {
   const auth = useContext(AuthContext)

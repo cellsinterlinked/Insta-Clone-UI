@@ -16,7 +16,7 @@ import { BsChevronLeft } from 'react-icons/bs';
 import { useHistory } from 'react-router';
 import { AuthContext } from '../Context/auth-context';
 import Modal from '../Components/Reusable/Modal';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 
 const Activity = () => {
   const auth = useContext(AuthContext);

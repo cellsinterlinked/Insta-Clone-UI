@@ -9,7 +9,7 @@ import Post from '../Components/Reusable/Post';
 import { useHistory } from 'react-router';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import { AuthContext } from '../Context/auth-context';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 
 const PostPage = () => {
   const auth = useContext(AuthContext);

@@ -23,7 +23,7 @@ import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 import Modal from '../Components/Reusable/Modal';
 import Suggested from '../Components/Reusable/Suggested';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 import { IoPersonCircle } from 'react-icons/io5'
 
 

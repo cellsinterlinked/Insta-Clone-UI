@@ -10,7 +10,7 @@ import api from '../Static/axios';
 import { NavLink } from 'react-router-dom';
 import BottomNav from '../Components/Navigation/BottomNav';
 import ErrorModal from '../Components/Reusable/ErrorModal';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 import { AuthContext } from '../Context/auth-context';
 import { CgDisplayFullwidth } from 'react-icons/cg';
 

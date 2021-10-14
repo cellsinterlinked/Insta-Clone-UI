@@ -8,7 +8,7 @@ import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../Context/auth-context';
 import { useHistory } from 'react-router';
 import { BiConversation } from 'react-icons/bi';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 import ErrorModal from '../Components/Reusable/ErrorModal';
 
 const Inbox = () => {

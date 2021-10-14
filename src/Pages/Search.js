@@ -8,7 +8,7 @@ import BottomNav from '../Components/Navigation/BottomNav';
 import {BsHash} from 'react-icons/bs';
 import {MdCancel} from 'react-icons/md'
 import { AuthContext } from '../Context/auth-context';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 import { IoPersonCircle } from 'react-icons/io5'
 import ErrorModal from '../Components/Reusable/ErrorModal'
 

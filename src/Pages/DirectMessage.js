@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react';
 import './DirectMessage.css';
 import { BsChevronLeft } from 'react-icons/bs';
 import { BsImage } from 'react-icons/bs';
@@ -17,7 +17,7 @@ import { useHistory } from 'react-router-dom'
 import { AuthContext } from '../Context/auth-context'; 
 import { IoPersonCircle } from 'react-icons/io5'
 import ErrorModal from '../Components/Reusable/ErrorModal'
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 
 const schemaText = yup.object().shape({
   message: yup.string().required().min(1)
@@ -42,8 +42,8 @@ const DirectMessage = () => {
     resolver: yupResolver(schemaImage),
     mode: "onChange"
   })
-
-
+  
+  
   const history = useHistory()
   const auth = useContext(AuthContext)
   const myId = auth.userId;
@@ -57,8 +57,24 @@ const DirectMessage = () => {
   const [error, setError] = useState();
   const [showError, setShowError] = useState(false);
   const [spinner, setSpinner] = useState(false)
+  
+  const messagesEndRef = useRef(null)
+  
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" })
+    }
+
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [convo, loading, messagesEndRef])
+
+////////// why doesn't this work? ^
 
 
+  
   useEffect(() => {
     async function fetchConvo() {
       let res;
@@ -194,6 +210,7 @@ const DirectMessage = () => {
   const cancelDelete = () => {
     setShowDeleteModal(false)
   }
+
   
   const deleteHandler = () => {
     async function deleteConvo() {
@@ -364,7 +381,7 @@ const DirectMessage = () => {
         </div>}
         </div>
         )}
-        
+        <div ref={messagesEndRef}/>
       </div>
 
 

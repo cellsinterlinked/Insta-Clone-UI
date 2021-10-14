@@ -8,7 +8,7 @@ import { IoPersonAddOutline } from 'react-icons/io5' ;
 import BottomNav from '../Components/Navigation/BottomNav';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
-import Spinner from '../Components/Reusable/Spinner';
+import Spinner from '../Components/Reusable/Spinner2';
 
 const Followers = () => {
   const auth = useContext(AuthContext)
