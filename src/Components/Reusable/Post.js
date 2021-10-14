@@ -198,8 +198,16 @@ const Post = ({
             {tagView === true && (
               <div className="tag-cover">
                 {post.tags.map((tag, index) => (
-                  <NavLink
+                  tag !== myName ? <NavLink
                     to={`/user/${tag}`}
+                    style={{ textDecoration: 'none', color: 'white' }}
+                    key={index}
+                    className="tag-display-name"
+                  >
+                    <div className="tag-left-arrow"></div>
+                    {tag}
+                  </NavLink> : <NavLink
+                    to={`/account`}
                     style={{ textDecoration: 'none', color: 'white' }}
                     key={index}
                     className="tag-display-name"
