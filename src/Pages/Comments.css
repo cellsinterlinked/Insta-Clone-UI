@@ -82,11 +82,11 @@
 .add-comment-input {
   height: 2.2rem;
   border: 1px solid #dbdbdb;
-  width: 16.8rem;
+  width: 13.8rem;
   margin-right: 1rem;
   border-radius: 2rem;
   padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-right: 3.5rem;
   outline: none;
 }
 

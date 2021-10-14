@@ -358,7 +358,7 @@ const removeItem = (id) => {
 
         <div className="profile-name-details-wrapper">
           <p className="profile-full-name">{user.name}</p>
-          {user.bio && user.bio !== "" && <p className="profile-bio">{user.bio}</p>}
+          <p className="profile-bio">{user.bio}</p>
           {user.email && user.email !== "" && <a href={user.email} className="profile-email">{user.email}</a>}
         </div>
       </div>

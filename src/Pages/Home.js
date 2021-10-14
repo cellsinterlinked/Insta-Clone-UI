@@ -24,6 +24,7 @@ const Home = () => {
   const [error, setError] = useState();
   const [showError, setShowError] = useState();
   const [followedArr, setFollowedArr] = useState();
+  const [messageNotifications, setMessageNotifications] = useState()
 
   useEffect(() => {
     console.log(posts);
@@ -48,7 +49,26 @@ const Home = () => {
       setFollowedArr(res.data.user.following);
       setUser(annoying);
     }
+
+    async function getMessageNotifications() {
+      let res;
+      try {
+        res = await api.get(`convos/notifications/${myId}`)
+      } catch (err) {
+        setError('Error getting user notifications');
+        setShowError(true);
+        setTimeout(function () {
+          setShowError(false);
+        }, 2000);
+        return;
+      }
+      console.log(res.data.number)
+      setMessageNotifications(res.data.number)
+
+    }
+
     getUser();
+    getMessageNotifications()
   }, [loading, posts, auth.userId]);
 
   useEffect(() => {
@@ -188,6 +208,7 @@ const Home = () => {
         <h1 className="home-head-text">Nonurgentgram</h1>
         <NavLink to={`/inbox`} className="right-home-head-wrapper">
           <IoPaperPlaneOutline className="home-icon" />
+          {(messageNotifications && messageNotifications !== 0) ? <div className="message-notification-home">{messageNotifications}</div> : <div></div>}
         </NavLink>
       </div>
 
@@ -223,7 +244,7 @@ const Home = () => {
                     className="carousel-item-container"
                   >
                     <div className="carousel-portrait-container">
-                      <img src={user.image} alt="" />
+                      {user.image ? <img src={user.image} alt="" /> : <IoPersonCircle style={{height: "100%", width: "100%", color: "#dbdbdb"}}/>}
                     </div>
                     <p className="carousel-item-userName">{user.userName}</p>
                   </NavLink>
@@ -270,7 +291,7 @@ const Home = () => {
         </div>
       )}
 
-      <BottomNav />
+      {user && <BottomNav notificationNumber={user.activityNotifications}/>}
     </div>
   );
 };

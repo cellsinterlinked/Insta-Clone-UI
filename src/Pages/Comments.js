@@ -26,6 +26,7 @@ const Comments = () => {
   })
  const auth = useContext(AuthContext);
  const myId = auth.userId;
+ const myName = auth.userName;
  const history = useHistory()
  const params = useParams().postId
  const [error, setError] = useState()

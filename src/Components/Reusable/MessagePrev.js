@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import './MessagePrev.css';
 import { NavLink } from 'react-router-dom';
 import { IoPersonCircle } from 'react-icons/io5'
+import { AuthContext } from '../../Context/auth-context';
 
 const MessagePrev = ({convo, user}) => {
+  const auth = useContext(AuthContext)
+  const myId = auth.userId;
   const [time, setTime] = useState()
   const [timeDisplay, setTimeDisplay] = useState()
   
@@ -22,6 +25,7 @@ const MessagePrev = ({convo, user}) => {
 
   return(
     <NavLink to={`/direct/${convo.id}`} className="convo-prev-wrapper">
+          {convo.notifications[myId] > 0 && <div className="message-prev-notification">{convo.notifications[myId]}</div>}
         <div className="convo-image-wrapper">
           {user.image ? <img alt="" src={user.image}/> : <IoPersonCircle style={{height:"100%", width:"100%", color:"#dbdbdb"}}/>}
         </div>

@@ -41,6 +41,7 @@ const Account = () => {
   const [error, setError] =  useState()
   const [showError, setShowError] = useState(false);
   
+  
 
   useEffect(() => {
     async function getUser() {
@@ -68,6 +69,7 @@ const Account = () => {
         setError("You don't have any posts yet.")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000) 
+        return
       }
       if (res && res.data) {
         setPosts(res.data.posts.reverse());
@@ -82,7 +84,7 @@ const Account = () => {
     async function getTagged() {
       let res;
       try{
-        res = await api.get(`/posts/tagged/${myName}`);
+        res = await api.get(`/posts/taggeduser/${myId}`);
       } catch(err) {
         setTagged([])
         setError("You haven't posted anything yet.")
@@ -90,7 +92,7 @@ const Account = () => {
         setTimeout(function() {setShowError(false)}, 2000) 
         return
       }
-
+      console.log({tagged: res.data.posts})
       setTagged(res.data.posts.reverse());
     }
     getTagged();
@@ -474,7 +476,7 @@ const Account = () => {
           )}
         </div>
       )}
-      <BottomNav />
+      {user && <BottomNav notificationNumber={user.activityNotifications}/>}
     </>
   );
 };

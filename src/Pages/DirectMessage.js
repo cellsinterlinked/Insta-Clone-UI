@@ -78,14 +78,29 @@ const DirectMessage = () => {
         setError("Error finding your info")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        return
       }
 
       res.data.convo.messages.shift() //this gets rid of the init message.
       setConvo(res.data.convo)
       setUser(userres.data.user)
+      let resetRes;
+      try {
+        resetRes = await api.patch(`convos/reset/${res.data.convo.id}`, {user: myId})
+      } catch(err) {
+        setError("Error resetting notifications")
+        setShowError(true)
+        setTimeout(function() {setShowError(false)}, 2000)
+        return
+      }
+
+      console.log(resetRes)
 
       // put this all in try catch blocks?
     }
+
+    
+    
     fetchConvo()
   },[params, loading])
 
@@ -98,9 +113,11 @@ const DirectMessage = () => {
       setError("Error sending message")
       setShowError(true)
       setTimeout(function() {setShowError(false)}, 2000)
+      return
     }
 
      setLoading(!loading)
+     console.log(res)
     }
     sendText()
     reset({})

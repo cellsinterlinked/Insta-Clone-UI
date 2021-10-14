@@ -53,8 +53,10 @@
 }
 
 .post-image-wrapper {
+  position: relative;
   width: 100%;
   height: auto;
+  z-index: 0;
 }
 
 .post-image-wrapper img {

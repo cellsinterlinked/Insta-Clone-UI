@@ -192,7 +192,7 @@ const Search = () => {
             <img alt="" src={post.image} />
           </NavLink>)}
           </div>}
-    <BottomNav />
+    {<BottomNav notificationNumber={user.activityNotifications} />}
     </div>}
     </>
   )

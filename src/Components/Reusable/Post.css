@@ -19,3 +19,58 @@
   color: rgb(60, 62, 136);
   font-size: 0.9rem;
 }
+
+.tag-image-icon {
+  position: absolute;
+  bottom: 1rem;
+  height: 2rem;
+  width: 2rem;
+  left: 0.5rem;
+  color: white;
+  z-index: 10;
+}
+
+.tag-cover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 5;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.523);
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%;
+}
+
+.tag-display-name {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-left: 1rem;
+  margin-top: 0.3rem;
+  background-color: #0095f6;
+  font-size: 1.2rem;
+  height: 1.8rem;
+  max-width: 90%;
+}
+
+.tag-display-name:hover {
+}
+
+.tag-left-arrow {
+  top: -1px;
+  bottom: 0;
+  left: -17px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 15.8px solid transparent;
+  border-bottom: 15.5px solid transparent;
+
+  border-right: 17.5px solid #0095f6;
+}

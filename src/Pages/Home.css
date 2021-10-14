@@ -10,6 +10,7 @@
   flex-direction: row;
   width: 100%;
   position: fixed;
+  z-index: 10;
   top: 0;
   left: 0;
   right: 0;
@@ -21,6 +22,7 @@
   height: 7rem;
   width: 100%;
   position: fixed;
+  z-index: 10;
   background-color: white;
   top: 2.8rem;
   left: 0;
@@ -73,6 +75,7 @@
   display: flex;
   padding-left: 1rem;
   align-items: center;
+  z-index: 100;
   /* flex-direction: row;
   flex-wrap: nowrap;  */
 }
@@ -101,7 +104,7 @@
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
-  border: 1px solid red;
+  border: 1px solid black;
 }
 
 .no-portrait-story {
@@ -180,4 +183,39 @@
   color: #0095f6;
   font-weight: bold;
   font-size: 0.9rem;
+}
+
+.message-notification-home {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: red;
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  animation-name: swell;
+  -webkit-animation-name: swell;
+  animation-duration: 2s;
+  -webkit-animation-duration: 2s;
+  animation-iteration-count: infinite;
+  -webkit-animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  -webkit-animation-timing-function: linear;
+}
+
+@keyframes swell {
+  0% {
+    -webkit-tranform: scale(1);
+  }
+  50% {
+    -webkit-transform: scale(1.5);
+  }
+  100% {
+    -webkit-tranform: scale(1);
+  }
 }
