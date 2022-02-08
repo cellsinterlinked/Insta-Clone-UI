@@ -72,15 +72,16 @@ Nonurgentgram is an attempt to make a rough clone of instagram only using React.
 Nonurgentgram includes the following features:
 
 <ul>
- <li>Login/Signup with encrypted password.
+ <li>Login/Signup with encrypted password
  <li>Messaging with both text and images
  <li>Follow/Unfollow functionality
  <li>Feed including posts of followed users
  <li>Search functionality for both users and hashtags
- <li>Activity feed showing follows, likes, and comments of user and associated posts. 
+ <li>Activity feed showing follows, likes, and comments of user and associated posts
  <li>Profile page including posts, bio, followers, tagged posts, and followed users
- <li>Posting of images with text, hashtags, and tagged users. 
- <li>Post saving functionality. 
+ <li>Posting of images with text, hashtags, and tagged users
+ <li>Post saving functionality
+ <li>Suggested users to follow
 </ul>
 
 <!-- Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description` -->
