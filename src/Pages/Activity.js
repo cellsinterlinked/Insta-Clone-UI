@@ -28,6 +28,7 @@ const Activity = () => {
   const [weekArr, setWeekArr] = useState([]);
   const [monthArr, setMonthArr] = useState([]);
   const [yearArr, setYearArr] = useState([]);
+  const [lastYearArr, setLastYearArr] = useState([]);
   const [loading, setLoading] = useState(false);
   const [followingArr, setFollowingArr] = useState([]);
   const [showError, setShowError] = useState();
@@ -37,17 +38,19 @@ const Activity = () => {
   const clearNotifications = async () => {
     let res;
     try {
-      res = await api.patch(`users/${myId}`, { activityNotifications: "clear" } )
+      res = await api.patch(`users/${myId}`, {
+        activityNotifications: 'clear',
+      });
     } catch (err) {
       setError('Couldnt clear notifications');
       setShowError(true);
       setTimeout(function () {
-      setShowError(false);
+        setShowError(false);
       }, 2000);
-      return
+      return;
     }
-    console.log(res, "why isnt this changing");
-  }
+    console.log(res, 'why isnt this changing');
+  };
 
   useEffect(() => {
     async function getUser() {
@@ -64,36 +67,60 @@ const Activity = () => {
       }
 
       setUser(res.data.user);
+      console.log('this is the data', res.data.user);
       setTodayArr(
-        res.data.user.activity.reverse().filter(
-          (activity) => isToday(parseJSON(activity.date.fullDate)) === true && activity.user !== myId
-        )
+        res.data.user.activity
+          .reverse()
+          .filter(
+            (activity) =>
+              isToday(parseJSON(activity.date.fullDate)) === true &&
+              activity.user !== myId
+          )
       );
       setYesterdayArr(
-        res.data.user.activity.reverse().filter(
-          (activity) => isYesterday(parseJSON(activity.date.fullDate)) === true && activity.user !== myId
-        )
+        res.data.user.activity
+          .reverse()
+          .filter(
+            (activity) =>
+              isYesterday(parseJSON(activity.date.fullDate)) === true &&
+              activity.user !== myId
+          )
       );
       setWeekArr(
-        res.data.user.activity.reverse().filter(
-          (activity) =>
-            isThisWeek(parseJSON(activity.date.fullDate)) === true &&
-            isToday(parseJSON(activity.date.fullDate)) === false &&
-            isYesterday(parseJSON(activity.date.fullDate)) === false && activity.user !== myId
-        )
+        res.data.user.activity
+          .reverse()
+          .filter(
+            (activity) =>
+              isThisWeek(parseJSON(activity.date.fullDate)) === true &&
+              isToday(parseJSON(activity.date.fullDate)) === false &&
+              isYesterday(parseJSON(activity.date.fullDate)) === false &&
+              activity.user !== myId
+          )
       );
       setMonthArr(
         res.data.user.activity.filter(
           (activity) =>
             isThisMonth(parseJSON(activity.date.fullDate)) === true &&
-            isThisWeek(parseJSON(activity.date.fullDate)) === false && activity.user !== myId
+            isThisWeek(parseJSON(activity.date.fullDate)) === false &&
+            activity.user !== myId
         )
       );
       setYearArr(
+        res.data.user.activity
+          .reverse()
+          .filter(
+            (activity) =>
+              isSameYear(parseJSON(activity.date.fullDate), new Date()) ===
+                true &&
+              isThisMonth(parseJSON(activity.date.fullDate)) === false &&
+              activity.user !== myId
+          )
+      );
+      setLastYearArr(
         res.data.user.activity.reverse().filter(
           (activity) =>
             isSameYear(parseJSON(activity.date.fullDate), new Date()) ===
-              true && isThisMonth(parseJSON(activity.date.fullDate)) === false && activity.user !== myId
+              false && activity.user !== myId
         )
       );
 
@@ -101,7 +128,7 @@ const Activity = () => {
       console.log(res.data.user.following);
     }
     getUser();
-  }, [loading]);
+  }, [loading, myId]);
 
   useEffect(() => {
     async function getUsers() {
@@ -121,7 +148,7 @@ const Activity = () => {
       setUsers(res.data.users);
     }
     getUsers();
-    clearNotifications()
+    clearNotifications();
   }, []);
 
   async function adjustFollow(user) {
@@ -153,8 +180,6 @@ const Activity = () => {
     await adjustFollow(user);
     console.log(followingArr);
   };
-
-  
 
   return (
     <>
@@ -268,6 +293,24 @@ const Activity = () => {
                   ))}
                 </div>
               )}
+
+              {
+               lastYearArr && lastYearArr.length > 0 && (
+                <div className="activity-time-wrapper">
+                <p className="activity-time-header">Last Year</p>
+                {lastYearArr.map((activity, index) => (
+                  <Notification
+                    followingArr={followingArr}
+                    followHandler={followHandler}
+                    key={index}
+                    activity={activity}
+                    user={users.find((user) => user.id === activity.user)}
+                    viewer={user}
+                  />
+                ))}
+              </div>
+               ) 
+              }
             </div>
           )}
           <BottomNav />

@@ -104,6 +104,7 @@ const DirectMessage = () => {
       try {
         resetRes = await api.patch(`convos/reset/${res.data.convo.id}`, {user: myId})
       } catch(err) {
+        console.log(err.message, "thats the error")
         setError("Error resetting notifications")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
@@ -118,7 +119,7 @@ const DirectMessage = () => {
     
     
     fetchConvo()
-  },[params, loading])
+  },[params, loading, myId])
 
   const sendTextHandler = (data) => {
     async function sendText() {
