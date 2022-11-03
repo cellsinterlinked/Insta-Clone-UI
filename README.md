@@ -64,7 +64,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/dbnapmpvm/image/upload/v1644352375/Portfolio/AFEB3746-1A8E-4A7D-A411-2D5A8364F353_w33kli.jpg)
 
-Nonurgentgram is an attempt to make a rough clone of instagram only using React.js, Node.js, Cloudinary and MongoDB. This was not made from a tutorial and there was no background knowledge of instagram's code or inner workings. Nonurgentgram's purpose was to be practice at creating some kind of social media.
+Nonurgentgram is an attempt to make a rough clone of instagram only using React.js, Node.js, Cloudinary and MongoDB. This was not made from a tutorial and there was no background knowledge of instagram's code or inner workings. Nonurgentgram's purpose was to be practice at creating a typical social media application.
 <br />
 
 Nonurgentgram includes the following features:
