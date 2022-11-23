@@ -134,7 +134,7 @@ const Auth = () => {
       children = {
         <div className="post-modal-wrapper">
         <h1 >Before You Start...</h1>
-        <p >This site is meant to be viewed on mobile. Please switch to a mobile device, or open the inspector tools and view in mobile mode and then hit Accept.</p>
+        <p >This site is meant to be viewed on a mobile device. Please switch to a mobile device  or open the inspector tools and view in mobile mode, then hit Accept.</p>
         
           <button className="post-modal-button" onClick={acceptScreenSize}>Accept</button>
           <button className="danger-post-modal-button" onClick={() => console.log("bad choice")}>Nope!</button>
