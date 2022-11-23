@@ -27,7 +27,7 @@ const Home = () => {
   const [messageNotifications, setMessageNotifications] = useState()
 
   useEffect(() => {
-    console.log(posts);
+   
   }, [posts]);
 
   useEffect(() => {
@@ -43,8 +43,6 @@ const Home = () => {
         }, 2000);
         return;
       }
-
-      console.log(res);
       const annoying = res.data.user;
       setFollowedArr(res.data.user.following);
       setUser(annoying);
@@ -62,7 +60,7 @@ const Home = () => {
         }, 2000);
         return;
       }
-      console.log(res.data.number)
+     
       setMessageNotifications(res.data.number)
 
     }
@@ -85,7 +83,7 @@ const Home = () => {
         }, 2000);
         return;
       }
-      console.log(res);
+  
       setFollowed(res.data.users);
     }
     fetchFollowed();
@@ -106,8 +104,10 @@ const Home = () => {
         return;
       }
 
-      console.log(res);
-      setPosts(res.data.posts.reverse());
+      console.log(res.data.posts)
+      const sortedPosts = res.data.posts.sort((a, b) =>  b.date.time - a.date.time)
+      
+      setPosts(sortedPosts);
     }
     fetchPosts();
   }, [loading, auth.userId]);
@@ -133,7 +133,7 @@ const Home = () => {
         setError('You saved this post');
         setShowError(true);
       }
-      console.log(res);
+    
       setLoading(!loading);
       setTimeout(function () {
         setShowError(false);
@@ -163,7 +163,7 @@ const Home = () => {
         setError('You liked this post');
         setShowError(true);
       }
-      console.log(res);
+     
       setLoading(!loading);
       setTimeout(function () {
         setShowError(false);
@@ -274,7 +274,7 @@ const Home = () => {
             {posts &&
               followed &&
               user &&
-              posts.map((post, index) => (
+              posts.reverse().map((post, index) => (
                 <Post
                   post={post}
                   key={index}

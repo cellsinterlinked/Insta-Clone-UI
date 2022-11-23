@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import loginContent from '../Static/login';
 import signUpContent from '../Static/signup';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,8 @@ import * as yup from 'yup';
 import './Auth.css';
 import { AuthContext } from '../Context/auth-context';
 import ErrorModal from '../Components/Reusable/ErrorModal';
-import Modal from '../Components/Reusable/Modal';
+import Spinner from '../Components/Reusable/Spinner3';
+import AuthModal from '../Components/Reusable/AuthModal';
 
 
 const schemaLogin = yup.object().shape({
@@ -30,7 +31,16 @@ const Auth = () => {
   const [login, setLogin] = useState(true);
   const [error, setError] = useState()
   const [showError, setShowError] = useState(false)
-  const [waiverModal, setWaiverModal] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [sizeModal, setSizeModal] = useState(false)
+  // const [waiverModal, setWaiverModal] = useState(false)
+
+  useEffect(() => {
+    if (window.innerWidth > 900) {
+      setSizeModal(true)
+      
+    }
+  }, [])
 
  
   const {register, handleSubmit, errors, formState} = useForm({
@@ -45,17 +55,17 @@ const Auth = () => {
 
   const signUpHandler = () => {
     setLogin(false)
-    setWaiverModal(true)
+    // setWaiverModal(true)
   }
 
-  const acceptWaiver = () => {
-    setWaiverModal(false)
-  }
+  // const acceptWaiver = () => {
+  //   setWaiverModal(false)
+  // }
 
-  const rejectWaiver = () => {
-    setWaiverModal(false)
-    setLogin(true)
-  }
+  // const rejectWaiver = () => {
+  //   setWaiverModal(false)
+  //   setLogin(true)
+  // }
 
   const loginHandler = () => {
     setLogin(true)
@@ -63,16 +73,18 @@ const Auth = () => {
 
   const loginSubmitHandler = (data) => {
     let res;
-    console.log(data)
+  
     async function sendLogin() {
       try {
         res = await api.post('users/login', data, {headers: {'Content-Type': 'application/json'}})
-        console.log(res)
+        setLoading(true)
         auth.login(res.data.userId, res.data.token, res.data.userName)
       } catch (err) {
+        setLoading(false)
         setError("Check your credentials and try again")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
+        
       }
         
     }
@@ -83,17 +95,28 @@ const Auth = () => {
     let res
     async function sendSignUp() {
     try {
+      setLoading(true)
       res = await api.post('users/signup', data, {headers: {'Content-Type': 'application/json'}})
     } catch(err) {
+      setLoading(false)
       setError("Something went wrong. Try different username/password")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
     }
 
-      console.log(res)
+      
       auth.login(res.data.userId, res.data.token, res.data.userName)
     }
     sendSignUp()
+  }
+
+  const acceptScreenSize = () => {
+    setSizeModal(false)
+    if (window.innerWidth > 900) {
+      setSizeModal(true)
+    } else {
+      return
+    }
   }
 
   return (
@@ -102,7 +125,27 @@ const Auth = () => {
       children={<p className="errorText">{error}</p>}
       show={showError}
       />
-      <Modal
+
+      {loading && <Spinner />}
+
+      <AuthModal
+      show={sizeModal}
+      onCancel={acceptScreenSize}
+      children = {
+        <div className="post-modal-wrapper">
+        <h1 >Before You Start...</h1>
+        <p >This site is meant to be viewed on mobile. Please switch to a mobile device, or open the inspector tools and view in mobile mode and then hit Accept.</p>
+        
+          <button className="post-modal-button" onClick={acceptScreenSize}>Accept</button>
+          <button className="danger-post-modal-button" onClick={() => console.log("bad choice")}>Nope!</button>
+        </div>
+    
+      }
+      >
+
+      </AuthModal>
+
+      {/* <Modal
         modalStyle={"alternate-modal"}
         show={waiverModal}
         onCancel={acceptWaiver}
@@ -138,9 +181,9 @@ const Auth = () => {
         }
       
       >
+      </Modal> */}
         
 
-      </Modal>
       <p>{auth.isLoggedIn}</p>
       <h2 className="auth-head text-center">Nonurgentgram</h2>
       {login && 

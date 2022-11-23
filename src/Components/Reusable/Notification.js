@@ -16,7 +16,7 @@ const Notification  = ({user, activity, viewer, followHandler, followingArr }) =
     else if (time - activity.date.time <= 86400000) {setTimeDisplay("today"); setTime(`${Math.floor((time - activity.date.time) / 3600000)}h`)}
     else if (time - activity.date.time <= 604800000) {setTimeDisplay("thisWeek"); setTime(`${Math.floor((time - activity.date.time) / 86400000)}d`)}
     else if (time - activity.date.time <= 31536000000) {setTimeDisplay("thisYear"); setTime(`${Math.floor((time - activity.date.time) / 604800000)}w`)}
-    else {setTimeDisplay("longTime"); setTime(time - activity.date.time)}
+    else {setTimeDisplay("longTime"); setTime(`${Math.floor((time - activity.date.time) / 31449600000)}y`)}
 
   }, [activity])
 

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
 import Backdrop from './Backdrop';
 import { CSSTransition } from 'react-transition-group';

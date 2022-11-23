@@ -36,7 +36,7 @@ const HashPage = () => {
     }
     setUser(res.data.user);
     setFollowedHashTags(res.data.user.followedHash)
-    console.log(res.data.user)
+ 
 
   }
 
@@ -71,7 +71,7 @@ const followHandler = async() => {
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
   }
-  console.log(res)
+ 
   if (followedHashTags.includes(fullParams)) {
     setFollowedHashTags(followedHashTags.filter(h => h !== fullParams))
     setError(`Unfollowed ${fullParams}`)

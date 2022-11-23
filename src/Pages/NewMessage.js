@@ -54,7 +54,7 @@ const NewMessage = () => {
         existingConvos = userRes.data.users.filter(user => user.conversations.some(c => me.conversations.includes(c) && user.id !== myId))
         setChattingUsers(existingConvos)
       }
-     console.log(myId)
+    
     }
     fetchUsers()
   },[myId])
@@ -63,7 +63,7 @@ const NewMessage = () => {
   useEffect(() => {
     if (users) {
       setDisplayedUsers(users.filter(user => user.userName.toLowerCase().includes(query.toLowerCase()) || user.name.toLowerCase().includes(query.toLowerCase())))
-      console.log("firing")
+      
       //eventually also make this filter so the more followed/or match those already with a conversation are at the top
     }
   },[query, users])
@@ -83,8 +83,7 @@ const NewMessage = () => {
 
   const queryHandler = (e) => {
     setQuery(e.target.value)
-    console.log(displayedUsers)
-    console.log(query)
+   
   }
 
   const newConversationHandler = async () => {

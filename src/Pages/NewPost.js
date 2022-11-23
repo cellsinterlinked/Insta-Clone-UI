@@ -81,7 +81,7 @@ const NewPost = () => {
       myUser = res.data.users.filter((user) => user.id === myId);
       setUsers(res.data.users);
       setUser(myUser[0]);
-      console.log(users);
+      
     }
     fetchUsers();
   }, []);
@@ -132,7 +132,7 @@ const NewPost = () => {
         setLoading(false);
         return;
       }
-      console.log("Sent Image")
+      
     }
 
     async function sendNewPost() {
@@ -163,7 +163,7 @@ const NewPost = () => {
           return;
         }
       }
-      console.log("got through part 2")
+      
     }
 
     setLoading(true);

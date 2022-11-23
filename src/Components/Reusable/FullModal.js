@@ -1,6 +1,6 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
-import Backdrop from './Backdrop';
+
 import './FullModal.css';
 
 const FullModalOverlay = props => {

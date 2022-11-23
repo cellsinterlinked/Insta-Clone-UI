@@ -55,7 +55,7 @@ const Comments = () => {
       }
      descSplit = res.data.post.description.split(" ").filter(word => word[0] !== "#")
      finalDesc = descSplit.join(" ")
-     console.log(res);
+  
      setFinalDescription(finalDesc);
      setPost(res.data.post)
     }
@@ -76,7 +76,7 @@ const Comments = () => {
         setTimeout(function() {setErrorModal(false)}, 2000)
         return
       }
-      console.log(res.data.users)
+  
       for (let i = 0; i < res.data.users.length; i++) {
         userArr.push(res.data.users[i].id)
       }
@@ -98,10 +98,10 @@ const Comments = () => {
       setError("Error posting comment")
       setErrorModal(true)
       setTimeout(function() {setErrorModal(false)}, 2000)
-      console.log(err, newData, {params: params});
+    
       return;
      }
-     console.log(res)
+
      setError("Comment posted!")
      setErrorModal(true)
       setTimeout(function() {setErrorModal(false)}, 2000)
@@ -133,7 +133,7 @@ const Comments = () => {
       setError('Deleted comment')
       setErrorModal(true)
       setTimeout(function() {setErrorModal(false)}, 2000)
-      console.log(res);
+  
       setLoading(false)
     }
     deleteComment()

@@ -64,7 +64,7 @@ const Followers = () => {
       setTimeout(function() {setShowError(false)}, 2000)
     }
 
-    console.log(res.data.users)
+  
     setPopular(res.data.users)
     
   }

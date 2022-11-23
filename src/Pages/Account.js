@@ -92,7 +92,7 @@ const Account = () => {
         setTimeout(function() {setShowError(false)}, 2000) 
         return
       }
-      console.log({tagged: res.data.posts})
+    
       setTagged(res.data.posts.reverse());
     }
     getTagged();
@@ -110,7 +110,7 @@ const Account = () => {
         return
       }
 
-      console.log(res);
+
       setSaved(res.data.posts.reverse());
     }
     getSaved();
@@ -139,10 +139,7 @@ const Account = () => {
       return
     }
     auth.logout()
-    // deleteModalHandler();
-    // systemHandler();
-    // history.push('/');
-    // console.log('lol good luck with that bud');
+   
   };
 
   const logoutHandler = () => {

@@ -18,7 +18,7 @@ const MessagePrev = ({convo, user}) => {
     else if (time - convo.messages[convo.messages.length-1].date.time <= 86400000) {setTimeDisplay("today"); setTime(time - convo.messages[convo.messages.length-1].date.time)}
     else if (time - convo.messages[convo.messages.length-1].date.time <= 604800000) {setTimeDisplay("thisWeek"); setTime(time - convo.messages[convo.messages.length-1].date.time)}
     else if (time - convo.messages[convo.messages.length-1].date.time <= 31536000000) {setTimeDisplay("thisYear"); setTime(time - convo.messages[convo.messages.length-1].date.time)}
-    else {setTimeDisplay("longTime"); setTime(time - convo.messages[convo.messages - 1 ].date.time)}
+    else {setTimeDisplay("longTime"); setTime(time - convo.messages[convo.messages.length - 1 ].date.time)}
 
   }, [convo.messages])
 

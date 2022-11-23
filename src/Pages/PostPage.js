@@ -40,7 +40,7 @@ const PostPage = () => {
         setTimeout(function() {setShowError(false)}, 2000)
     }
 
-    console.log(res);
+   
     setFollowedArr(res.data.user.following)
     setViewer(res.data.user)
   }
@@ -55,7 +55,7 @@ const PostPage = () => {
         setTimeout(function() {setShowError(false)}, 2000)
     }
       
-    console.log(res)
+   
     setPost(res.data.post)
   }
   async function getUser() {
@@ -69,7 +69,7 @@ const PostPage = () => {
         setTimeout(function() {setShowError(false)}, 2000)
         }
 
-       console.log(res);
+      
        setUser(res.data.user)
      } else return;
     }
@@ -108,7 +108,7 @@ const PostPage = () => {
         setError("You liked this post")
         setShowError(true)
       }
-      console.log(res)
+      
       setLoading(!loading);
       setTimeout(function() {setShowError(false)}, 2000)
     }
@@ -134,7 +134,7 @@ const PostPage = () => {
         setError("You saved this post")
         setShowError(true)
       }
-      console.log(res);
+      
       setLoading(!loading)
       setTimeout(function() {setShowError(false)}, 2000)
     }

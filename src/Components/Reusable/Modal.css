@@ -12,6 +12,44 @@
   overflow-y: auto;
 }
 
+.authModal {
+  z-index: 100;
+  position: fixed;
+  top: 30vh;
+  left: 15%;
+  width: 70%;
+  border-radius: 0.8rem;
+  background-color: white;
+  border: none;
+  max-height: 70vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+}
+.authModal h1 {
+  font-size: 1.2rem;
+}
+.authModal p {
+  font-size: .9rem;
+  font-weight: bold;
+  color: rgb(88, 88, 88);
+  text-align: center;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+@media(min-width: 800px) {
+.authModal {
+    width: 20rem;
+    left:0;
+    right:0;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
 .alternate-modal {
   z-index: 100;
   position: fixed;

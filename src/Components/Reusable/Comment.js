@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './Comment.css';
 import { BsHeart } from 'react-icons/bs';
-import api from '../../Static/axios';
 import { IoPersonCircle } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
 import { AuthContext } from '../../Context/auth-context';

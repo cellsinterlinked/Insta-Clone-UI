@@ -22,7 +22,7 @@ const ListHashTag = ({ hashTag, hashHandler, followedArr, shortHash }) => {
           setShowError(false);
         }, 2000);
       }
-      console.log(res);
+    
       setPosts(res.data.posts);
       setPopular(res.data.popular);
     }

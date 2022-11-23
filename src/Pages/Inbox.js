@@ -31,7 +31,7 @@ const Inbox = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      // console.log(res)
+     
       setUsers(res.data.users)
     }
     fetchFollowed()
@@ -48,7 +48,7 @@ const Inbox = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res) 
+    
       const orderedConvos = res.data.convos.sort(function(a, b) {return a.messages[a.messages.length - 1].date.time - b.messages[b.messages.length - 1].date.time })
       setConvos(orderedConvos.reverse())
     }

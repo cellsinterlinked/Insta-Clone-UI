@@ -49,7 +49,7 @@ const Activity = () => {
       }, 2000);
       return;
     }
-    console.log(res, 'why isnt this changing');
+    
   };
 
   useEffect(() => {
@@ -67,7 +67,7 @@ const Activity = () => {
       }
 
       setUser(res.data.user);
-      console.log('this is the data', res.data.user);
+      
       setTodayArr(
         res.data.user.activity
           .reverse()
@@ -125,7 +125,7 @@ const Activity = () => {
       );
 
       setFollowingArr(res.data.user.following);
-      console.log(res.data.user.following);
+      
     }
     getUser();
   }, [loading, myId]);
@@ -178,7 +178,7 @@ const Activity = () => {
 
   const followHandler = async (user) => {
     await adjustFollow(user);
-    console.log(followingArr);
+  
   };
 
   return (

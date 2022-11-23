@@ -1,10 +1,9 @@
-import React, {useState, useCallback, useContext, useEffect} from 'react';
+ import React, {useState, useCallback, useEffect} from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import './App.css';
 import Home from './Pages/Home'
 import Auth from './Pages/Auth';
 import { AuthContext } from './Context/auth-context';
-import BottomNav from './Components/Navigation/BottomNav';
 import Search from './Pages/Search';
 import Account from './Pages/Account';
 import Following from './Pages/Following';
@@ -30,7 +29,7 @@ function App() {
   const [userId, setUserId] = useState(false)
   const [userName, setUserName] = useState(false);
   const [tokenExpirationDate, setTokenExpirationDate] = useState()
-  const auth = useContext(AuthContext)
+
 
   const login = useCallback((uid, token, userName, expirationDate) => {
     setToken(token);

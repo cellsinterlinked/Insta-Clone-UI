@@ -85,7 +85,7 @@ const EditProfile = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res)
+   
       setUser(res.data.user)
       setValue("name", res.data.user.name, { shouldValidate: true })
       setValue("username", res.data.user.userName, { shouldValidate: true})
@@ -113,7 +113,7 @@ const EditProfile = () => {
         return
       }
 
-      console.log(res)
+  
     }
 
     await sendUserUpdate()
@@ -142,7 +142,7 @@ const EditProfile = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res.data.url);
+    
     }
 
     async function sendNewImage() {
@@ -159,7 +159,7 @@ const EditProfile = () => {
       }
 
       }
-      console.log(results)
+  
       setLoading(!loading)
     }
 

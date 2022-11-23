@@ -1,32 +1,35 @@
-import React from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
-import './ErrorModal.css';
+import Backdrop from './Backdrop';
 import { CSSTransition } from 'react-transition-group';
+import './Modal.css';
 
-const ErrorModalOverlay = props => {
+const ModalOverlay = props => {
   
   const content = (
-    <div className="error-modal" >
+    <div className={`authModal ${props.modalStyle}`} >
     {props.children}                                          
     </div>
     );                                                                   
-    return ReactDOM.createPortal(content, document.getElementById('full-modal-hook'));  
+    return ReactDOM.createPortal(content, document.getElementById('modal-hook'));  
   };
   
-  const ErrorModal = props => {
+  const AuthModal = props => {
     return (
       <React.Fragment>
-             <CSSTransition 
+        {props.show && <Backdrop onClick={props.onCancel} />}
+        <CSSTransition 
           in={props.show} 
           mountOnEnter 
           unmountOnExit 
           timeout={200} 
-          classNames={"error-modal"}   
+          classNames={"authModal "} 
           >
-            <ErrorModalOverlay {...props} />
+            <ModalOverlay {...props} />
           </CSSTransition>
       </React.Fragment>
     )
   }
   
-  export default ErrorModal;
+  export default AuthModal;
+    

@@ -104,14 +104,14 @@ const DirectMessage = () => {
       try {
         resetRes = await api.patch(`convos/reset/${res.data.convo.id}`, {user: myId})
       } catch(err) {
-        console.log(err.message, "thats the error")
+      
         setError("Error resetting notifications")
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
         return
       }
 
-      console.log(resetRes)
+    
 
       // put this all in try catch blocks?
     }
@@ -134,7 +134,7 @@ const DirectMessage = () => {
     }
 
      setLoading(!loading)
-     console.log(res)
+
     }
     sendText()
     reset({})
@@ -178,7 +178,7 @@ const DirectMessage = () => {
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
       }
-      console.log(res.data.url);
+  
     }
 
     async function sendNewImage() {
@@ -195,7 +195,7 @@ const DirectMessage = () => {
           setTimeout(function() {setShowError(false)}, 2000)
         }
       }
-      console.log(results)
+   
       setLoading(!loading)
     }
 
@@ -224,7 +224,7 @@ const DirectMessage = () => {
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
       }
-      console.log(res)
+   
       history.push(`/inbox`)
     }
     deleteConvo()

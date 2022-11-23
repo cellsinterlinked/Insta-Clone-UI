@@ -38,7 +38,7 @@ const ProfileFollowers = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res)
+    
       setFollowers(res.data.users)
     }
       fetchFollowed()

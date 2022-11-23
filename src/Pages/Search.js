@@ -57,7 +57,7 @@ const Search = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res);
+    
       setUser(res.data.user)
     }
     getUser()
@@ -74,7 +74,7 @@ const Search = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res)
+     
       setPosts(res.data.posts.reverse())
     }
     fetchPosts()
@@ -92,7 +92,7 @@ const Search = () => {
         setTimeout(function() {setShowError(false)}, 2000)
       }
 
-      console.log(res)
+     
       let allUsers = res.data.users.filter(user => user.id !== myId)
       setUsers(allUsers)
     }
@@ -117,9 +117,7 @@ const Search = () => {
   
   const queryHandler = (e) => {
     setQuery(e.target.value)
-    // console.log(e.target.value)
-    // console.log(displayedHashTags)
-    // console.log(displayedUsers)
+    
   }
 
   const countHash = (array, value) => {

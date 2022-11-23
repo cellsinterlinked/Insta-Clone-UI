@@ -15,7 +15,6 @@ import api from '../../Static/axios';
 import { useHistory } from 'react-router-dom';
 import ErrorModal from '../Reusable/ErrorModal';
 import { AuthContext } from '../../Context/auth-context';
-import Spinner from '../Reusable/Spinner2';
 import { BsPersonBoundingBox } from 'react-icons/bs';
 import { IoPersonCircle } from 'react-icons/io5';
 
@@ -35,7 +34,6 @@ const Post = ({
   const [timeDisplay, setTimeDisplay] = useState();
   const [time, setTime] = useState();
   const [finalDescription, setFinalDescription] = useState();
-  const [loading, setLoading] = useState();
   const [tagView, setTagView] = useState(false);
   const history = useHistory();
   const auth = useContext(AuthContext);
@@ -88,7 +86,7 @@ const Post = ({
       {},
       { headers: { Authorization: 'Bearer ' + auth.token } }
     );
-    console.log(res);
+
     setShowModal(false);
     setError('Post deleted');
     setShowError(true);

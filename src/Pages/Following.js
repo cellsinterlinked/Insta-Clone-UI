@@ -38,7 +38,7 @@ const Following = () => {
     setMe(res.data.user)
     setFollowedArr(res.data.user.following)
     setFollowedHashTags(res.data.user.followedHash)
-    console.log(res.data.user.followedHash)
+   
   }
 
   async function fetchFollowed() {
@@ -141,7 +141,7 @@ const Following = () => {
         setShowError(true)
         setTimeout(function() {setShowError(false)}, 2000)
     }
-    console.log(res)
+    
     if (followedHashTags.includes(hashTag)) {
       setFollowedHashTags(followedHashTags.filter(h => h !== hashTag))
       setError(`Unfollowed ${hashTag}`)
