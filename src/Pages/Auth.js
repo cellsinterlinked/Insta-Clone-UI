@@ -36,9 +36,9 @@ const Auth = () => {
   // const [waiverModal, setWaiverModal] = useState(false)
 
   useEffect(() => {
+    console.log(window.innerWidth)
     if (window.innerWidth > 900) {
       setSizeModal(true)
-      
     }
   }, [])
 
